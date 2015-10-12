@@ -1,0 +1,13 @@
+*.log
+*.opensdf
+*.sdf
+*.obj
+*.idb
+*.tlog
+*.pdb
+.vc
+*.filters
+*.DS_Store
+Debug
+*.vcxproj
+*.filters
