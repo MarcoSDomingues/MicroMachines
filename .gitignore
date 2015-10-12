@@ -6,8 +6,6 @@
 *.tlog
 *.pdb
 .vc
-*.filters
 *.DS_Store
 Debug
-*.vcxproj
-*.filters
+*.suo
