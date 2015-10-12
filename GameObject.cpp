@@ -5,19 +5,9 @@ GameObject::GameObject() {}
 GameObject::~GameObject() {}
 
 void GameObject::setPosition(float x, float y, float z) {
-	_x = x;
-	_y = y;
-	_z = z;
+	_position.set(x, y, z);
 }
 
-float GameObject::getX() {
-	return _x;
-}
-
-float GameObject::getY() {
-	return _y;
-}
-
-float GameObject::getZ() {
-	return _z;
+Vector3 GameObject::getPosition() {
+	return _position;
 }
