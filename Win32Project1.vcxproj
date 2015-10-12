@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="AVTmathLib.cpp" />
     <ClCompile Include="basic_geometry.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="lightDemo.cpp" />
     <ClCompile Include="vsShaderLib.cpp" />
   </ItemGroup>
@@ -28,6 +29,7 @@
     <ClInclude Include="AVTmathLib.h" />
     <ClInclude Include="basic_geometry.h" />
     <ClInclude Include="cube.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="VertexAttrDef.h" />
     <ClInclude Include="vsShaderLib.h" />
   </ItemGroup>
