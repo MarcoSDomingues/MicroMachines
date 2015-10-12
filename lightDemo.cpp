@@ -105,6 +105,7 @@ void changeSize(int w, int h) {
 	ratio = (1.0f * w) / h;
 	loadIdentity(PROJECTION);
 	perspective(53.13f, ratio, 0.1f, 1000.0f);
+	//ortho(-10, 10, -10, 10, -10, 10);
 }
 
 
