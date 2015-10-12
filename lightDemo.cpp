@@ -39,8 +39,6 @@ int WinX = 640, WinY = 480;
 
 unsigned int FrameCount = 0;
 
-
-
 VSShaderLib shader;
 
 struct MyMesh mesh[8];
@@ -61,14 +59,17 @@ GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
 	
-//double currentTime = 0;
-//double previousTime = 0;
+double currentTime = 0;
+double previousTime = 0;
 
 //Car position
-//float carX, carY, carZ;
+float carX, carY, carZ;
 
+//Orange position
+float orangeX, orangeY, orangeZ;
+float orangeYRot;
 
-//Vector3 speed;
+Vector3 speed;
 
 // Camera Position
 float camX, camY, camZ;
@@ -125,18 +126,21 @@ void changeSize(int w, int h) {
 	_cameras[_current_camera]->update(ratio);
 	
 }
-//
-//void update(double delta_t) {
-//	carX += speed.getX() * 1;
-//	carZ += speed.getZ() * 1;
-//}
-//
-//void idle() {
-//	currentTime = glutGet(GLUT_ELAPSED_TIME);
-//	update(currentTime - previousTime);
-//	previousTime = currentTime;
-//	glutPostRedisplay();
-//}
+
+void update(double delta_t) {
+	carX += speed.getX() * delta_t;
+	carZ += speed.getZ() * delta_t;
+
+	orangeX += 0.0005 * delta_t;
+	orangeYRot += 0.05 * delta_t;
+}
+
+void idle() {
+	currentTime = glutGet(GLUT_ELAPSED_TIME);
+	update(currentTime - previousTime);
+	previousTime = currentTime;
+	glutPostRedisplay();
+}
 
 
 // ------------------------------------------------------------
@@ -236,12 +240,16 @@ void drawOrange(float x, float y, float z) {
 	//DRAWORANGE
 	objId = 7;
 
+	pushMatrix(MODEL);
+	scale(MODEL, 0.8f, 0.8f, 0.8f);
+
 	loadMesh();
 	pushMatrix(MODEL);
-	//scale(MODEL, 0.9f, 0.9f, 0.9f);
+	
 	translate(MODEL, x, y, z);
-	//rotate(MODEL, 90, 90, 0, 0);
+	rotate(MODEL, orangeYRot, 0, 0, -orangeYRot);
 	renderMesh();
+	popMatrix(MODEL);
 	popMatrix(MODEL);
 }
 
@@ -399,8 +407,8 @@ void renderScene(void) {
 	drawTable();
 	drawRoad();
 	drawCheerios();
-	drawCar(0.0f, 0.45f, 2.8f);
-	//drawOrange(2.0, 2.0f, 2.0f);
+	drawCar(carX, carY, carZ);
+	drawOrange(orangeX, orangeY, orangeZ);
 	drawButterBox(7.0f, 0.5f, 0.0f);
 	drawButterBox(-7.0f, 0.5f, 0.0f);
 
@@ -426,7 +434,7 @@ void processKeys(unsigned char key, int xx, int yy)
 		case 'm': glEnable(GL_MULTISAMPLE); break;
 		case 'n': glDisable(GL_MULTISAMPLE); break;
 		
-		/*case 'O': case 'o':
+		case 'O': case 'o':
 			speed.set(SPEED, 0.0f, 0.0f);
 			break;
 
@@ -443,7 +451,7 @@ void processKeys(unsigned char key, int xx, int yy)
 			break;
 		default:
 			speed.set(0.0f, 0.0f, 0.0f);
-			break;*/
+			break;
 	}
 }
 
@@ -581,11 +589,16 @@ void init()
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
 
-	//carX = 0.0f;
-	//carY = 0.45f;
-	//carZ = 2.8f;
-	
-	//speed = Vector3(0.0f, 0.0f, 0.0f);
+	carX = 0.0f;
+	carY = 0.45f;
+	carZ = 2.8f;
+
+	orangeX = -4.0f;
+	orangeY = 2.0f;
+	orangeZ = 2.0f;
+	orangeYRot = 0.0f;
+
+	speed = Vector3(0.0f, 0.0f, 0.0f);
 
 	float amb[]= {0.2f, 0.15f, 0.1f, 1.0f};
 	float diff[] = {0.8f, 0.6f, 0.4f, 1.0f};
@@ -751,7 +764,7 @@ int main(int argc, char **argv) {
 //  Callback Registration
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
-	//glutIdleFunc(idle);
+	glutIdleFunc(idle);
 
 //	Mouse and Keyboard Callbacks
 	glutKeyboardFunc(processKeys);
