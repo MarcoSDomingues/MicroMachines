@@ -27,8 +27,10 @@
 #include "AVTmathLib.h"
 #include "VertexAttrDef.h"
 #include "basic_geometry.h"
+#include "Vector3.h"
 
 #define CAPTION "AVT Light Demo"
+#define SPEED 0.005
 int WindowHandle = 0;
 int WinX = 640, WinY = 480;
 
@@ -56,6 +58,15 @@ GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
 	
+//double currentTime = 0;
+//double previousTime = 0;
+
+//Car position
+//float carX, carY, carZ;
+
+
+//Vector3 speed;
+
 // Camera Position
 float camX, camY, camZ;
 
@@ -107,6 +118,18 @@ void changeSize(int w, int h) {
 	perspective(53.13f, ratio, 0.1f, 1000.0f);
 	//ortho(-10, 10, -10, 10, -10, 10);
 }
+//
+//void update(double delta_t) {
+//	carX += speed.getX() * 1;
+//	carZ += speed.getZ() * 1;
+//}
+//
+//void idle() {
+//	currentTime = glutGet(GLUT_ELAPSED_TIME);
+//	update(currentTime - previousTime);
+//	previousTime = currentTime;
+//	glutPostRedisplay();
+//}
 
 
 // ------------------------------------------------------------
@@ -395,6 +418,25 @@ void processKeys(unsigned char key, int xx, int yy)
 			break;
 		case 'm': glEnable(GL_MULTISAMPLE); break;
 		case 'n': glDisable(GL_MULTISAMPLE); break;
+		
+		/*case 'O': case 'o':
+			speed.set(SPEED, 0.0f, 0.0f);
+			break;
+
+		case 'P': case 'p':
+			speed.set(-SPEED, 0.0f, 0.0f);
+			break;
+
+		case 'Q': case 'q':
+			speed.set(0.0f, 0.0f, SPEED);
+			break;
+	
+		case 'A': case 'a':
+			speed.set(0.0f, 0.0f, -SPEED);
+			break;
+		default:
+			speed.set(0.0f, 0.0f, 0.0f);
+			break;*/
 	}
 }
 
@@ -532,7 +574,12 @@ void init()
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
 
+	//carX = 0.0f;
+	//carY = 0.45f;
+	//carZ = 2.8f;
 	
+	//speed = Vector3(0.0f, 0.0f, 0.0f);
+
 	float amb[]= {0.2f, 0.15f, 0.1f, 1.0f};
 	float diff[] = {0.8f, 0.6f, 0.4f, 1.0f};
 	float spec[] = {0.8f, 0.8f, 0.8f, 1.0f};
@@ -692,7 +739,7 @@ int main(int argc, char **argv) {
 //  Callback Registration
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
-	//glutIdleFunc(renderScene);
+	//glutIdleFunc(idle);
 
 //	Mouse and Keyboard Callbacks
 	glutKeyboardFunc(processKeys);
