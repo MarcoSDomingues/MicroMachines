@@ -1,17 +1,10 @@
 #include "Camera.h"
 
-Camera::Camera(double near, double far)
-{
-	_near = near;
-	_far = far;
-}
-
-
 Camera::~Camera()
 {
 }
 
-void Camera::setAt(double x, double y, double z) {
+void Camera::setAt(float x, float y, float z) {
 	if (_at == NULL) {
 		_at = new Vector3(x, y, z);
 	}
@@ -20,6 +13,4 @@ void Camera::setAt(double x, double y, double z) {
 	}
 }
 
-void Camera::update() {}
-void Camera::computeProjectionMatrix() {}
-void Camera::computeVisualizationMatrix() {}
+void Camera::update(float ratio) {}

@@ -28,6 +28,9 @@
 #include "VertexAttrDef.h"
 #include "basic_geometry.h"
 #include "Vector3.h"
+#include "Camera.h"
+#include "PerspectiveCamera.h"
+#include "OrtogonalCamera.h"
 
 #define CAPTION "AVT Light Demo"
 #define SPEED 0.005
@@ -82,6 +85,10 @@ long myTime,timebase = 0,frame = 0;
 char s[32];
 float lightPos[4] = {4.0f, 6.0f, 2.0f, 1.0f};
 
+// cameras
+std::vector<Camera*> _cameras;
+int _current_camera = 0;
+
 void timer(int value)
 {
 	std::ostringstream oss;
@@ -115,8 +122,8 @@ void changeSize(int w, int h) {
 	// set the projection matrix
 	ratio = (1.0f * w) / h;
 	loadIdentity(PROJECTION);
-	perspective(53.13f, ratio, 0.1f, 1000.0f);
-	//ortho(-10, 10, -10, 10, -10, 10);
+	_cameras[_current_camera]->update(ratio);
+	
 }
 //
 //void update(double delta_t) {
@@ -713,6 +720,11 @@ void init()
 	glEnable(GL_MULTISAMPLE);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
+	// create cameras
+	PerspectiveCamera* p1 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);
+	_cameras.push_back(p1);
+	OrtogonalCamera* ortho = new OrtogonalCamera(-5, 5, -5, 5, -10, 10);
+	_cameras.push_back(ortho);
 }
 
 // ------------------------------------------------------------
