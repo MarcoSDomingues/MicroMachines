@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define MAX_SPEED 0.0005
+#define MAX_SPEED 0.001
 
 class Car : public GameObject {
 

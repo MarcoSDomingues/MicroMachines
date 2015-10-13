@@ -39,7 +39,7 @@
 #include "Car.h"
 
 #define CAPTION "AVT Light Demo"
-#define ACCELERATION 0.0000001
+#define ACCELERATION 0.0000005
 int WindowHandle = 0;
 int WinX = 640, WinY = 480;
 
