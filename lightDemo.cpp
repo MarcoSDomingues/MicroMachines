@@ -30,8 +30,9 @@
 #include "Camera.h"
 #include "PerspectiveCamera.h"
 #include "OrtogonalCamera.h"
-#include "lightDemo.h"
 #include "basic_geometry.h"
+#include <cstdlib>
+#include <ctime>
 
 //include objects
 #include "GameObject.h"
@@ -63,16 +64,23 @@ GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
-	
+
+//incrementar velocidade do jogo
+double speed_timer = 0;
+double speedInc = 1;
+
 double currentTime = 0;
 double previousTime = 0;
 
 //Car position
 float carX, carY, carZ;
 
-//Orange position
-float orangeX, orangeY, orangeZ;
+//Orange properties
+float orangeX[3], orangeY, orangeZ[3];
 float orangeYRot;
+float orangeVelocity[3];
+
+float tableSize = 5;
 
 Vector3 speed;
 
@@ -95,8 +103,8 @@ float lightPos[4] = {4.0f, 6.0f, 2.0f, 1.0f};
 std::vector<Camera*> _cameras;
 int _current_camera = 0;
 
+int iteration = 0;
 // objects
-
 Car car;
 
 void timer(int value)
@@ -136,12 +144,42 @@ void changeSize(int w, int h) {
 	
 }
 
+//Tem de ficar aqui para o update conhecer a funcao 
+float orangeRandomVel() {
+	float auxV = ((float(rand()) / float(RAND_MAX)) * (0.001 - (-0.001))) + (-0.001);
+	if (auxV == 0) {
+		orangeRandomVel();
+	}
+	else
+		return auxV;
+}
+
+void initOrange(int i) {
+	orangeX[i] = rand() % 9 - 4;
+	orangeZ[i] = rand() % 9 - 4;
+	orangeVelocity[i] = orangeRandomVel();
+}
+
 void update(double delta_t) {
 	carX += speed.getX() * delta_t;
 	carZ += speed.getZ() * delta_t;
 
-	orangeX += 0.0005 * delta_t;
-	orangeYRot += 0.05 * delta_t;
+	//aumentar a velocidade depois de um certo tempo
+	if (glutGet(GLUT_ELAPSED_TIME) > speed_timer + 20000) {
+		speed_timer = glutGet(GLUT_ELAPSED_TIME);
+		speedInc += 1;
+	}
+
+	for (int i = 0; i < 3; i++) {
+		orangeX[i] = orangeX[i] + orangeVelocity[i] * speedInc * delta_t;
+		orangeYRot = orangeYRot + (orangeVelocity[i] * speedInc * 100) * delta_t;
+	}
+
+	for (int i = 0; i < 3; i++) {
+		if (orangeX[i] >= tableSize || orangeX[i] <= -tableSize) {
+			initOrange(i);
+		}
+	}
 }
 
 void idle() {
@@ -249,16 +287,12 @@ void drawOrange(float x, float y, float z) {
 	//DRAWORANGE
 	objId = 7;
 
-	pushMatrix(MODEL);
-	scale(MODEL, 0.8f, 0.8f, 0.8f);
-
 	loadMesh();
 	pushMatrix(MODEL);
-	
 	translate(MODEL, x, y, z);
+	scale(MODEL, 0.6f, 0.6f, 0.6f);
 	rotate(MODEL, orangeYRot, 0, 0, -orangeYRot);
 	renderMesh();
-	popMatrix(MODEL);
 	popMatrix(MODEL);
 }
 
@@ -419,7 +453,9 @@ void renderScene(void) {
 	drawCheerios();
 	//drawCar(carX, carY, carZ);
 	car.draw(carX, carY, carZ, shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
-	drawOrange(orangeX, orangeY, orangeZ);
+	for (int i = 0; i < 3; i++) {
+		drawOrange(orangeX[i], 1.0, orangeZ[i]);
+	}
 	drawButterBox(7.0f, 0.5f, 0.0f);
 	drawButterBox(-7.0f, 0.5f, 0.0f);
 
@@ -616,9 +652,11 @@ void init()
 	carY = 0.45f;
 	carZ = 2.8f;
 
-	orangeX = -4.0f;
+	srand(time(NULL));
+	for (int i = 0; i < 3; i++) {
+		initOrange(i);
+	}
 	orangeY = 2.0f;
-	orangeZ = 2.0f;
 	orangeYRot = 0.0f;
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
