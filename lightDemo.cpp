@@ -30,7 +30,6 @@
 #include "Camera.h"
 #include "PerspectiveCamera.h"
 #include "OrtogonalCamera.h"
-#include "lightDemo.h"
 #include "basic_geometry.h"
 
 //include objects
@@ -59,6 +58,8 @@ extern float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
 /// The normal matrix
 extern float mNormal3x3[9];
 
+Vector3 speed;
+
 GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
@@ -73,8 +74,6 @@ float carX, carY, carZ;
 //Orange position
 float orangeX, orangeY, orangeZ;
 float orangeYRot;
-
-Vector3 speed;
 
 // Camera Position
 float camX, camY, camZ;
@@ -137,8 +136,7 @@ void changeSize(int w, int h) {
 }
 
 void update(double delta_t) {
-	carX += speed.getX() * delta_t;
-	carZ += speed.getZ() * delta_t;
+	car.update(delta_t);
 
 	orangeX += 0.0005 * delta_t;
 	orangeYRot += 0.05 * delta_t;
@@ -250,6 +248,7 @@ void drawOrange(float x, float y, float z) {
 	objId = 7;
 
 	pushMatrix(MODEL);
+
 	scale(MODEL, 0.8f, 0.8f, 0.8f);
 
 	loadMesh();
@@ -391,7 +390,6 @@ void drawCheerios() {
 void renderScene(void) {
 
 	GLint loc;
-
 	FrameCount++;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// load identity matrices
@@ -458,22 +456,19 @@ void processKeys(unsigned char key, int xx, int yy)
 		case 'n': glDisable(GL_MULTISAMPLE); break;
 		
 		case 'O': case 'o':
-			speed.set(SPEED, 0.0f, 0.0f);
+			car.setDirection(-1.0f, 0.0f, 0.0f);
 			break;
 
 		case 'P': case 'p':
-			speed.set(-SPEED, 0.0f, 0.0f);
+			car.setDirection(1.0f, 0.0f, 0.0f);
 			break;
 
 		case 'Q': case 'q':
-			speed.set(0.0f, 0.0f, SPEED);
 			break;
 	
 		case 'A': case 'a':
-			speed.set(0.0f, 0.0f, -SPEED);
 			break;
 		default:
-			speed.set(0.0f, 0.0f, 0.0f);
 			break;
 	}
 }
@@ -607,14 +602,16 @@ GLuint setupShaders() {
 
 void init()
 {
+	car.setPosition(0.0f, 0.45f, 2.8f);
+
 	// set the camera position based on its spherical coordinates
 	camX = r * sin(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
 
-	carX = 0.0f;
-	carY = 0.45f;
-	carZ = 2.8f;
+	carX = car.getPosition().getX();
+	carY = car.getPosition().getY();
+	carZ = car.getPosition().getZ();
 
 	orangeX = -4.0f;
 	orangeY = 2.0f;

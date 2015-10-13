@@ -1,5 +1,25 @@
 #include "Car.h"
 
+void Car::setAcceleration(float acceleration) {
+	_acceleration = acceleration;
+}
+
+void Car::setSpeed(float speed) {
+	_speed = speed;
+}
+
+float Car::getAcceleration() {
+	return _acceleration;
+}
+
+float Car::getSpeed() {
+	return _speed;
+}
+
+void Car::setDirection(float x, float y, float z) {
+	_direction.set(x, y, z);
+}
+
 void Car::draw(float x, float y, float z,
 	VSShaderLib shader,
 	GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
@@ -58,4 +78,11 @@ void Car::draw(float x, float y, float z,
 	renderMesh(_meshes.at(2), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	popMatrix(MODEL);
 	popMatrix(MODEL);
+}
+
+void Car::update(double delta_t) {
+
+	float x = _speed * delta_t;
+	float z = _speed * delta_t;
+	_position.set(x, 0.0f, z);
 }
