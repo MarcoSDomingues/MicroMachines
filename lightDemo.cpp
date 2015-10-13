@@ -397,10 +397,15 @@ void renderScene(void) {
 	loadIdentity(MODEL);
 	// set the camera using a function similar to gluLookAt
 	//if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0,1,0);
-	float dirX = car.getDirection().getX();
-	float dirZ = car.getDirection().getZ();
 
-	if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + dirX, 1, carZ + dirZ, 0, 1, 0);
+	Vector3 dir = car.getDirection() + car.getPosition();
+	float dirX = dir.getX();
+	float dirZ = dir.getZ();
+
+	float carX = car.getPosition().getX();
+	float carZ = car.getPosition().getZ();
+
+	if (_current_camera == 2) lookAt(carX, 1, carZ, dirX, 1, dirZ, 0, 1, 0);
 	else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
@@ -419,7 +424,7 @@ void renderScene(void) {
 	drawRoad();
 	drawCheerios();
 	//drawCar(carX, carY, carZ);
-	car.draw(carX, carY, carZ, shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	car.draw(car.getPosition().getX(), car.getPosition().getY(), car.getPosition().getZ(), shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	drawOrange(orangeX, orangeY, orangeZ);
 	drawButterBox(7.0f, 0.5f, 0.0f);
 	drawButterBox(-7.0f, 0.5f, 0.0f);
@@ -461,11 +466,13 @@ void processKeys(unsigned char key, int xx, int yy)
 		case 'O': case 'o':
 			//car.setDirection(-1.0f, 0.0f, 0.0f);
 			car.turn(10);
+			printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
 			break;
 
 		case 'P': case 'p':
 			//car.setDirection(1.0f, 0.0f, 0.0f);
 			car.turn(-10);
+			printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
 			break;
 
 		case 'Q': case 'q':

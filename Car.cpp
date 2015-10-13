@@ -16,33 +16,26 @@ float Car::getSpeed() {
 	return _speed;
 }
 
-void Car::setDirection(float x, float y, float z) {
-	_direction.set(x, y, z);
-}
-
 Vector3 Car::getDirection() {
 	return _direction;
 }
 
-void Car::turn(float rotation) {
-	float oldX = _direction.getX();
-	float oldZ = _direction.getZ();
+void Car::turn(int rotation) {
+	_angle = (_angle+rotation % 360 + 360) % 360;
 
-	_angle += rotation;
-	if (_angle < 0) {
-		_angle = 360 - _angle;
-	}
+	float a = _angle * 3.14 / 180;
 
-	float a = _angle / 180;
-
-	float x = oldX * cos(a) * a - oldZ * sin(a);
-	float z = oldZ * cos(a) * a + oldX * sin(a);
-	setDirection(x, 0, z);
+	float x = 3 * sin(a);
+	float z = 3 * cos(a);
+	_direction.set(x, 0, z);
 }
 
 void Car::draw(float x, float y, float z,
 	VSShaderLib shader,
 	GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
+
+	_position.set(x, y, z);
+
 	pushMatrix(MODEL);
 	translate(MODEL, x, y, z);
 	rotate(MODEL, _angle, 0, 1, 0);
@@ -102,7 +95,7 @@ void Car::draw(float x, float y, float z,
 
 void Car::update(double delta_t) {
 
-	float x = _speed * delta_t;
+	/*float x = _speed * delta_t;
 	float z = _speed * delta_t;
-	_position.set(x, 0.0f, z);
+	_position.set(x, 0.0f, z);*/
 }
