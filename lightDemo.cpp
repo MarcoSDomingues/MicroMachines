@@ -26,11 +26,16 @@
 #include "VSShaderlib.h"
 #include "AVTmathLib.h"
 #include "VertexAttrDef.h"
-#include "basic_geometry.h"
 #include "Vector3.h"
 #include "Camera.h"
 #include "PerspectiveCamera.h"
 #include "OrtogonalCamera.h"
+#include "lightDemo.h"
+#include "basic_geometry.h"
+
+//include objects
+#include "GameObject.h"
+#include "Car.h"
 
 #define CAPTION "AVT Light Demo"
 #define SPEED 0.005
@@ -89,6 +94,10 @@ float lightPos[4] = {4.0f, 6.0f, 2.0f, 1.0f};
 // cameras
 std::vector<Camera*> _cameras;
 int _current_camera = 0;
+
+// objects
+
+Car car;
 
 void timer(int value)
 {
@@ -174,7 +183,7 @@ void renderMesh() {
 	glDrawElements(mesh[objId].type, mesh[objId].numIndexes, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
-
+/*
 void drawCar(float x, float y, float z) {
 
 	pushMatrix(MODEL);
@@ -235,7 +244,7 @@ void drawCar(float x, float y, float z) {
 	renderMesh();
 	popMatrix(MODEL);
 	popMatrix(MODEL);
-}
+}*/
 
 void drawOrange(float x, float y, float z) {
 	//DRAWORANGE
@@ -408,7 +417,8 @@ void renderScene(void) {
 	drawTable();
 	drawRoad();
 	drawCheerios();
-	drawCar(carX, carY, carZ);
+	//drawCar(carX, carY, carZ);
+	car.draw(carX, carY, carZ, shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	drawOrange(orangeX, orangeY, orangeZ);
 	drawButterBox(7.0f, 0.5f, 0.0f);
 	drawButterBox(-7.0f, 0.5f, 0.0f);
@@ -718,6 +728,10 @@ void init()
 	mesh[objId].mat.texCount = texcount;
 	createCube();
 
+	car.addMesh(&mesh[4]);
+	car.addMesh(&mesh[5]);
+	car.addMesh(&mesh[6]);
+
 	//Orange
 	objId = 7;
 
@@ -733,7 +747,7 @@ void init()
 	mesh[objId].mat.shininess = shininess;
 	mesh[objId].mat.texCount = texcount;
 	createSphere(1.0, 9);
-
+	
 
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);

@@ -1,13 +1,19 @@
 #pragma once
 
+#include <GL/glew.h>
+#include <GL/freeglut.h>
 #include <iostream>
 #include "Vector3.h"
+#include "VSShaderlib.h"
+#include "basic_geometry.h"
+#include "AVTmathLib.h"
 
 class GameObject {
 
 protected:
 
 	Vector3 _position;
+	std::vector<struct MyMesh *> _meshes;
 
 public:
 
@@ -18,6 +24,7 @@ public:
 
 	Vector3 getPosition();
 
-	virtual void draw() = 0;
-	virtual void update(double delta_t) = 0;
+	void loadMesh(struct MyMesh* mesh, VSShaderLib shader);
+	void renderMesh(struct MyMesh* mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId);
+	void addMesh(struct MyMesh* mesh);
 };

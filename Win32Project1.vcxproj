@@ -22,6 +22,7 @@
     <ClCompile Include="AVTmathLib.cpp" />
     <ClCompile Include="basic_geometry.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="lightDemo.cpp" />
     <ClCompile Include="OrtogonalCamera.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="AVTmathLib.h" />
     <ClInclude Include="basic_geometry.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Car.h" />
     <ClInclude Include="cube.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="GameObject.h" />
