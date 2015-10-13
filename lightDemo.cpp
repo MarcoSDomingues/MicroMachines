@@ -124,6 +124,7 @@ void changeSize(int w, int h) {
 	ratio = (1.0f * w) / h;
 	loadIdentity(PROJECTION);
 	_cameras[_current_camera]->update(ratio);
+	printf("current camera is %d", _current_camera);
 	
 }
 
@@ -427,7 +428,14 @@ void processKeys(unsigned char key, int xx, int yy)
 		case 27:
 			glutLeaveMainLoop();
 			break;
-
+		case '1':
+			_current_camera = 1;
+			changeSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+			break;
+		case '2':
+			_current_camera = 0;
+			changeSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+			break;
 		case 'c': 
 			printf("Camera Spherical Coordinates (%f, %f, %f)\n", alpha, beta, r);
 			break;
