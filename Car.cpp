@@ -111,5 +111,5 @@ void Car::update(double delta_t) {
 	float x = _position.getX() + _direction.getX() * _speed * delta_t;
 	float z = _position.getZ() + _direction.getZ() * _speed * delta_t;
 
-	_position.set(x, 0.45, z);
+	_position.set(x, 0.35, z);
 }
