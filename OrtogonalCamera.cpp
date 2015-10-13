@@ -13,6 +13,7 @@ OrtogonalCamera::OrtogonalCamera(float left, float right, float bottom, float to
 
 
 void OrtogonalCamera::update(float ratio) {
+	lookAt(0, 0, 0, 0, 0, 0, 0, 1, 0);
 	if (ratio > 1) {
 	ortho(-5 * ratio, 5 * ratio, -5, 5, -10, 10);
 	}

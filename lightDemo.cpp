@@ -133,7 +133,6 @@ void changeSize(int w, int h) {
 	ratio = (1.0f * w) / h;
 	loadIdentity(PROJECTION);
 	_cameras[_current_camera]->update(ratio);
-	printf("current camera is %d", _current_camera);
 	
 }
 
@@ -400,7 +399,8 @@ void renderScene(void) {
 	loadIdentity(VIEW);
 	loadIdentity(MODEL);
 	// set the camera using a function similar to gluLookAt
-	lookAt(camX, camY, camZ, 0,0,0, 0,1,0);
+	if (_current_camera == 2) lookAt(camX, camY, camZ, 0,0,0, 0,1,0);
+	else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
 
@@ -439,15 +439,20 @@ void processKeys(unsigned char key, int xx, int yy)
 			glutLeaveMainLoop();
 			break;
 		case '1':
-			_current_camera = 1;
+			_current_camera = 0;
 			changeSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 			break;
 		case '2':
-			_current_camera = 0;
+			_current_camera = 1;
+			changeSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+			break;
+		case '3':
+			_current_camera = 2;
 			changeSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 			break;
 		case 'c': 
 			printf("Camera Spherical Coordinates (%f, %f, %f)\n", alpha, beta, r);
+			printf("Camera Cartesian Coordinates (%f, %f, %f)\n", camX, camY, camZ);
 			break;
 		case 'm': glEnable(GL_MULTISAMPLE); break;
 		case 'n': glDisable(GL_MULTISAMPLE); break;
@@ -760,6 +765,8 @@ void init()
 	_cameras.push_back(p1);
 	OrtogonalCamera* ortho = new OrtogonalCamera(-5, 5, -5, 5, -10, 10);
 	_cameras.push_back(ortho);
+	PerspectiveCamera* p2 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);
+	_cameras.push_back(p2);
 }
 
 // ------------------------------------------------------------
