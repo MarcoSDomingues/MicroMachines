@@ -478,9 +478,11 @@ void processKeys(unsigned char key, int xx, int yy)
 			break;
 
 		case 'Q': case 'q':
+			car.setSpeed(0.001);
 			break;
 	
 		case 'A': case 'a':
+			car.setSpeed(0);
 			break;
 		default:
 			break;

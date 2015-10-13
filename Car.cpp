@@ -95,7 +95,8 @@ void Car::draw(float x, float y, float z,
 
 void Car::update(double delta_t) {
 
-	/*float x = _speed * delta_t;
-	float z = _speed * delta_t;
-	_position.set(x, 0.0f, z);*/
+	float x = _position.getX() + _direction.getX() * _speed * delta_t;
+	float z = _position.getZ() + _direction.getZ() * _speed * delta_t;
+
+	_position.set(x, 1, z);
 }
