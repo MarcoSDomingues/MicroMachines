@@ -11,28 +11,28 @@ void Car::draw(float x, float y, float z,
 	loadMesh(_meshes.at(0), shader);
 
 	pushMatrix(MODEL);
-	translate(MODEL, x + 0.65f, y + 0.25f, z + 0.2f);
+	translate(MODEL, 0.65f, 1.1f, 0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
-	translate(MODEL, x - 0.65f, y + 0.25f, z + 0.2f);
+	translate(MODEL, 0.65f, 1.1f, -0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
-	translate(MODEL, x + 0.65f, y + 0.25f, z - 1.1f);
+	translate(MODEL, -0.65f, 1.1f, 0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
-	translate(MODEL, x - 0.65f, y + 0.25f, z - 1.1f);
+	translate(MODEL, -0.65f, 1.1f, -0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
@@ -42,7 +42,7 @@ void Car::draw(float x, float y, float z,
 
 	loadMesh(_meshes.at(1), shader);
 	pushMatrix(MODEL);
-	translate(MODEL, x - 0.5f, y + 0.0f, z - 1.5f);
+	translate(MODEL, -0.5, 1, -0.8);
 	scale(MODEL, 1.0f, 0.5f, 2.0f);
 	//rotate(MODEL, 90, 90, 0, 0);
 	renderMesh(_meshes.at(1), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
@@ -52,7 +52,7 @@ void Car::draw(float x, float y, float z,
 
 	loadMesh(_meshes.at(2), shader);
 	pushMatrix(MODEL);
-	translate(MODEL, x - 0.45f, y + 0.1f, z - 0.45f);
+	translate(MODEL, -0.45, 1, -0.5);
 	scale(MODEL, 0.9f, 0.9f, 0.9f);
 	//rotate(MODEL, 90, 90, 0, 0);
 	renderMesh(_meshes.at(2), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
