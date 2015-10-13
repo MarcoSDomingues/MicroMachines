@@ -95,6 +95,19 @@ void Car::draw(float x, float y, float z,
 
 void Car::update(double delta_t) {
 
+	_speed += _acceleration * delta_t;
+	
+	if (_acceleration > 0) {
+		if (_speed > MAX_SPEED)
+			_speed = MAX_SPEED;
+	}
+	else {
+		if (_speed < -MAX_SPEED)
+			_speed = -MAX_SPEED;
+	}
+
+	std::cout << _speed << std::endl;
+
 	float x = _position.getX() + _direction.getX() * _speed * delta_t;
 	float z = _position.getZ() + _direction.getZ() * _speed * delta_t;
 

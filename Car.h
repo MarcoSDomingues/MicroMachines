@@ -1,13 +1,15 @@
 #pragma once
 #include "GameObject.h"
 
+#define MAX_SPEED 0.0005
+
 class Car : public GameObject {
 
 private:
 	Vector3 _direction = Vector3(-1.0f, 0.0f, 0.0f);
 	float _speed = 0;
 	float _acceleration = 0.0f;
-	int _angle = 0;
+	int _angle = -90;
 
 public:
 

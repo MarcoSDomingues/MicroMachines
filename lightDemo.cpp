@@ -39,7 +39,7 @@
 #include "Car.h"
 
 #define CAPTION "AVT Light Demo"
-#define SPEED 0.005
+#define ACCELERATION 0.0000001
 int WindowHandle = 0;
 int WinX = 640, WinY = 480;
 
@@ -451,21 +451,21 @@ void processKeys(unsigned char key, int xx, int yy)
 		case 'O': case 'o':
 			//car.setDirection(-1.0f, 0.0f, 0.0f);
 			car.turn(10);
-			printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
 			break;
 
 		case 'P': case 'p':
 			//car.setDirection(1.0f, 0.0f, 0.0f);
 			car.turn(-10);
-			printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
 			break;
 
 		case 'Q': case 'q':
-			car.setSpeed(0.001);
+			car.setAcceleration(ACCELERATION);
 			break;
 	
 		case 'A': case 'a':
-			car.setSpeed(0);
+			car.setAcceleration(-ACCELERATION);
 			break;
 		default:
 			break;
