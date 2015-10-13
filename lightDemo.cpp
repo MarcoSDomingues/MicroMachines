@@ -70,6 +70,8 @@ GLint lPos_uniformId;
 //incrementar velocidade do jogo
 double speed_timer = 0;
 double speedInc = 1;
+double auxtimer = 0;
+double delayDraw[3] = {false, false, false }; //orange delay
 
 double currentTime = 0;
 double previousTime = 0;
@@ -79,7 +81,7 @@ float carX, carY, carZ;
 
 //Orange properties
 float orangeX[3], orangeY, orangeZ[3];
-float orangeYRot;
+float orangeYRot[3];
 float orangeVelocity[3];
 
 float tableSize = 5;
@@ -171,12 +173,17 @@ void update(double delta_t) {
 
 	for (int i = 0; i < 3; i++) {
 		orangeX[i] = orangeX[i] + orangeVelocity[i] * speedInc * delta_t;
-		orangeYRot = orangeYRot + (orangeVelocity[i] * speedInc * 100) * delta_t;
+		orangeYRot[i] = orangeYRot[i] + (orangeVelocity[i] * 100 * speedInc ) * delta_t;
 	}
 
 	for (int i = 0; i < 3; i++) {
 		if (orangeX[i] >= tableSize || orangeX[i] <= -tableSize) {
-			initOrange(i);
+			delayDraw[i] = true;
+			if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 5000) {
+				auxtimer = glutGet(GLUT_ELAPSED_TIME);
+				initOrange(i);
+				delayDraw[i] = false;
+			}
 		}
 	}
 }
@@ -219,70 +226,8 @@ void renderMesh() {
 	glDrawElements(mesh[objId].type, mesh[objId].numIndexes, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
-/*
-void drawCar(float x, float y, float z) {
 
-	pushMatrix(MODEL);
-	translate(MODEL, x, y, z);
-	rotate(MODEL, 90, 0, 1, 0);
-	scale(MODEL, 0.2f, 0.2f, 0.2f);
-
-	objId = 4;
-	loadMesh();
-
-	pushMatrix(MODEL);
-	translate(MODEL, x + 0.65f, y + 0.25f, z + 0.2f);
-	scale(MODEL, 0.15f, 0.15f, 0.15f);
-	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh();
-	popMatrix(MODEL);
-
-	pushMatrix(MODEL);
-	translate(MODEL, x - 0.65f, y + 0.25f, z + 0.2f);
-	scale(MODEL, 0.15f, 0.15f, 0.15f);
-	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh();
-	popMatrix(MODEL);
-
-	pushMatrix(MODEL);
-	translate(MODEL, x + 0.65f, y + 0.25f, z - 1.1f);
-	scale(MODEL, 0.15f, 0.15f, 0.15f);
-	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh();
-	popMatrix(MODEL);
-
-	pushMatrix(MODEL);
-	translate(MODEL, x - 0.65f, y + 0.25f, z - 1.1f);
-	scale(MODEL, 0.15f, 0.15f, 0.15f);
-	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh();
-	popMatrix(MODEL);
-
-	//DRAWBIGCUBE
-	objId = 5;
-
-	loadMesh();
-	pushMatrix(MODEL);
-	translate(MODEL, x - 0.5f, y + 0.0f, z - 1.5f);
-	scale(MODEL, 1.0f, 0.5f, 2.0f);
-	//rotate(MODEL, 90, 90, 0, 0);
-	renderMesh();
-	popMatrix(MODEL);
-
-	//DRAWSMALLCUBE
-	objId = 6;
-
-	loadMesh();
-	pushMatrix(MODEL);
-	translate(MODEL, x - 0.45f, y + 0.1f, z - 0.45f);
-	scale(MODEL, 0.9f, 0.9f, 0.9f);
-	//rotate(MODEL, 90, 90, 0, 0);
-	renderMesh();
-	popMatrix(MODEL);
-	popMatrix(MODEL);
-}*/
-
-void drawOrange(float x, float y, float z) {
+void drawOrange(float x, float y, float z, float orangeRot) {
 	//DRAWORANGE
 	objId = 7;
 
@@ -290,7 +235,7 @@ void drawOrange(float x, float y, float z) {
 	pushMatrix(MODEL);
 	translate(MODEL, x, y, z);
 	scale(MODEL, 0.6f, 0.6f, 0.6f);
-	rotate(MODEL, orangeYRot, 0, 0, -orangeYRot);
+	rotate(MODEL, orangeRot, 0, 0, orangeRot);
 	renderMesh();
 	popMatrix(MODEL);
 }
@@ -447,7 +392,6 @@ void renderScene(void) {
 	glUseProgram(shader.getProgramIndex());
 
 	//send the light position in eye coordinates
-
 	glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
 	
 	/*
@@ -463,7 +407,9 @@ void renderScene(void) {
 	car.draw(car.getPosition().getX(), car.getPosition().getY(), car.getPosition().getZ(), shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	
 	for (int i = 0; i < 3; i++) {
-		drawOrange(orangeX[i], 1.0, orangeZ[i]);
+		if (!delayDraw[i]) {
+			drawOrange(orangeX[i], 1.0, orangeZ[i], orangeYRot[i]);
+		}
 	}
 	drawButterBox(7.0f, 0.5f, 0.0f);
 	drawButterBox(-7.0f, 0.5f, 0.0f);
@@ -669,9 +615,9 @@ void init()
 	srand(time(NULL));
 	for (int i = 0; i < 3; i++) {
 		initOrange(i);
+		orangeYRot[i] = 0.0f;
 	}
 	orangeY = 2.0f;
-	orangeYRot = 0.0f;
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
 
