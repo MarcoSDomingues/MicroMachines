@@ -148,7 +148,7 @@ void idle() {
 	currentTime = glutGet(GLUT_ELAPSED_TIME);
 	update(currentTime - previousTime);
 	previousTime = currentTime;
-	glutPostRedisplay();
+	//glutPostRedisplay();
 }
 
 
@@ -398,7 +398,8 @@ void renderScene(void) {
 	loadIdentity(VIEW);
 	loadIdentity(MODEL);
 	// set the camera using a function similar to gluLookAt
-	if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0,1,0);
+	//if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0,1,0);
+	if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0, 1, 0);
 	else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
