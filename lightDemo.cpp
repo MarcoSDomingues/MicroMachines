@@ -60,6 +60,8 @@ extern float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
 /// The normal matrix
 extern float mNormal3x3[9];
 
+Vector3 speed;
+
 GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
@@ -81,8 +83,6 @@ float orangeYRot;
 float orangeVelocity[3];
 
 float tableSize = 5;
-
-Vector3 speed;
 
 // Camera Position
 float camX, camY, camZ;
@@ -161,8 +161,7 @@ void initOrange(int i) {
 }
 
 void update(double delta_t) {
-	carX += speed.getX() * delta_t;
-	carZ += speed.getZ() * delta_t;
+	car.update(delta_t);
 
 	//aumentar a velocidade depois de um certo tempo
 	if (glutGet(GLUT_ELAPSED_TIME) > speed_timer + 20000) {
@@ -425,7 +424,6 @@ void drawCheerios() {
 void renderScene(void) {
 
 	GLint loc;
-
 	FrameCount++;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// load identity matrices
@@ -433,7 +431,10 @@ void renderScene(void) {
 	loadIdentity(MODEL);
 	// set the camera using a function similar to gluLookAt
 	//if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0,1,0);
-	if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + camX, carY + camY, carZ + camZ, 0, 1, 0);
+	float dirX = car.getDirection().getX();
+	float dirZ = car.getDirection().getZ();
+
+	if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + dirX, 1, carZ + dirZ, 0, 1, 0);
 	else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
@@ -494,22 +495,21 @@ void processKeys(unsigned char key, int xx, int yy)
 		case 'n': glDisable(GL_MULTISAMPLE); break;
 		
 		case 'O': case 'o':
-			speed.set(SPEED, 0.0f, 0.0f);
+			//car.setDirection(-1.0f, 0.0f, 0.0f);
+			car.turn(10);
 			break;
 
 		case 'P': case 'p':
-			speed.set(-SPEED, 0.0f, 0.0f);
+			//car.setDirection(1.0f, 0.0f, 0.0f);
+			car.turn(-10);
 			break;
 
 		case 'Q': case 'q':
-			speed.set(0.0f, 0.0f, SPEED);
 			break;
 	
 		case 'A': case 'a':
-			speed.set(0.0f, 0.0f, -SPEED);
 			break;
 		default:
-			speed.set(0.0f, 0.0f, 0.0f);
 			break;
 	}
 }
@@ -643,14 +643,16 @@ GLuint setupShaders() {
 
 void init()
 {
+	car.setPosition(0.0f, 0.45f, 2.8f);
+
 	// set the camera position based on its spherical coordinates
 	camX = r * sin(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
 
-	carX = 0.0f;
-	carY = 0.45f;
-	carZ = 2.8f;
+	carX = car.getPosition().getX();
+	carY = car.getPosition().getY();
+	carZ = car.getPosition().getZ();
 
 	srand(time(NULL));
 	for (int i = 0; i < 3; i++) {
