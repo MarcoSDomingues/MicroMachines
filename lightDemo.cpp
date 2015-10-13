@@ -60,6 +60,8 @@ extern float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
 /// The normal matrix
 extern float mNormal3x3[9];
 
+bool clicking;
+
 Vector3 speed;
 
 GLint pvm_uniformId;
@@ -374,8 +376,9 @@ void renderScene(void) {
 	// load identity matrices
 	loadIdentity(VIEW);
 	loadIdentity(MODEL);
-	// set the camera using a function similar to gluLookAt
-	//if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0,1,0);
+
+	float carX = car.getPosition().getX();
+	float carZ = car.getPosition().getZ();
 
 	Vector3 dir = car.getDirection() + car.getPosition();
 	float dirX = dir.getX();
@@ -383,11 +386,20 @@ void renderScene(void) {
 
 	Vector3 cam = car.getPosition() - car.getDirection();
 
-	float camX = cam.getX();
-	float camZ = cam.getZ();
+	float cX = cam.getX();
+	float cZ = cam.getZ();
 
-	if (_current_camera == 2) lookAt(camX, 2, camZ, dirX, 1, dirZ, 0, 1, 0);
-	else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
+	//if (_current_camera == 2) lookAt(cX, 2, cZ, dirX, 1, dirZ, 0, 1, 0);
+
+		if (_current_camera == 2) {
+			if (clicking) {
+				lookAt(carX, 2, carZ, carX + camX, 1, carZ + camZ, 0, 1, 0);
+			}
+			else {
+				lookAt(cX, 2, cZ, dirX, 1, dirZ, 0, 1, 0);
+			}
+		}
+		else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
 
@@ -482,6 +494,7 @@ void processMouseButtons(int button, int state, int xx, int yy)
 {
 	// start tracking the mouse
 	if (state == GLUT_DOWN)  {
+		clicking = true;
 		startX = xx;
 		startY = yy;
 		if (button == GLUT_LEFT_BUTTON)
@@ -492,6 +505,7 @@ void processMouseButtons(int button, int state, int xx, int yy)
 
 	//stop tracking the mouse
 	else if (state == GLUT_UP) {
+		clicking = false;
 		if (tracking == 1) {
 			alpha -= (xx - startX);
 			beta += (yy - startY);
@@ -521,8 +535,8 @@ void processMouseMotion(int xx, int yy)
 	if (tracking == 1) {
 
 
-		alphaAux = carX + alpha + deltaX;
-		betaAux = carZ + beta + deltaY;
+		alphaAux = alpha + deltaX;
+		betaAux = beta + deltaY;
 
 		if (betaAux > 85.0f)
 			betaAux = 85.0f;
@@ -533,8 +547,8 @@ void processMouseMotion(int xx, int yy)
 	// right mouse button: zoom
 	else if (tracking == 2) {
 
-		alphaAux = carX + alpha;
-		betaAux = carZ + beta;
+		alphaAux = alpha;
+		betaAux = beta;
 		rAux = r + (deltaY * 0.01f);
 		if (rAux < 0.1f)
 			rAux = 0.1f;
@@ -611,6 +625,8 @@ void init()
 	carX = car.getPosition().getX();
 	carY = car.getPosition().getY();
 	carZ = car.getPosition().getZ();
+
+	car.turn(90);
 
 	srand(time(NULL));
 	for (int i = 0; i < 3; i++) {
