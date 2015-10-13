@@ -83,7 +83,7 @@ float camX, camY, camZ;
 int startX, startY, tracking = 0;
 
 // Camera Spherical Coordinates
-float alpha = 39.0f, beta = 51.0f;
+float alpha = 90.0f, beta = -30.0f;
 float r = 10.0f;
 
 // Frame counting and FPS computation
@@ -399,7 +399,7 @@ void renderScene(void) {
 	loadIdentity(MODEL);
 	// set the camera using a function similar to gluLookAt
 	//if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0,1,0);
-	if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + 1, carY, carZ, 0, 1, 0);
+	if (_current_camera == 2) lookAt(carX - 1, carY + 1, carZ, carX + camX, carY + camY, carZ + camZ, 0, 1, 0);
 	else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
@@ -527,8 +527,8 @@ void processMouseMotion(int xx, int yy)
 	if (tracking == 1) {
 
 
-		alphaAux = alpha + deltaX;
-		betaAux = beta + deltaY;
+		alphaAux = carX + alpha + deltaX;
+		betaAux = carZ + beta + deltaY;
 
 		if (betaAux > 85.0f)
 			betaAux = 85.0f;
@@ -539,8 +539,8 @@ void processMouseMotion(int xx, int yy)
 	// right mouse button: zoom
 	else if (tracking == 2) {
 
-		alphaAux = alpha;
-		betaAux = beta;
+		alphaAux = carX + alpha;
+		betaAux = carZ + beta;
 		rAux = r + (deltaY * 0.01f);
 		if (rAux < 0.1f)
 			rAux = 0.1f;
