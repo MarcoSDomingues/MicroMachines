@@ -626,7 +626,7 @@ void init()
 	carY = car.getPosition().getY();
 	carZ = car.getPosition().getZ();
 
-	car.turn(90);
+	car.turn(180);
 
 	srand(time(NULL));
 	for (int i = 0; i < 3; i++) {
