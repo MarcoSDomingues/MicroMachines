@@ -402,10 +402,12 @@ void renderScene(void) {
 	float dirX = dir.getX();
 	float dirZ = dir.getZ();
 
-	float carX = car.getPosition().getX();
-	float carZ = car.getPosition().getZ();
+	Vector3 cam = car.getPosition() - car.getDirection();
 
-	if (_current_camera == 2) lookAt(carX, 1, carZ, dirX, 1, dirZ, 0, 1, 0);
+	float camX = cam.getX();
+	float camZ = cam.getZ();
+
+	if (_current_camera == 2) lookAt(camX, 2, camZ, dirX, 1, dirZ, 0, 1, 0);
 	else lookAt(0, 10, 0.1, 0, 0, 0, 0, 1, 0);
 	// use our shader
 	glUseProgram(shader.getProgramIndex());
