@@ -20,16 +20,6 @@ Vector3 Car::getDirection() {
 	return _direction;
 }
 
-void Car::turn(int rotation) {
-	_angle = (_angle+rotation % 360 + 360) % 360;
-
-	float a = _angle * 3.14 / 180;
-
-	float x = 3 * sin(a);
-	float z = 3 * cos(a);
-	_direction.set(x, 0, z);
-}
-
 void Car::draw(float x, float y, float z,
 	VSShaderLib shader,
 	GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
@@ -116,8 +106,9 @@ void Car::update(double delta_t) {
 	_position.set(x, 0.35, z);
 
 	//angle stuff
-	_angleF += _turning * ROTATION;
-	_angle = ((int)round(_angleF) + (int)(_turning * ROTATION) % 360 + 360) % 360;
+	_angle += _turning * ROTATION;
+	if (_angle > 360) _angle -= 360;
+	else if (_angle < 0) _angle = 360 - _angle;
 	float da = _angle * 3.14 / 180;
 	float dx = 3 * sin(da);
 	float dz = 3 * cos(da);
@@ -147,6 +138,10 @@ void Car::right() {
 	_turning = -1;
 }
 
-void Car::stopTurning() {
-	_turning = 0;
+void Car::stopLeft() {
+	if (_turning == 1) _turning = 0;
+}
+
+void Car::stopRight() {
+	if (_turning == -1) _turning = 0;
 }

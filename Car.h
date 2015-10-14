@@ -11,8 +11,7 @@ private:
 	Vector3 _direction = Vector3(-1.0f, 0.0f, 0.0f);
 	float _speed = 0;
 	float _acceleration = 0.0f;
-	int _angle = -90;
-	float _angleF = -90.0f;
+	float _angle = -90;
 	bool _stopping = false;
 	int _turning = 0; //1 is right, -1 is left, 0 is stopped
 
@@ -27,12 +26,12 @@ public:
 
 	void left();
 	void right();
-	void stopTurning();
+	void stopLeft();
+	void stopRight();
 	
 	float getSpeed();
 	float getAcceleration();
 	Vector3 getDirection();
-	void turn(int rotation);
 
 	void draw(float x, float y, float z,
 		VSShaderLib shader,

@@ -393,7 +393,7 @@ void renderScene(void) {
 
 		if (_current_camera == 2) {
 			if (clicking) {
-				lookAt(carX, 2, carZ, carX + camX, 1, carZ + camZ, 0, 1, 0);
+				lookAt(carX, 3, carZ, carX + camX, 1, carZ + camZ, 0, 1, 0);
 			}
 			else {
 				lookAt(cX, 2, cZ, dirX, 1, dirZ, 0, 1, 0);
@@ -484,11 +484,11 @@ void keyReleased(unsigned char key, int x, int y)
 {
 	switch (key) {
 		case 'O': case 'o':
-			car.stopTurning();
+			car.stopLeft();
 			break;
 
 		case 'P': case 'p':
-			car.stopTurning();
+			car.stopRight();
 			break;
 
 		case 'Q': case 'q': case 'A': case 'a':
@@ -639,8 +639,6 @@ void init()
 	carX = car.getPosition().getX();
 	carY = car.getPosition().getY();
 	carZ = car.getPosition().getZ();
-
-	car.turn(180);
 
 	
 	std::vector<Car> cars;
