@@ -38,8 +38,7 @@
 #include "GameObject.h"
 #include "Car.h"
 
-#define CAPTION "AVT Light Demo"
-#define ACCELERATION 0.0000005
+#define CAPTION "MicroMachines"
 int WindowHandle = 0;
 int WinX = 640, WinY = 480;
 
@@ -435,7 +434,7 @@ void renderScene(void) {
 // Events from the Keyboard
 //
 
-void processKeys(unsigned char key, int xx, int yy)
+void keyPressed(unsigned char key, int xx, int yy)
 {
 	switch(key) {
 
@@ -474,17 +473,39 @@ void processKeys(unsigned char key, int xx, int yy)
 			break;
 
 		case 'Q': case 'q':
-			car.setAcceleration(ACCELERATION);
+			car.accelerate();
 			break;
 	
 		case 'A': case 'a':
-			car.setAcceleration(-ACCELERATION);
+			car.reverse();
 			break;
 		default:
 			break;
 	}
 }
 
+void keyReleased(unsigned char key, int x, int y)
+{
+	switch (key) {
+		case 'O': case 'o':
+			//car.setDirection(-1.0f, 0.0f, 0.0f);
+			car.turn(20);
+			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			break;
+
+		case 'P': case 'p':
+			//car.setDirection(1.0f, 0.0f, 0.0f);
+			car.turn(-20);
+			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			break;
+
+		case 'Q': case 'q': case 'A': case 'a':
+			car.stop();
+			break;
+		default:
+			break;
+	}
+}
 
 // ------------------------------------------------------------
 //
@@ -815,7 +836,9 @@ int main(int argc, char **argv) {
 	glutIdleFunc(idle);
 
 //	Mouse and Keyboard Callbacks
-	glutKeyboardFunc(processKeys);
+	glutKeyboardFunc(keyPressed);	//Funcao a ser chamada ao pressionar uma tecla 
+	glutIgnoreKeyRepeat(1);		//Impedir que, ao pressionar uma tecla continuamente, seja chamada a funcao keyPressed repetidamente
+	glutKeyboardUpFunc(keyReleased);	//Funcao a ser chamada ao libertar uma tecla
 	glutMouseFunc(processMouseButtons);
 	glutMotionFunc(processMouseMotion);
 	glutMouseWheelFunc ( mouseWheel ) ;
@@ -835,8 +858,9 @@ int main(int argc, char **argv) {
 	printf ("Version: %s\n", glGetString (GL_VERSION));
 	printf ("GLSL: %s\n", glGetString (GL_SHADING_LANGUAGE_VERSION));
 
-	if (!setupShaders())
-		return(1);
+	if (!setupShaders()) return(1);
+
+ 
 
 	init();
 

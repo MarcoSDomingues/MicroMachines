@@ -106,10 +106,29 @@ void Car::update(double delta_t) {
 			_speed = -MAX_SPEED;
 	}
 
+	if (_stopping && round(_speed*100000) == 0) {
+		_acceleration = 0;
+	}
+
 	std::cout << _speed << std::endl;
 
 	float x = _position.getX() + _direction.getX() * _speed * delta_t;
 	float z = _position.getZ() + _direction.getZ() * _speed * delta_t;
 
 	_position.set(x, 0.35, z);
+}
+
+void Car::accelerate() {
+	_acceleration = ACCELERATION;
+	_stopping = false;
+}
+
+void Car::stop() {
+	_acceleration = ACCELERATION * -_speed/abs(_speed);
+	_stopping = true;
+}
+
+void Car::reverse() {
+	_acceleration = -ACCELERATION;
+	_stopping = false;
 }
