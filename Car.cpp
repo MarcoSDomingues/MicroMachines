@@ -120,9 +120,18 @@ void Car::accelerate() {
 	_stopping = false;
 }
 
-void Car::stop() {
-	_acceleration = ACCELERATION * -_speed/abs(_speed);
-	_stopping = true;
+void Car::stopForward() {
+	if (_acceleration > 0) {
+		_acceleration = ACCELERATION * -_speed / abs(_speed);
+		_stopping = true;
+	}
+}
+
+void Car::stopBack() {
+	if (_acceleration < 0) {
+		_acceleration = ACCELERATION * -_speed / abs(_speed);
+		_stopping = true;
+	}
 }
 
 void Car::reverse() {

@@ -491,8 +491,11 @@ void keyReleased(unsigned char key, int x, int y)
 			car.stopRight();
 			break;
 
-		case 'Q': case 'q': case 'A': case 'a':
-			car.stop();
+		case 'Q': case 'q':
+			car.stopForward();
+			break;
+		case 'A': case 'a':
+			car.stopBack();
 			break;
 		default:
 			break;

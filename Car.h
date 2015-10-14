@@ -21,7 +21,8 @@ public:
 	void setAcceleration(float speed);
 
 	void accelerate();
-	void stop();
+	void stopForward();
+	void stopBack();
 	void reverse();
 
 	void left();
