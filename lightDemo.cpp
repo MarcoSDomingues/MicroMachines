@@ -242,6 +242,7 @@ void drawOrange(float x, float y, float z, float orangeRot) {
 	popMatrix(MODEL);
 }
 
+
 void drawButterBox(float x, float y, float z) {
 	objId = 5;
 
@@ -627,6 +628,10 @@ void init()
 	carZ = car.getPosition().getZ();
 
 	car.turn(180);
+
+	
+	std::vector<Car> cars;
+	cars.push_back(car);
 
 	srand(time(NULL));
 	for (int i = 0; i < 3; i++) {

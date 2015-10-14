@@ -23,5 +23,5 @@ void main () {
 	DataOut.lightDir = vec3(l_pos - pos);
 	DataOut.eye = vec3(-pos);
 
-	gl_Position = m_pvm * position;	
+	gl_Position = m_pvm * position; //clip coordinates
 }
