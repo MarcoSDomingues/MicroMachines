@@ -3,7 +3,7 @@
 
 #define MAX_SPEED 0.001
 #define ACCELERATION 0.0000005
-#define ROTATION 0.0001
+#define ROTATION 0.2
 
 class Car : public GameObject {
 

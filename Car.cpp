@@ -85,20 +85,18 @@ void Car::draw(float x, float y, float z,
 
 void Car::update(double delta_t) {
 
-	_speed += _acceleration * delta_t;
-	
-	if (_acceleration > 0) {
-		if (_speed > MAX_SPEED)
-			_speed = MAX_SPEED;
-	}
-	else {
-		if (_speed < -MAX_SPEED)
-			_speed = -MAX_SPEED;
-	}
+	float oldSpeed = _speed;
 
-	if (_stopping && round(_speed*100000) == 0) {
+	_speed += _acceleration * delta_t;
+
+	float stop = (oldSpeed / abs(oldSpeed)) != (_speed / abs(_speed));
+
+	if (_stopping && stop) {
 		_acceleration = 0;
 	}
+	
+	if (_speed > MAX_SPEED) _speed = MAX_SPEED;
+	else if (_speed < -MAX_SPEED) _speed = -MAX_SPEED;
 
 	float x = _position.getX() + _direction.getX() * _speed * delta_t;
 	float z = _position.getZ() + _direction.getZ() * _speed * delta_t;
@@ -106,7 +104,7 @@ void Car::update(double delta_t) {
 	_position.set(x, 0.35, z);
 
 	//angle stuff
-	_angle += _turning * ROTATION;
+	_angle += _turning * ROTATION * delta_t;
 	if (_angle > 360) _angle -= 360;
 	else if (_angle < 0) _angle = 360 - _angle;
 	float da = _angle * 3.14 / 180;
