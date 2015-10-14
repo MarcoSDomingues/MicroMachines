@@ -2,7 +2,8 @@
 #include "GameObject.h"
 
 #define MAX_SPEED 0.001
-# define ACCELERATION 0.0000005
+#define ACCELERATION 0.0000005
+#define ROTATION 0.0001
 
 class Car : public GameObject {
 
@@ -11,7 +12,9 @@ private:
 	float _speed = 0;
 	float _acceleration = 0.0f;
 	int _angle = -90;
+	float _angleF = -90.0f;
 	bool _stopping = false;
+	int _turning = 0; //1 is right, -1 is left, 0 is stopped
 
 public:
 
@@ -21,6 +24,10 @@ public:
 	void accelerate();
 	void stop();
 	void reverse();
+
+	void left();
+	void right();
+	void stopTurning();
 	
 	float getSpeed();
 	float getAcceleration();

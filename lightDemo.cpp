@@ -461,15 +461,11 @@ void keyPressed(unsigned char key, int xx, int yy)
 		case 'n': glDisable(GL_MULTISAMPLE); break;
 		
 		case 'O': case 'o':
-			//car.setDirection(-1.0f, 0.0f, 0.0f);
-			car.turn(20);
-			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			car.left();
 			break;
 
 		case 'P': case 'p':
-			//car.setDirection(1.0f, 0.0f, 0.0f);
-			car.turn(-20);
-			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			car.right();
 			break;
 
 		case 'Q': case 'q':
@@ -488,15 +484,11 @@ void keyReleased(unsigned char key, int x, int y)
 {
 	switch (key) {
 		case 'O': case 'o':
-			//car.setDirection(-1.0f, 0.0f, 0.0f);
-			car.turn(20);
-			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			car.stopTurning();
 			break;
 
 		case 'P': case 'p':
-			//car.setDirection(1.0f, 0.0f, 0.0f);
-			car.turn(-20);
-			//printf("Direction: (%f, %f, %f)\n", car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+			car.stopTurning();
 			break;
 
 		case 'Q': case 'q': case 'A': case 'a':

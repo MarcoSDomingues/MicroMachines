@@ -110,12 +110,18 @@ void Car::update(double delta_t) {
 		_acceleration = 0;
 	}
 
-	std::cout << _speed << std::endl;
-
 	float x = _position.getX() + _direction.getX() * _speed * delta_t;
 	float z = _position.getZ() + _direction.getZ() * _speed * delta_t;
 
 	_position.set(x, 0.35, z);
+
+	//angle stuff
+	_angleF += _turning * ROTATION;
+	_angle = ((int)round(_angleF) + (int)(_turning * ROTATION) % 360 + 360) % 360;
+	float da = _angle * 3.14 / 180;
+	float dx = 3 * sin(da);
+	float dz = 3 * cos(da);
+	_direction.set(dx, 0, dz);
 }
 
 void Car::accelerate() {
@@ -131,4 +137,16 @@ void Car::stop() {
 void Car::reverse() {
 	_acceleration = -ACCELERATION;
 	_stopping = false;
+}
+
+void Car::left() {
+	_turning = 1;
+}
+
+void Car::right() {
+	_turning = -1;
+}
+
+void Car::stopTurning() {
+	_turning = 0;
 }
