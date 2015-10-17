@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "StaticObject.h"
 
-class Table : public GameObject {
+class Table : public StaticObject {
 
 private:
 	float _xPosition;

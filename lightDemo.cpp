@@ -40,6 +40,8 @@
 #include "Orange.h"
 #include "Butter.h"
 #include "Table.h"
+#include "Road.h"
+#include "Cheerio.h"
 
 #define CAPTION "MicroMachines"
 int WindowHandle = 0;
@@ -119,6 +121,8 @@ std::vector<Orange> orangeArray;
 Butter butter1;
 Butter butter2;
 Table table;
+Road road;
+Cheerio cheerio;
 
 void timer(int value)
 {
@@ -214,94 +218,6 @@ void renderMesh() {
 	glBindVertexArray(0);
 }
 
-void drawRoad() {
-	//Draw Road
-	objId = 1;
-	loadMesh();
-	pushMatrix(MODEL);
-
-	//top
-	scale(MODEL, 7.0f, 0.51f, 1.0f);
-	translate(MODEL, -0.5f, 0.0f, -3.5f);
-
-	renderMesh();
-	popMatrix(MODEL);
-
-	//bottom
-	loadMesh();
-	pushMatrix(MODEL);
-
-	scale(MODEL, 7.0f, 0.51f, 1.0f);
-	translate(MODEL, -0.5f, 0.0f, 2.6f);
-
-	renderMesh();
-	popMatrix(MODEL);
-
-	//left
-	loadMesh();
-	pushMatrix(MODEL);
-
-	scale(MODEL, 1.0f, 0.51f, 7.0f);
-	translate(MODEL, -3.5f, 0.0f, -0.5f);
-
-	renderMesh();
-	popMatrix(MODEL);
-
-	//right
-	loadMesh();
-	pushMatrix(MODEL);
-
-	scale(MODEL, 1.0f, 0.51f, 7.0f);
-	translate(MODEL, 2.5f, 0.0f, -0.5f);
-
-	renderMesh();
-	popMatrix(MODEL);
-
-	//Start Marker
-	objId = 2;
-	loadMesh();
-	pushMatrix(MODEL);
-
-	scale(MODEL, 0.1f, 0.5f, 1.0f);
-	translate(MODEL, 0.0f, 0.03f, 2.6f);
-
-	renderMesh();
-	popMatrix(MODEL);
-}
-
-void cheerio(MatrixTypes aType, float x, float y, float z) {
-	loadMesh();
-	pushMatrix(aType);
-
-	translate(aType, x, y, z);
-
-	renderMesh();
-	popMatrix(aType);
-}
-
-void drawCheerios() {
-	objId = 3;
-	
-	float xBot = 2.4f;		float yBot = 2.5f;
-	float xTop = -2.4f;		float yTop = -3.6f;
-	float xRight = 2.4f;	float yRight = -2.1f;
-	float xLeft = -2.4f;	float yLeft = -2.1f;
-
-	for (int i = 0; i < 17; i++) {
-		cheerio(MODEL, xBot - 0.3f * i, 0.52f, yBot);
-		cheerio(MODEL, xBot - 0.3f * i, 0.52f, yBot + 1.2f);
-		cheerio(MODEL, xTop + 0.3f * i, 0.52f, yTop);
-		cheerio(MODEL, xTop + 0.3f * i, 0.52f, yTop + 1.2f);
-	}
-
-	for (int i = 0; i < 15; i++) {
-		cheerio(MODEL, xRight, 0.52f, yRight + 0.3f * i);
-		cheerio(MODEL, xRight + 1.2f, 0.52f, yRight + 0.3f * i);
-		cheerio(MODEL, xLeft, 0.52f, yLeft + 0.3f * i);
-		cheerio(MODEL, xLeft - 1.2f, 0.52f, yLeft + 0.3f * i);
-	}
-}
-
 void renderScene(void) {
 
 	GLint loc;
@@ -346,10 +262,11 @@ void renderScene(void) {
 	glUniform4fv(lPos_uniformId, 1, res);
 	*/	
 
-	drawRoad();
-	drawCheerios();
+	cheerio.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 
-	car.draw(car.getPosition().getX(), car.getPosition().getY(), car.getPosition().getZ(), shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+
+	car.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	butter2.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	table.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
@@ -715,6 +632,11 @@ void init()
 	butter2.addMesh(&mesh[5]);
 
 	table.addMesh(&mesh[0]);
+
+	road.addMesh(&mesh[1]);
+	road.addMesh(&mesh[2]);
+
+	cheerio.addMesh(&mesh[3]);
 
 	//Orange
 	objId = 7;

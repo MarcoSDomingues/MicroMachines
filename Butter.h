@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "StaticObject.h"
 
-class Butter : public GameObject {
+class Butter : public StaticObject {
 
 private:
 	float _xPosition;
