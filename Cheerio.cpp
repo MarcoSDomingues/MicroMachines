@@ -27,12 +27,12 @@ void Cheerio::draw(VSShaderLib shader, GLint pvm_uniformId,
 void Cheerio::cheerio(MatrixTypes aType, float x, float y, float z, VSShaderLib shader, GLint pvm_uniformId,
 	GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
 
-	loadMesh(_meshes.at(3), shader);
+	loadMesh(_meshes.at(0), shader);
 	pushMatrix(aType);
 
 	translate(aType, x, y, z);
 
-	renderMesh(_meshes.at(3), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 	popMatrix(aType);
 
 }
