@@ -1,30 +1,15 @@
 #include "Car.h"
 
-void Car::setAcceleration(float acceleration) {
-	_acceleration = acceleration;
-}
-
-void Car::setSpeed(float speed) {
-	_speed = speed;
-}
-
-float Car::getAcceleration() {
-	return _acceleration;
-}
-
-float Car::getSpeed() {
-	return _speed;
-}
-
 Vector3 Car::getDirection() {
 	return _direction;
 }
 
-void Car::draw(float x, float y, float z,
-	VSShaderLib shader,
-	GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
+void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
+	GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
 
-	_position.set(x, y, z);
+	float x = _position.getX();
+	float y = _position.getY();
+	float z = _position.getZ();
 
 	pushMatrix(MODEL);
 	translate(MODEL, x, y, z);

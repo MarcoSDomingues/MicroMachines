@@ -7,14 +7,6 @@ GameObject::GameObject() {}
 
 GameObject::~GameObject() {}
 
-void GameObject::setPosition(float x, float y, float z) {
-	_position.set(x, y, z);
-}
-
-Vector3 GameObject::getPosition() {
-	return _position;
-}
-
 void GameObject::loadMesh(struct MyMesh* mesh, VSShaderLib shader) {
 	GLint loc;
 	loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
