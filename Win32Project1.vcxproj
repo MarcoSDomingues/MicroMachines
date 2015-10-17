@@ -21,25 +21,30 @@
   <ItemGroup>
     <ClCompile Include="AVTmathLib.cpp" />
     <ClCompile Include="basic_geometry.cpp" />
+    <ClCompile Include="Butter.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="lightDemo.cpp" />
+    <ClCompile Include="Orange.cpp" />
     <ClCompile Include="OrtogonalCamera.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
+    <ClCompile Include="Table.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="vsShaderLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AVTmathLib.h" />
     <ClInclude Include="basic_geometry.h" />
+    <ClInclude Include="Butter.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="cube.h" />
-    <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Orange.h" />
     <ClInclude Include="OrtogonalCamera.h" />
     <ClInclude Include="PerspectiveCamera.h" />
+    <ClInclude Include="Table.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="VertexAttrDef.h" />
     <ClInclude Include="vsShaderLib.h" />

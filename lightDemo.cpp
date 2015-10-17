@@ -37,6 +37,9 @@
 //include objects
 #include "GameObject.h"
 #include "Car.h"
+#include "Orange.h"
+#include "Butter.h"
+#include "Table.h"
 
 #define CAPTION "MicroMachines"
 int WindowHandle = 0;
@@ -109,6 +112,13 @@ int _current_camera = 0;
 int iteration = 0;
 // objects
 Car car;
+Orange orange1;
+Orange orange2;
+Orange orange3;
+std::vector<Orange> orangeArray;
+Butter butter1;
+Butter butter2;
+Table table;
 
 void timer(int value)
 {
@@ -147,45 +157,21 @@ void changeSize(int w, int h) {
 	
 }
 
-//Tem de ficar aqui para o update conhecer a funcao 
-float orangeRandomVel() {
-	float auxV = ((float(rand()) / float(RAND_MAX)) * (0.001 - (-0.001))) + (-0.001);
-	if (auxV == 0) {
-		orangeRandomVel();
-	}
-	else
-		return auxV;
-}
-
-void initOrange(int i) {
-	orangeX[i] = rand() % 9 - 4;
-	orangeZ[i] = rand() % 9 - 4;
-	orangeVelocity[i] = orangeRandomVel();
-}
-
 void update(double delta_t) {
 	car.update(delta_t);
 
-	//aumentar a velocidade depois de um certo tempo
-	if (glutGet(GLUT_ELAPSED_TIME) > speed_timer + 20000) {
-		speed_timer = glutGet(GLUT_ELAPSED_TIME);
-		speedInc += 1;
-	}
+	for (int i = 0; i < orangeArray.size(); i++) {
 
-	for (int i = 0; i < 3; i++) {
-		orangeX[i] = orangeX[i] + orangeVelocity[i] * speedInc * delta_t;
-		orangeYRot[i] = orangeYRot[i] + (orangeVelocity[i] * 100 * speedInc ) * delta_t;
-	}
-
-	for (int i = 0; i < 3; i++) {
-		if (orangeX[i] >= tableSize || orangeX[i] <= -tableSize) {
-			delayDraw[i] = true;
-			if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 5000) {
+		if ((orangeArray[i].getPosition().getX() >= tableSize || orangeArray[i].getPosition().getX() <= -tableSize)) {
+			orangeArray[i].setDelayDraw(true);
+			if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 500) {
 				auxtimer = glutGet(GLUT_ELAPSED_TIME);
-				initOrange(i);
-				delayDraw[i] = false;
+				orangeArray[i].init();
+
 			}
+
 		}
+		orangeArray[i].update(delta_t);
 	}
 }
 
@@ -226,58 +212,6 @@ void renderMesh() {
 	glBindVertexArray(mesh[objId].vao);
 	glDrawElements(mesh[objId].type, mesh[objId].numIndexes, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-}
-
-void drawOrange(float x, float y, float z, float orangeRot) {
-	//DRAWORANGE
-	objId = 7;
-
-	loadMesh();
-	pushMatrix(MODEL);
-	translate(MODEL, x, y, z);
-	scale(MODEL, 0.6f, 0.6f, 0.6f);
-	rotate(MODEL, orangeRot, 0, 0, orangeRot);
-	renderMesh();
-	popMatrix(MODEL);
-}
-
-
-void drawButterBox(float x, float y, float z) {
-	objId = 5;
-
-	pushMatrix(MODEL);
-	scale(MODEL, 0.7f, 0.7f, 0.7f);
-	rotate(MODEL, -45, 0, 1, 0);
-
-	loadMesh();
-	pushMatrix(MODEL);
-	translate(MODEL, x - 0.5, y + 0.1f, z - 0.5);
-	scale(MODEL, 1.0f, 0.5f, 1.2f);
-	//rotate(MODEL, 90, 90, 0, 0);
-	renderMesh();
-	popMatrix(MODEL);
-
-	loadMesh();
-	pushMatrix(MODEL);
-	translate(MODEL, x - 0.6f, y + 0.6f, z - 0.6f);
-	scale(MODEL, 1.2f, 0.1f, 1.4f);
-	//rotate(MODEL, 90, 90, 0, 0);
-	renderMesh();
-	popMatrix(MODEL);
-	popMatrix(MODEL);
-}
-
-void drawTable() {
-	//Draw Table
-	objId = 0;
-	loadMesh();
-	pushMatrix(MODEL);
-	
-	scale(MODEL, 9.0f, 0.5f, 9.0f);
-	translate(MODEL, -0.5f, 0.0f, -0.5f);
-	
-	renderMesh();
-	popMatrix(MODEL);
 }
 
 void drawRoad() {
@@ -412,19 +346,19 @@ void renderScene(void) {
 	glUniform4fv(lPos_uniformId, 1, res);
 	*/	
 
-	drawTable();
 	drawRoad();
 	drawCheerios();
-	//drawCar(carX, carY, carZ);
+
 	car.draw(car.getPosition().getX(), car.getPosition().getY(), car.getPosition().getZ(), shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
-	
-	for (int i = 0; i < 3; i++) {
-		if (!delayDraw[i]) {
-			drawOrange(orangeX[i], 1.0, orangeZ[i], orangeYRot[i]);
+	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	butter2.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	table.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+
+	for (int i = 0; i < orangeArray.size(); i++) {
+		if (!orangeArray[i].getDelayDraw()) {
+			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 		}
 	}
-	drawButterBox(7.0f, 0.5f, 0.0f);
-	drawButterBox(-7.0f, 0.5f, 0.0f);
 
 	glutSwapBuffers();
 }
@@ -632,29 +566,36 @@ GLuint setupShaders() {
 
 void init()
 {
+	srand(time(NULL));
+
 	car.setPosition(0.0f, 0.45f, 2.8f);
+
+	carX = car.getPosition().getX();
+	carY = car.getPosition().getY();
+	carZ = car.getPosition().getZ();
+	
+	std::vector<Car> cars;
+	cars.push_back(car);
+
+	orangeArray.push_back(orange1);
+	orangeArray.push_back(orange2);
+	orangeArray.push_back(orange3);
+
+	for (int i = 0; i < orangeArray.size(); i++) {
+		orangeArray[i].init();
+	}
+
+	butter1.setPosition(3.6f, 0.5f, 3.0f);
+	butter2.setPosition(-3.4f, 0.5f, -4.0f);
+
+	table.setPosition(-0.5f, 0.0f, -0.5f);
+
+	speed = Vector3(0.0f, 0.0f, 0.0f);
 
 	// set the camera position based on its spherical coordinates
 	camX = r * sin(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
-
-	carX = car.getPosition().getX();
-	carY = car.getPosition().getY();
-	carZ = car.getPosition().getZ();
-
-	
-	std::vector<Car> cars;
-	cars.push_back(car);
-
-	srand(time(NULL));
-	for (int i = 0; i < 3; i++) {
-		initOrange(i);
-		orangeYRot[i] = 0.0f;
-	}
-	orangeY = 2.0f;
-
-	speed = Vector3(0.0f, 0.0f, 0.0f);
 
 	float amb[]= {0.2f, 0.15f, 0.1f, 1.0f};
 	float diff[] = {0.8f, 0.6f, 0.4f, 1.0f};
@@ -770,6 +711,11 @@ void init()
 	car.addMesh(&mesh[5]);
 	car.addMesh(&mesh[6]);
 
+	butter1.addMesh(&mesh[5]);
+	butter2.addMesh(&mesh[5]);
+
+	table.addMesh(&mesh[0]);
+
 	//Orange
 	objId = 7;
 
@@ -785,8 +731,11 @@ void init()
 	mesh[objId].mat.shininess = shininess;
 	mesh[objId].mat.texCount = texcount;
 	createSphere(1.0, 9);
-	
 
+	for (int i = 0; i < orangeArray.size(); i++) {
+		orangeArray[i].addMesh(&mesh[7]);
+	}
+	
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
