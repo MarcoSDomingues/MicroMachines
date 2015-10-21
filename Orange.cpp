@@ -32,7 +32,6 @@ void Orange::init() {
 	
 	int orangeX = rand() %9 - 4;
 	int orangeZ = rand() %9 - 4;
-	std::cout << orangeX << std::endl;
 	_position.set(orangeX, 1.0f, orangeZ);
 	_velocity = randomVelocity();
 	setDelayDraw(false);

@@ -28,6 +28,7 @@
 #include "VertexAttrDef.h"
 #include "Vector3.h"
 #include "Camera.h"
+#include "LightSource.h"
 #include "PerspectiveCamera.h"
 #include "OrtogonalCamera.h"
 #include "basic_geometry.h"
@@ -105,11 +106,14 @@ float r = 10.0f;
 // Frame counting and FPS computation
 long myTime,timebase = 0,frame = 0;
 char s[32];
-float lightPos[4] = {4.0f, 6.0f, 2.0f, 1.0f};
+//float lightPos[4] = {0.0f, 1.0f, 0.0f, 0.0f};
 
 // cameras
 std::vector<Camera*> _cameras;
 int _current_camera = 0;
+
+// lights
+LightSource _directional_light = LightSource(GL_LIGHT0);
 
 int iteration = 0;
 // objects
@@ -192,32 +196,6 @@ void idle() {
 // Render stufff
 //
 
-void loadMesh() {
-	GLint loc;
-	loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
-	glUniform4fv(loc, 1, mesh[objId].mat.ambient);
-	loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
-	glUniform4fv(loc, 1, mesh[objId].mat.diffuse);
-	loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
-	glUniform4fv(loc, 1, mesh[objId].mat.specular);
-	loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
-	glUniform1f(loc, mesh[objId].mat.shininess);
-}
-
-void renderMesh() {
-	// send matrices to OGL
-	computeDerivedMatrix(PROJ_VIEW_MODEL);
-	glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
-	glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
-	computeNormalMatrix3x3();
-	glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
-
-	// Render mesh
-	glBindVertexArray(mesh[objId].vao);
-	glDrawElements(mesh[objId].type, mesh[objId].numIndexes, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-}
-
 void renderScene(void) {
 
 	GLint loc;
@@ -254,13 +232,12 @@ void renderScene(void) {
 	glUseProgram(shader.getProgramIndex());
 
 	//send the light position in eye coordinates
-	glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
+	//glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
 	
-	/*
 	float res[4];
-	multMatrixPoint(VIEW, lightPos,res);   //lightPos definido em World Coord so is converted to eye space
+	multMatrixPoint(VIEW, _directional_light.getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
 	glUniform4fv(lPos_uniformId, 1, res);
-	*/	
+	
 
 	cheerio.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
 
@@ -663,6 +640,12 @@ void init()
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_MULTISAMPLE);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	//lights
+	_directional_light.setPosition(0.0f, 1.0f, 0.0f, 0.0f); //4th parameter == 0 => directional light
+	_directional_light.setAmbient(0.4f, 0.4f, 0.4f, 1.0f);
+	_directional_light.setDiffuse(0.5f, 0.5f, 0.5f, 1.0f);
+	_directional_light.setSpecular(1.0f, 1.0f, 1.0f, 1.0f);
 
 	// create cameras
 	PerspectiveCamera* p1 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);
