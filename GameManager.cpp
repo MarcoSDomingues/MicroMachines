@@ -59,9 +59,9 @@ GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
-GLint local_uniformId;
-GLint enabled_uniformId;
-GLint spot_uniformId;
+GLint local_uniformId[2];
+GLint enabled_uniformId[2];
+GLint spot_uniformId[2];
 
 //incrementar velocidade do jogo
 double speed_timer = 0;
@@ -103,6 +103,7 @@ int _current_camera = 0;
 
 // Directional light
 LightSource _directional_light = LightSource();
+LightSource _point_Light = LightSource();
 
 int iteration = 0;
 // objects
@@ -223,27 +224,28 @@ void renderScene(void) {
 	//send the light position in eye coordinates
 	//glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
 	
+	//Directional Light
 	float res[4];
 	multMatrixPoint(VIEW, _directional_light.getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
 	
-	glUniform1i(local_uniformId, _directional_light.isLocal());
-	glUniform1i(enabled_uniformId, _directional_light.isEnabled());
-	glUniform1i(spot_uniformId, _directional_light.isSpot());
+	glUniform1i(local_uniformId[0], _directional_light.isLocal());
+	glUniform1i(enabled_uniformId[0], _directional_light.isEnabled());
+	glUniform1i(spot_uniformId[0], _directional_light.isSpot());
 	glUniform4fv(lPos_uniformId, 1, res);
 	
 
-	cheerio.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	cheerio.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
-	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
-	car.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
-	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
-	butter2.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
-	table.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	car.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	butter2.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	table.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
 	for (int i = 0; i < orangeArray.size(); i++) {
 		if (!orangeArray[i].getDelayDraw()) {
-			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 		}
 	}
 
@@ -441,9 +443,9 @@ GLuint setupShaders() {
 	vm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_viewModel");
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
 	lPos_uniformId = glGetUniformLocation(shader.getProgramIndex(), "l_pos");
-	local_uniformId = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isLocal");
-	enabled_uniformId = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isEnabled");
-	spot_uniformId = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isSpot");
+	local_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isLocal");
+	enabled_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isEnabled");
+	spot_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isSpot");
 	
 	printf("InfoLog for Hello World Shader\n%s\n\n", shader.getAllInfoLogs().c_str());
 	

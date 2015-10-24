@@ -5,7 +5,7 @@ Vector3 Car::getDirection() {
 }
 
 void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
-	GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
+	GLint vm_uniformId, GLint normal_uniformId) {
 
 	float x = _position.getX();
 	float y = _position.getY();
@@ -22,28 +22,28 @@ void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
 	translate(MODEL, 0.65f, 1.1f, 0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, 0.65f, 1.1f, -0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, -0.65f, 1.1f, 0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, -0.65f, 1.1f, -0.65f);
 	scale(MODEL, 0.15f, 0.15f, 0.15f);
 	rotate(MODEL, 90, 0, 0, 90);
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	//DRAWBIGCUBE
@@ -53,7 +53,7 @@ void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
 	translate(MODEL, -0.5, 1, -0.8);
 	scale(MODEL, 1.0f, 0.5f, 2.0f);
 	//rotate(MODEL, 90, 90, 0, 0);
-	renderMesh(_meshes.at(1), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(1), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	//DRAWSMALLCUBE
@@ -63,7 +63,7 @@ void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
 	translate(MODEL, -0.45, 1, -0.5);
 	scale(MODEL, 0.9f, 0.9f, 0.9f);
 	//rotate(MODEL, 90, 90, 0, 0);
-	renderMesh(_meshes.at(2), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(2), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 	popMatrix(MODEL);
 }

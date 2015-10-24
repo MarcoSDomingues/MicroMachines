@@ -29,6 +29,6 @@ public:
 	Vector3 getDirection();
 
 	void draw(VSShaderLib shader, GLint pvm_uniformId,
-		GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId);
+		GLint vm_uniformId, GLint normal_uniformId);
 	void update(double delta_t);
 };

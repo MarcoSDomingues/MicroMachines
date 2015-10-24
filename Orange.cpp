@@ -37,7 +37,7 @@ void Orange::init() {
 	setDelayDraw(false);
 }
 
-void Orange::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
+void Orange::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId) {
 
 	loadMesh(_meshes.at(0), shader);
 
@@ -45,7 +45,7 @@ void Orange::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, G
 	translate(MODEL, _position.getX(), _position.getY(), _position.getZ());
 	scale(MODEL, 0.6f, 0.6f, 0.6f);
 	rotate(MODEL, _yRotation, 0, 0, _yRotation);
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 }
 

@@ -1,7 +1,7 @@
 #include "Road.h"
 
 void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
-	GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
+	GLint vm_uniformId, GLint normal_uniformId) {
 
 	//Draw Road
 	loadMesh(_meshes.at(0), shader);
@@ -11,7 +11,7 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	scale(MODEL, 7.0f, 0.51f, 1.0f);
 	translate(MODEL, -0.5f, 0.0f, -3.5f);
 
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	//bottom
@@ -21,7 +21,7 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	scale(MODEL, 7.0f, 0.51f, 1.0f);
 	translate(MODEL, -0.5f, 0.0f, 2.6f);
 
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	//left
@@ -31,7 +31,7 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	scale(MODEL, 1.0f, 0.51f, 7.0f);
 	translate(MODEL, -3.5f, 0.0f, -0.5f);
 
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	//right
@@ -41,7 +41,7 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	scale(MODEL, 1.0f, 0.51f, 7.0f);
 	translate(MODEL, 2.5f, 0.0f, -0.5f);
 
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	//Start Marker
@@ -51,7 +51,7 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	scale(MODEL, 0.1f, 0.5f, 1.0f);
 	translate(MODEL, 0.0f, 0.03f, 2.6f);
 
-	renderMesh(_meshes.at(1), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(1), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 }

@@ -21,9 +21,9 @@ public:
 	~GameObject();
 
 	void loadMesh(struct MyMesh* mesh, VSShaderLib shader);
-	void renderMesh(struct MyMesh* mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId);
+	void renderMesh(struct MyMesh* mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId);
 	void addMesh(struct MyMesh* mesh);
 
 	virtual void draw(VSShaderLib shader,
-		GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) = 0;
+		GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId) = 0;
 };

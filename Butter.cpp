@@ -1,6 +1,6 @@
 #include "Butter.h"
 
-void Butter::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId)
+void Butter::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId)
 {
 
 	pushMatrix(MODEL);
@@ -13,13 +13,13 @@ void Butter::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, G
 	
 	pushMatrix(MODEL);
 	scale(MODEL, 1.0f, 0.5f, 1.2f);
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	pushMatrix(MODEL);
 	translate(MODEL, -0.1f, 0.5f, -0.1f);
 	scale(MODEL, 1.2f, 0.1f, 1.4f);
-	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId, lPos_uniformId);
+	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
 
 	popMatrix(MODEL);

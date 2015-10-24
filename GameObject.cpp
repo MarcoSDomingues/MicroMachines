@@ -19,7 +19,7 @@ void GameObject::loadMesh(struct MyMesh* mesh, VSShaderLib shader) {
 	glUniform1f(loc, mesh->mat.shininess);
 }
 
-void GameObject::renderMesh(struct MyMesh* mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId, GLint lPos_uniformId) {
+void GameObject::renderMesh(struct MyMesh* mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId) {
 	// send matrices to OGL
 	computeDerivedMatrix(PROJ_VIEW_MODEL);
 	glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
