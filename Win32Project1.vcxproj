@@ -32,6 +32,7 @@
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="Orange.cpp" />
     <ClCompile Include="OrtogonalCamera.cpp" />
+    <ClCompile Include="Pause.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="StaticObject.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="Orange.h" />
     <ClInclude Include="OrtogonalCamera.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="StaticObject.h" />
@@ -72,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="checker.tga" />
+    <Image Include="pause.tga" />
     <Image Include="stone.tga" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -31,6 +31,7 @@
 #include "Table.h"
 #include "Road.h"
 #include "Cheerio.h"
+#include "Pause.h"
 
 #define CAPTION "MicroMachines"
 int WindowHandle = 0;
@@ -54,6 +55,8 @@ extern float mNormal3x3[9];
 
 bool clicking;
 
+bool paused;
+
 Vector3 speed;
 
 GLint pvm_uniformId;
@@ -66,7 +69,7 @@ GLint spot_uniformId[2];
 GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
 
-GLuint textureArray[2];
+GLuint textureArray[3];
 
 //incrementar velocidade do jogo
 double speed_timer = 0;
@@ -122,6 +125,7 @@ Butter butter2;
 Table table;
 Road road;
 Cheerio cheerio;
+Pause pauseScreen;
 
 std::vector<StaticObject*> staticObjects;
 
@@ -148,7 +152,7 @@ void refresh(int value)
 //
 
 void changeSize(int w, int h) {
-
+	loadIdentity(PROJECTION);
 	float ratio;
 	// Prevent a divide by zero, when window is too short
 	if(h == 0)
@@ -163,32 +167,34 @@ void changeSize(int w, int h) {
 }
 
 void update(double delta_t) {
-	car.update(delta_t);
+	if (!paused) {
+		car.update(delta_t);
 
-	for (int i = 0; i < orangeArray.size(); i++) {
+		for (int i = 0; i < orangeArray.size(); i++) {
 
-		if ((orangeArray[i].getPosition().getX() >= tableSize || orangeArray[i].getPosition().getX() <= -tableSize)) {
-			orangeArray[i].setDelayDraw(true);
-			if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 500) {
-				auxtimer = glutGet(GLUT_ELAPSED_TIME);
-				orangeArray[i].init();
+			if ((orangeArray[i].getPosition().getX() >= tableSize || orangeArray[i].getPosition().getX() <= -tableSize)) {
+				orangeArray[i].setDelayDraw(true);
+				if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 500) {
+					auxtimer = glutGet(GLUT_ELAPSED_TIME);
+					orangeArray[i].init();
+
+				}
 
 			}
-
+			orangeArray[i].update(delta_t);
+			if (orangeArray[i].checkCollisions(&car)) {
+				car.setPosition(0.0f, 0.45f, 2.8f);
+				car.setSpeed(0);
+				car.setAcceleration(0);
+				car.setInitialDirection();
+			}
 		}
-		orangeArray[i].update(delta_t);
-		if (orangeArray[i].checkCollisions(&car)) {
-			car.setPosition(0.0f, 0.45f, 2.8f);
-			car.setSpeed(0);
-			car.setAcceleration(0);
-			car.setInitialDirection();
-		}
-	}
 
-	for (int i = 0; i < staticObjects.size(); i++) {
-		if (staticObjects[i]->checkCollisions(&car)) {
-			//car.setAcceleration(0);
-			//car.collision();
+		for (int i = 0; i < staticObjects.size(); i++) {
+			if (staticObjects[i]->checkCollisions(&car)) {
+				//car.setAcceleration(0);
+				//car.collision();
+			}
 		}
 	}
 }
@@ -198,6 +204,10 @@ void idle() {
 	update(currentTime - previousTime);
 	previousTime = currentTime;
 	//glutPostRedisplay();
+}
+
+void pause() {
+	paused = !paused;
 }
 
 
@@ -256,22 +266,12 @@ void renderScene(void) {
 	//Associar os Texture Units aos Objects Texture
 	//stone.tga loaded in TU0; checker.tga loaded in TU1;  lightwood.tga loaded in TU2
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureArray[0]);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, textureArray[1]);
-
 	//Indicar aos tres samplers do GLSL quais os Texture Units a serem usados
 	glUniform1i(tex_loc1, 0);
 	glUniform1i(tex_loc2, 1);
 	
-	
 
 	cheerio.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-	glUniform1i(texMode_uniformId, true);
-	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-	glUniform1i(texMode_uniformId, false);
 	
 	car.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
@@ -286,6 +286,15 @@ void renderScene(void) {
 			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 		}
 	}
+
+	glUniform1i(texMode_uniformId, true);
+	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+	if (paused) {
+		pauseScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	}
+	glUniform1i(texMode_uniformId, false);
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glutSwapBuffers();
 }
@@ -336,6 +345,10 @@ void keyPressed(unsigned char key, int xx, int yy)
 	
 		case 'A': case 'a':
 			car.reverse();
+			break;
+
+		case 'S': case 's':
+			pause();
 			break;
 		default:
 			break;
@@ -506,6 +519,7 @@ void init()
 	glGenTextures(2, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
 	TGA_Texture(textureArray, "checker.tga", 1);
+	TGA_Texture(textureArray, "pause.tga", 2);
 
 	srand(time(NULL));
 
@@ -534,6 +548,7 @@ void init()
 	butter2.setPosition(-3.4f, 0.5f, -4.0f);
 
 	table.setPosition(-0.5f, 0.0f, -0.5f);
+	pauseScreen.setPosition(-2.5, -2.5, 5.0f);
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
 
@@ -661,8 +676,13 @@ void init()
 
 	table.addMesh(&mesh[0]);
 
+	pauseScreen.addMesh(&mesh[0]);
+	pauseScreen.addTexture(textureArray[2]);
+
 	road.addMesh(&mesh[1]);
 	road.addMesh(&mesh[2]);
+	road.addTexture(textureArray[0]);
+	road.addTexture(textureArray[1]);
 
 	cheerio.addMesh(&mesh[3]);
 
@@ -685,6 +705,7 @@ void init()
 	for (int i = 0; i < orangeArray.size(); i++) {
 		orangeArray[i].addMesh(&mesh[7]);
 	}
+
 	
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);

@@ -18,6 +18,8 @@ class GameObject : public Entity {
 protected:
 
 	std::vector<struct MyMesh *> _meshes;
+	std::vector<GLuint> _textures;
+
 	Vector4 _checkBox;
 	std::string _colisionSide;
 
@@ -29,6 +31,8 @@ public:
 	void loadMesh(struct MyMesh* mesh, VSShaderLib shader);
 	void renderMesh(struct MyMesh* mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId);
 	void addMesh(struct MyMesh* mesh);
+	void addTexture(GLuint texture);
+	void drawTextures();
 
 	virtual void draw(VSShaderLib shader,
 		GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId) = 0;

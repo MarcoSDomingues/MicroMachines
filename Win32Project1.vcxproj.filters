@@ -78,6 +78,9 @@
     <ClCompile Include="TGA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pause.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basic_geometry.h">
@@ -149,6 +152,9 @@
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Pause.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\pointlight.frag" />
@@ -159,6 +165,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="stone.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="pause.tga">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

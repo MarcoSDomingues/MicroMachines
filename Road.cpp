@@ -3,6 +3,8 @@
 void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	GLint vm_uniformId, GLint normal_uniformId) {
 
+	GameObject::drawTextures();
+
 	//Draw Road
 	loadMesh(_meshes.at(0), shader);
 	pushMatrix(MODEL);

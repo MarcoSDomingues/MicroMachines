@@ -33,6 +33,22 @@ void GameObject::renderMesh(struct MyMesh* mesh, GLint pvm_uniformId, GLint vm_u
 	glBindVertexArray(0);
 }
 
+void GameObject::addTexture(GLuint texture) {
+	_textures.push_back(texture);
+}
+
+void GameObject::drawTextures() {
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	int i = 0;
+	for (GLuint tex : _textures) {
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, _textures.at(i));
+		i++;
+	}
+
+}
+
 void GameObject::addMesh(struct MyMesh* mesh)
 {
 	_meshes.push_back(mesh);
