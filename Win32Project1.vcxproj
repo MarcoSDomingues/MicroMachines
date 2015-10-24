@@ -28,7 +28,7 @@
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="lightDemo.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="Orange.cpp" />
     <ClCompile Include="OrtogonalCamera.cpp" />
