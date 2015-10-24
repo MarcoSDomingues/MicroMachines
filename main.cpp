@@ -11,6 +11,7 @@
 
 // Use Very Simple Libs
 #include "VSShaderlib.h"
+#include "TGA.h"
 #include "AVTmathLib.h"
 #include "VertexAttrDef.h"
 #include "Vector3.h"
@@ -62,6 +63,10 @@ GLint lPos_uniformId;
 GLint local_uniformId[2];
 GLint enabled_uniformId[2];
 GLint spot_uniformId[2];
+GLint tex_loc1, tex_loc2;
+GLint texMode_uniformId;
+
+GLuint textureArray[2];
 
 //incrementar velocidade do jogo
 double speed_timer = 0;
@@ -233,23 +238,41 @@ void renderScene(void) {
 	glUniform1i(enabled_uniformId[0], _directional_light.isEnabled());
 	glUniform1i(spot_uniformId[0], _directional_light.isSpot());
 	glUniform4fv(lPos_uniformId, 1, res);
+
+	//Associar os Texture Units aos Objects Texture
+	//stone.tga loaded in TU0; checker.tga loaded in TU1;  lightwood.tga loaded in TU2
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureArray[0]);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, textureArray[1]);
+
+	//Indicar aos tres samplers do GLSL quais os Texture Units a serem usados
+	glUniform1i(tex_loc1, 0);
+	glUniform1i(tex_loc2, 1);
+	
 	
 
 	cheerio.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-
+	glUniform1i(texMode_uniformId, true);
 	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-
+	glUniform1i(texMode_uniformId, false);
+	
 	car.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
 	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	butter2.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	
 	table.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	
 
 	for (int i = 0; i < orangeArray.size(); i++) {
 		if (!orangeArray[i].getDelayDraw()) {
 			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 		}
 	}
-
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glutSwapBuffers();
 }
 
@@ -447,6 +470,10 @@ GLuint setupShaders() {
 	local_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isLocal");
 	enabled_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isEnabled");
 	spot_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isSpot");
+
+	texMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "texMode");
+	tex_loc1 = glGetUniformLocation(shader.getProgramIndex(), "texmap1");
+	tex_loc2 = glGetUniformLocation(shader.getProgramIndex(), "texmap2");
 	
 	printf("InfoLog for Hello World Shader\n%s\n\n", shader.getAllInfoLogs().c_str());
 	
@@ -460,6 +487,12 @@ GLuint setupShaders() {
 
 void init()
 {
+	//Texture Object definition
+
+	glGenTextures(2, textureArray);
+	TGA_Texture(textureArray, "stone.tga", 0);
+	TGA_Texture(textureArray, "checker.tga", 1);
+
 	srand(time(NULL));
 
 	car.setPosition(0.0f, 0.45f, 2.8f);

@@ -7,9 +7,11 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	loadMesh(_meshes.at(0), shader);
 	pushMatrix(MODEL);
 
-	//top
-	scale(MODEL, 7.0f, 0.51f, 1.0f);
-	translate(MODEL, -0.5f, 0.0f, -3.5f);
+	//
+	translate(MODEL, -2.5f, 0.0f, -2.5f);
+	rotate(MODEL, 90, 0, 1, 0);
+	scale(MODEL, 1.0f, 0.51f, 5.0f);
+
 
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
@@ -18,8 +20,9 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	loadMesh(_meshes.at(0), shader);
 	pushMatrix(MODEL);
 
-	scale(MODEL, 7.0f, 0.51f, 1.0f);
-	translate(MODEL, -0.5f, 0.0f, 2.6f);
+	translate(MODEL, -2.5f, 0.0f, 3.6f);
+	rotate(MODEL, 90, 0, 1, 0);
+	scale(MODEL, 1.0f, 0.51f, 5.0f);
 
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
@@ -28,8 +31,9 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	loadMesh(_meshes.at(0), shader);
 	pushMatrix(MODEL);
 
-	scale(MODEL, 1.0f, 0.51f, 7.0f);
-	translate(MODEL, -3.5f, 0.0f, -0.5f);
+	translate(MODEL, -3.5f, 0.0f, -3.5f);
+	scale(MODEL, 1.0f, 0.51f, 7.1f);
+
 
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);
@@ -38,8 +42,9 @@ void Road::draw(VSShaderLib shader, GLint pvm_uniformId,
 	loadMesh(_meshes.at(0), shader);
 	pushMatrix(MODEL);
 
-	scale(MODEL, 1.0f, 0.51f, 7.0f);
-	translate(MODEL, 2.5f, 0.0f, -0.5f);
+	translate(MODEL, 2.5f, 0.0f, -3.5f);
+	scale(MODEL, 1.0f, 0.51f, 7.1f);
+
 
 	renderMesh(_meshes.at(0), pvm_uniformId, vm_uniformId, normal_uniformId);
 	popMatrix(MODEL);

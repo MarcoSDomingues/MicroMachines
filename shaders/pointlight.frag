@@ -22,21 +22,26 @@ struct LightProperties {
 };
 
 uniform LightProperties Lights[MaxLights];
-
 uniform Materials mat;
-
 uniform vec4 l_pos;
+
+uniform bool texMode;		//true se usar textura, false caso contrario, 
+uniform sampler2D texmap1;
+uniform sampler2D texmap2;
 
 //esta info vem das normais interpoladas
 in Data { 
 	vec3 normal;
 	vec3 eye;
 	vec4 pos;
+	vec2 tex_coord;
 } DataIn;
 
 out vec4 colorOut;
 
 void main() {
+
+	vec4 texel, texel1, texel2;
 
 	bool enabled = true;
 	vec4 spec = vec4(0.0);
@@ -80,7 +85,16 @@ void main() {
 			spec = mat.specular * pow(intSpec, mat.shininess);
 		}
 
-		colorOut = max(intensity * mat.diffuse + spec, mat.ambient);
+		if (texMode) {
+			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from stone.tga
+			texel2 = texture(texmap2, DataIn.tex_coord);  // texel from checker.tga
+			texel = texel1 * texel2;
+			colorOut = max(intensity*texel + spec, 0.1*texel);
+		} else {
+			colorOut = max(intensity * mat.diffuse + spec, mat.ambient);
+		}
+		
 	}
+
 
 }

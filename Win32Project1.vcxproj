@@ -36,6 +36,7 @@
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="Table.cpp" />
+    <ClCompile Include="TGA.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />
     <ClCompile Include="vsShaderLib.cpp" />
@@ -58,6 +59,7 @@
     <ClInclude Include="Road.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="Table.h" />
+    <ClInclude Include="TGA.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="VertexAttrDef.h" />
@@ -66,6 +68,10 @@
   <ItemGroup>
     <None Include="shaders\pointlight.frag" />
     <None Include="shaders\pointlight.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="checker.tga" />
+    <Image Include="stone.tga" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3E46B3E6-741C-45BE-8F05-15B5A493E9DF}</ProjectGuid>

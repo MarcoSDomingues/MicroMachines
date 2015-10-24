@@ -6,7 +6,6 @@ Vector3 Car::getDirection() {
 
 void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
 	GLint vm_uniformId, GLint normal_uniformId) {
-
 	float x = _position.getX();
 	float y = _position.getY();
 	float z = _position.getZ();

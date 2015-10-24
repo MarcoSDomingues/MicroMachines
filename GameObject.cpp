@@ -58,21 +58,21 @@ void GameObject::checkCollisions(GameObject *object) {
 
 	if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
 
-		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+		std::cout << "PAMAMAMAMAMAM" << std::endl;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
 
-		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+		std::cout << "PAMAMAMAMAMAM" << std::endl;
 	}
 
 	else if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
 
-		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+		std::cout << "PAMAMAMAMAMAM" << std::endl;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
 
-		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+		std::cout << "PAMAMAMAMAMAM" << std::endl;
 	}
 }
