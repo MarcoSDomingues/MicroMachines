@@ -72,11 +72,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Vector4.cpp">
-=======
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="TGA.cpp">
->>>>>>> textures
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -141,11 +140,10 @@
     <ClInclude Include="LightSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Vector4.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="TGA.h">
->>>>>>> textures
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
