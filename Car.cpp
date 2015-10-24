@@ -96,6 +96,8 @@ void Car::update(double delta_t) {
 	float dx = 3 * sin(da);
 	float dz = 3 * cos(da);
 	_direction.set(dx, 0, dz);
+
+	_checkBox.set(x - 0.5, x + 0.5, z - 1.0, z + 1.0);
 }
 
 void Car::accelerate() {

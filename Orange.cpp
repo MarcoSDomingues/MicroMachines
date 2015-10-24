@@ -61,5 +61,7 @@ void Orange::update(double delta_t)
 	_yRotation = _yRotation + (_velocity * 100 * _speedInc) * delta_t; //*100 to rotate slower
 
 	_position.set(_xPosition, _position.getY(), _position.getZ());
+
+	_checkBox.set(_xPosition - 0.5, _xPosition + 0.5, _position.getZ() - 0.5, _position.getZ() + 0.5);
 }
 

@@ -155,6 +155,45 @@ void changeSize(int w, int h) {
 	
 }
 
+void checkCarCollisions(double delta_t) {
+
+	Vector4 checkBoxObject;
+
+	Vector4 checkBoxCar;
+
+	checkBoxCar = car.getCheckBox();
+
+	//Collisions with Oranges
+	for (int i = 0; i < orangeArray.size(); i++) {
+
+		checkBoxObject = orangeArray[i].getCheckBox();
+
+		if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
+
+			//std::cout << "PAMAMAMAMAMAM" << std::endl;
+			break;
+		}
+
+		else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
+
+			//std::cout << "PAMAMAMAMAMAM" << std::endl;
+			break;
+		}
+
+		else if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
+
+			//std::cout << "PAMAMAMAMAMAM" << std::endl;
+			break;
+		}
+
+		else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
+
+			//std::cout << "PAMAMAMAMAMAM" << std::endl;
+			break;
+		}
+	}
+}
+
 void update(double delta_t) {
 	car.update(delta_t);
 
@@ -171,6 +210,8 @@ void update(double delta_t) {
 		}
 		orangeArray[i].update(delta_t);
 	}
+
+	checkCarCollisions(delta_t);
 }
 
 void idle() {

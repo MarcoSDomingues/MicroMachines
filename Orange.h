@@ -1,10 +1,9 @@
 #pragma once
-#include "GameObject.h"
+#include "DynamicObject.h"
 
-class Orange : public GameObject {
+class Orange : public DynamicObject {
 
 private:
-	float _speed = 0.0f;
 	float _yRotation = 0.0f;
 	float _xPosition;
 	float _velocity;
