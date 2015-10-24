@@ -37,3 +37,42 @@ void GameObject::addMesh(struct MyMesh* mesh)
 {
 	_meshes.push_back(mesh);
 }
+
+Vector4 GameObject::getCheckBox() {
+	return _checkBox;
+}
+
+void GameObject::setCheckBox(double x, double y, double z, double w) {
+	_checkBox.set(x, y, z, w);
+}
+
+void GameObject::checkCollisions(GameObject *object) {
+
+	Vector4 checkBoxObject;
+
+	Vector4 checkBoxCar;
+
+	checkBoxCar = getCheckBox();
+
+	checkBoxObject = object->getCheckBox();
+
+	if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
+
+		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+	}
+
+	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
+
+		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+	}
+
+	else if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
+
+		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+	}
+
+	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
+
+		//std::cout << "PAMAMAMAMAMAM" << std::endl;
+	}
+}
