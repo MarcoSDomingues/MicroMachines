@@ -123,6 +123,8 @@ Table table;
 Road road;
 Cheerio cheerio;
 
+std::vector<StaticObject*> staticObjects;
+
 void timer(int value)
 {
 	std::ostringstream oss;
@@ -175,7 +177,19 @@ void update(double delta_t) {
 
 		}
 		orangeArray[i].update(delta_t);
-		car.checkCollisions(&orangeArray[i]);
+		if (orangeArray[i].checkCollisions(&car)) {
+			car.setPosition(0.0f, 0.45f, 2.8f);
+			car.setSpeed(0);
+			car.setAcceleration(0);
+			car.setInitialDirection();
+		}
+	}
+
+	for (int i = 0; i < staticObjects.size(); i++) {
+		if (staticObjects[i]->checkCollisions(&car)) {
+			//car.setAcceleration(0);
+			//car.collision();
+		}
 	}
 }
 
@@ -511,6 +525,10 @@ void init()
 	for (int i = 0; i < orangeArray.size(); i++) {
 		orangeArray[i].init();
 	}
+
+	staticObjects.push_back(&butter1);
+	staticObjects.push_back(&butter2);
+	staticObjects.push_back(&cheerio);
 
 	butter1.setPosition(3.6f, 0.5f, 3.0f);
 	butter2.setPosition(-3.4f, 0.5f, -4.0f);

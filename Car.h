@@ -26,6 +26,7 @@ public:
 	void stopLeft();
 	void stopRight();
 	
+	void setInitialDirection();
 	Vector3 getDirection();
 
 	void draw(VSShaderLib shader, GLint pvm_uniformId,

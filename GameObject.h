@@ -3,6 +3,9 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <iostream>
+#include <typeinfo>
+#include <string>
+
 #include "Entity.h"
 #include "Vector3.h"
 #include "VSShaderlib.h"
@@ -16,6 +19,7 @@ protected:
 
 	std::vector<struct MyMesh *> _meshes;
 	Vector4 _checkBox;
+	std::string _colisionSide;
 
 public:
 
@@ -31,5 +35,6 @@ public:
 
 	Vector4 getCheckBox();
 	void setCheckBox(double x, double y, double z, double w);
-	void checkCollisions(GameObject *a);
+	bool checkCollisions(GameObject *object);
+	void collision();
 };

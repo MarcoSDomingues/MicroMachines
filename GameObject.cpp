@@ -46,33 +46,54 @@ void GameObject::setCheckBox(double x, double y, double z, double w) {
 	_checkBox.set(x, y, z, w);
 }
 
-void GameObject::checkCollisions(GameObject *object) {
+bool GameObject::checkCollisions(GameObject *object) {
 
 	Vector4 checkBoxObject;
-
 	Vector4 checkBoxCar;
 
-	checkBoxCar = getCheckBox();
-
-	checkBoxObject = object->getCheckBox();
+	checkBoxObject = getCheckBox();
+	checkBoxCar = object->getCheckBox();
 
 	if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-
-		std::cout << "PAMAMAMAMAMAM" << std::endl;
+		_colisionSide = "down";
+		std::cout << (_colisionSide) << std::endl;
+		return true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-
-		std::cout << "PAMAMAMAMAMAM" << std::endl;
+		_colisionSide = "up";
+		std::cout << (_colisionSide) << std::endl;
+		return true;
 	}
 
 	else if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
-
-		std::cout << "PAMAMAMAMAMAM" << std::endl;
+		_colisionSide = "right";
+		std::cout << (_colisionSide) << std::endl;
+		return true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
+		_colisionSide = "left";
+		std::cout << (_colisionSide) << std::endl;
+		return true;
+	}
 
-		std::cout << "PAMAMAMAMAMAM" << std::endl;
+	else {
+		return false;
+	}
+}
+
+void GameObject::collision() {
+	if (_colisionSide == "left") {
+		setPosition(getPosition().getX()+10, getPosition().getY(), getPosition().getZ());
+	}
+	else if (_colisionSide == "up") {
+		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()-10);
+	}
+	else if (_colisionSide == "right") {
+		setPosition(getPosition().getX()-10, getPosition().getY(), getPosition().getZ());
+	}
+	else if (_colisionSide == "down") {
+		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()+10);
 	}
 }

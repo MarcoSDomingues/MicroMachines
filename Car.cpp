@@ -4,6 +4,10 @@ Vector3 Car::getDirection() {
 	return _direction;
 }
 
+void Car::setInitialDirection() {
+	_angle = -90;
+}
+
 void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
 	GLint vm_uniformId, GLint normal_uniformId) {
 	float x = _position.getX();
