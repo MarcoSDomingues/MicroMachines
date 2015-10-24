@@ -1,19 +1,6 @@
-//
-// AVT demo light 
-// based on demos from GLSL Core Tutorial in Lighthouse3D.com   
-//
-// This demo was built for learning purposes only.
-// Some code could be severely optimised, but I tried to
-// keep as simple and clear as possible.
-//
-// The code comes with no warranties, use it at your own risk.
-// You may use it, or parts of it, wherever you want.
-//
-
 #include <math.h>
 #include <iostream>
 #include <sstream>
-
 #include <string>
 
 // include GLEW to access OpenGL 3.3 functions
@@ -55,7 +42,6 @@ VSShaderLib shader;
 struct MyMesh mesh[8];
 int objId=0; //id of the object mesh - to be used as index of mesh: mesh[objID] means the current mesh
 
-
 //External array storage defined in AVTmathLib.cpp
 
 /// The storage for matrices
@@ -73,6 +59,9 @@ GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId;
+GLint local_uniformId;
+GLint enabled_uniformId;
+GLint spot_uniformId;
 
 //incrementar velocidade do jogo
 double speed_timer = 0;
@@ -112,8 +101,8 @@ char s[32];
 std::vector<Camera*> _cameras;
 int _current_camera = 0;
 
-// lights
-LightSource _directional_light = LightSource(GL_LIGHT0);
+// Directional light
+LightSource _directional_light = LightSource();
 
 int iteration = 0;
 // objects
@@ -236,6 +225,10 @@ void renderScene(void) {
 	
 	float res[4];
 	multMatrixPoint(VIEW, _directional_light.getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	
+	glUniform1i(local_uniformId, _directional_light.isLocal());
+	glUniform1i(enabled_uniformId, _directional_light.isEnabled());
+	glUniform1i(spot_uniformId, _directional_light.isSpot());
 	glUniform4fv(lPos_uniformId, 1, res);
 	
 
@@ -281,12 +274,13 @@ void keyPressed(unsigned char key, int xx, int yy)
 			_current_camera = 2;
 			changeSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 			break;
-		case 'c': 
-			printf("Camera Spherical Coordinates (%f, %f, %f)\n", alpha, beta, r);
-			printf("Camera Cartesian Coordinates (%f, %f, %f)\n", camX, camY, camZ);
+
+		case 'n': case 'N':
+			if (_directional_light.isEnabled())
+				_directional_light.setEnabled(false);
+			else
+				_directional_light.setEnabled(true);
 			break;
-		case 'm': glEnable(GL_MULTISAMPLE); break;
-		case 'n': glDisable(GL_MULTISAMPLE); break;
 		
 		case 'O': case 'o':
 			car.left();
@@ -447,6 +441,9 @@ GLuint setupShaders() {
 	vm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_viewModel");
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
 	lPos_uniformId = glGetUniformLocation(shader.getProgramIndex(), "l_pos");
+	local_uniformId = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isLocal");
+	enabled_uniformId = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isEnabled");
+	spot_uniformId = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isSpot");
 	
 	printf("InfoLog for Hello World Shader\n%s\n\n", shader.getAllInfoLogs().c_str());
 	
@@ -491,7 +488,7 @@ void init()
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
 
-	float amb[]= {0.2f, 0.15f, 0.1f, 1.0f};
+	float amb[]= {0.4f, 0.3f, 0.2f, 1.0f};
 	float diff[] = {0.8f, 0.6f, 0.4f, 1.0f};
 	float spec[] = {0.8f, 0.8f, 0.8f, 1.0f};
 	float emissive[] = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -525,7 +522,7 @@ void init()
 
 	// create geometry and VAO of the cylinder
 
-	float amb2[] = { 0.7f, 0.7f, 0.7f, 1.0f };
+	float amb2[] = { 0.4f, 0.4f, 0.4f, 1.0f };
 	float diff2[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	float spec2[] = { 0.9f, 0.9f, 0.9f, 1.0f };
 	shininess = 50.0f;
@@ -643,14 +640,12 @@ void init()
 
 	//lights
 	_directional_light.setPosition(0.0f, 1.0f, 0.0f, 0.0f); //4th parameter == 0 => directional light
-	_directional_light.setAmbient(0.4f, 0.4f, 0.4f, 1.0f);
-	_directional_light.setDiffuse(0.5f, 0.5f, 0.5f, 1.0f);
-	_directional_light.setSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+	_directional_light.setEnabled(true);
 
 	// create cameras
 	PerspectiveCamera* p1 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);
 	_cameras.push_back(p1);
-	OrtogonalCamera* ortho = new OrtogonalCamera(-5, 5, -5, 5, -10, 10);
+	OrtogonalCamera* ortho = new OrtogonalCamera(-5, 5, -5, 5, -100, 100);
 	_cameras.push_back(ortho);
 	PerspectiveCamera* p2 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);
 	_cameras.push_back(p2);

@@ -1,18 +1,35 @@
 #include "LightSource.h"
 
-LightSource::LightSource(GLenum number) {
-	_num = number;
-	_state = false;
+LightSource::LightSource() {
+	_enabled = false;
+	_local = false;
+	_spot = false;
 }
 
 LightSource::~LightSource() {}
 
-bool LightSource::getState() {
-	return _state;
+bool LightSource::isEnabled() {
+	return _enabled;
 }
 
-void LightSource::setState(bool state) {
-	_state = state;
+void LightSource::setEnabled(bool state) {
+	_enabled = state;
+}
+
+bool LightSource::isLocal() {
+	return _local;
+}
+
+void LightSource::setLocal(bool local) {
+	_local = local;
+}
+
+bool LightSource::isSpot() {
+	return _spot;
+}
+
+void LightSource::setSpot(bool spot) {
+	_spot = spot;
 }
 
 GLenum LightSource::getNum() {
@@ -78,25 +95,4 @@ void LightSource::setSpecular(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 
 void LightSource::draw() {
 
-	if (_state) {
-		glEnable(_num);
-
-		if (_num == GL_LIGHT0) {
-			glLightfv(_num, GL_POSITION, _position);
-			glLightfv(_num, GL_AMBIENT, _ambient);
-			glLightfv(_num, GL_DIFFUSE, _diffuse);
-			glLightfv(_num, GL_SPECULAR, _specular);
-		}
-		else {
-			glLightfv(_num, GL_POSITION, _position);
-			glLightfv(_num, GL_SPOT_DIRECTION, _spotDirection);
-			glLightf(_num, GL_SPOT_CUTOFF, _cut_off);
-			glLightf(_num, GL_SPOT_EXPONENT, _exponent);
-			glLightfv(_num, GL_AMBIENT, _ambient);
-			glLightfv(_num, GL_DIFFUSE, _diffuse);
-			glLightfv(_num, GL_SPECULAR, _specular);
-		}
-	}
-	else
-		glDisable(_num);
 }

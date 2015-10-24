@@ -22,15 +22,21 @@ private:
 
 	GLenum _num;
 
-	bool _state;
+	bool _enabled;
+	bool _local;
+	bool _spot;
 
 public:
 
-	LightSource(GLenum number);
+	LightSource();
 	~LightSource();
 
-	bool getState();
-	void setState(bool State);
+	bool isEnabled();
+	void setEnabled(bool State);
+	bool isLocal();
+	void setLocal(bool local);
+	bool isSpot();
+	void setSpot(bool spot);
 	GLenum getNum();
 	void setPosition(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 	float * getPosition();

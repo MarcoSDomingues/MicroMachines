@@ -61,6 +61,10 @@
     <ClInclude Include="VertexAttrDef.h" />
     <ClInclude Include="vsShaderLib.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\pointlight.frag" />
+    <None Include="shaders\pointlight.vert" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3E46B3E6-741C-45BE-8F05-15B5A493E9DF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
