@@ -1,5 +1,22 @@
 #include "main.h"
 
+void timer(int value)
+{
+	std::ostringstream oss;
+	oss << CAPTION << ": " << FrameCount << " FPS @ (" << WinX << "x" << WinY << ")";
+	std::string s = oss.str();
+	glutSetWindow(WindowHandle);
+	glutSetWindowTitle(s.c_str());
+    FrameCount = 0;
+    glutTimerFunc(1000, timer, 0);
+}
+
+void refresh(int value)
+{
+	glutPostRedisplay();
+	glutTimerFunc(1000/60, refresh, 0);
+}
+
 // ------------------------------------------------------------
 //
 // Reshape Callback Function
@@ -24,23 +41,6 @@ void changeSize(int w, int h) {
 //
 // Time Functions
 //
-
-void timer(int value)
-{
-	std::ostringstream oss;
-	oss << CAPTION << ": " << FrameCount << " FPS @ (" << WinX << "x" << WinY << ")";
-	std::string s = oss.str();
-	glutSetWindow(WindowHandle);
-	glutSetWindowTitle(s.c_str());
-	FrameCount = 0;
-	glutTimerFunc(1000, timer, 0);
-}
-
-void refresh(int value)
-{
-	glutPostRedisplay();
-	glutTimerFunc(1000 / 60, refresh, 0);
-}
 
 void idle() {
 	currentTime = glutGet(GLUT_ELAPSED_TIME);
@@ -67,14 +67,16 @@ void update(double delta_t) {
 			orangeArray[i].update(delta_t);
 			if (orangeArray[i].checkCollisions(&car)) {
 				car.kill();
+				remainingLives--;
 			}
 		}
 
 		for (int i = 0; i < staticObjects.size(); i++) {
 			if (staticObjects[i]->checkCollisions(&car)) {
+				staticObjects[i]->collision();
 				car.setAcceleration(0);
 				car.setSpeed(0);
-				car.collision();
+				
 			}
 		}
 	}
@@ -163,11 +165,29 @@ void renderScene(void) {
 
 	glUniform1i(texMode_uniformId, true);
 	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	glUniform1i(texMode_uniformId, false);
+
+	//HUD stuff
+	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
+	pushMatrix(PROJECTION); // Save the current matrix
+	loadIdentity(PROJECTION); // We initialize the projection matrix as identity
+	_hudCamera->update(ratio);
+	pushMatrix(VIEW); // Save the current matrix
+	loadIdentity(VIEW); // Initialize the model matrix as identity
 
 	if (paused) {
+		glUniform1i(texMode_uniformId, true);
 		pauseScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+		glUniform1i(texMode_uniformId, false);
 	}
-	glUniform1i(texMode_uniformId, false);
+
+	HUDbg.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	for (int i = 0; i < remainingLives; i++) {
+		_lives.at(i)->draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	}
+
+	popMatrix(VIEW); // Restore the previous matrix
+	popMatrix(PROJECTION); // Restore the previous matrix
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glutSwapBuffers();
@@ -396,6 +416,12 @@ void init()
 
 	srand(time(NULL));
 
+	for (int i = 0; i < 10; i++) {
+		Car* life = new Car();
+		life->setPosition(-5.0f + 0.5f*i, -4.0, 5.0f);
+		_lives.push_back(life);
+	}
+	
 	car.setPosition(0.0f, 0.45f, 2.8f);
 
 	carX = car.getPosition().getX();
@@ -439,13 +465,12 @@ void init()
 		cheerioArray[i+113].setPosition(xLeft - 1.2f, 0.52f, yLeft + 0.3f * i);
 	}
 
-	//staticObjects.push_back(&cheerio);
-
 	butter1.setPosition(3.6f, 0.5f, 3.0f);
 	butter2.setPosition(-3.4f, 0.5f, -4.0f);
 
 	table.setPosition(-0.5f, 0.0f, -0.5f);
 	pauseScreen.setPosition(-2.5, -2.5, 5.0f);
+	HUDbg.setPosition(-5.5, -4.0, 0.0f);
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
 
@@ -568,6 +593,13 @@ void init()
 	car.addMesh(&mesh[5]);
 	car.addMesh(&mesh[6]);
 
+	for (Car* life : _lives) {
+		std::cout << 'life' << std::endl;
+		life->addMesh(&mesh[4]);
+		life->addMesh(&mesh[5]);
+		life->addMesh(&mesh[6]);
+	}
+
 	butter1.addMesh(&mesh[5]);
 	butter2.addMesh(&mesh[5]);
 
@@ -575,6 +607,8 @@ void init()
 
 	pauseScreen.addMesh(&mesh[0]);
 	pauseScreen.addTexture(textureArray[2]);
+
+	HUDbg.addMesh(&mesh[0]);
 
 	road.addMesh(&mesh[1]);
 	road.addMesh(&mesh[2]);
@@ -623,6 +657,7 @@ void init()
 	_cameras.push_back(ortho);
 	PerspectiveCamera* p2 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);
 	_cameras.push_back(p2);
+	_hudCamera = new OrtogonalCamera(-5, 5, -5, 5, -100, 100);
 }
 
 // ------------------------------------------------------------
