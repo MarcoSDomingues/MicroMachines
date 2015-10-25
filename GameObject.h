@@ -40,5 +40,4 @@ public:
 	Vector4 getCheckBox();
 	void setCheckBox(double x, double y, double z, double w);
 	bool checkCollisions(GameObject *object);
-	void collision();
 };

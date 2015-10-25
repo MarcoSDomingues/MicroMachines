@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Car.h"
 
 extern float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
 extern float mNormal3x3[9];
@@ -69,47 +70,29 @@ bool GameObject::checkCollisions(GameObject *object) {
 
 	checkBoxObject = getCheckBox();
 	checkBoxCar = object->getCheckBox();
+	Car* car = (Car*)object;
 
 	if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-		_colisionSide = "down";
-		std::cout << (_colisionSide) << std::endl;
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
 		return true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-		_colisionSide = "up";
-		std::cout << (_colisionSide) << std::endl;
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
 		return true;
 	}
 
 	else if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
-		_colisionSide = "right";
-		std::cout << (_colisionSide) << std::endl;
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
 		return true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
-		_colisionSide = "left";
-		std::cout << (_colisionSide) << std::endl;
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
 		return true;
 	}
 
 	else {
 		return false;
-	}
-}
-
-void GameObject::collision() {
-	if (_colisionSide == "left") {
-		setPosition(getPosition().getX()+0.005, getPosition().getY(), getPosition().getZ());
-	}
-	else if (_colisionSide == "up") {
-		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()-0.005);
-	}
-	else if (_colisionSide == "right") {
-		setPosition(getPosition().getX()-0.005, getPosition().getY(), getPosition().getZ());
-	}
-	else if (_colisionSide == "down") {
-		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()+0.005);
 	}
 }
