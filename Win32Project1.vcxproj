@@ -28,6 +28,7 @@
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="Orange.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Orange.h" />

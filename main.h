@@ -21,6 +21,7 @@
 #include "PerspectiveCamera.h"
 #include "OrtogonalCamera.h"
 #include "basic_geometry.h"
+#include "HUD.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -93,6 +94,12 @@ float tableSize = 5;
 
 // Camera Position
 float camX, camY, camZ;
+OrtogonalCamera* _hudCamera;
+
+//HUD
+int remainingLives = 10;
+std::vector<Car*> _lives;
+HUD HUDbg;
 
 // Mouse Tracking Variables
 int startX, startY, tracking = 0;
