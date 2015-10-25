@@ -76,14 +76,14 @@ void update(double delta_t) {
 
 		for (int i = 0; i < staticObjects.size(); i++) {
 			if (staticObjects[i]->checkCollisions(&car)) {
-				staticObjects[i]->collision();
+				//staticObjects[i]->collision();
 				car.setAcceleration(0);
 				car.setSpeed(0);
 			}
 		}
 		for (int i = 0; i < cheerioArray.size(); i++) {
 			if (cheerioArray[i].checkCollisions(&car)) {
-				cheerioArray[i].collision();
+				//heerioArray[i].collision();
 				car.setAcceleration(0);
 				car.setSpeed(0);
 			}
