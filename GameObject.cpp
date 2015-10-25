@@ -101,15 +101,15 @@ bool GameObject::checkCollisions(GameObject *object) {
 
 void GameObject::collision() {
 	if (_colisionSide == "left") {
-		setPosition(getPosition().getX()+10, getPosition().getY(), getPosition().getZ());
+		setPosition(getPosition().getX()+0.005, getPosition().getY(), getPosition().getZ());
 	}
 	else if (_colisionSide == "up") {
-		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()-10);
+		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()-0.005);
 	}
 	else if (_colisionSide == "right") {
-		setPosition(getPosition().getX()-10, getPosition().getY(), getPosition().getZ());
+		setPosition(getPosition().getX()-0.005, getPosition().getY(), getPosition().getZ());
 	}
 	else if (_colisionSide == "down") {
-		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()+10);
+		setPosition(getPosition().getX(), getPosition().getY(), getPosition().getZ()+0.005);
 	}
 }

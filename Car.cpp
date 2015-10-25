@@ -8,6 +8,13 @@ void Car::setInitialDirection() {
 	_angle = -90;
 }
 
+void Car::kill() {
+	setPosition(0.0f, 0.45f, 2.8f);
+	setSpeed(0);
+	setAcceleration(0);
+	setInitialDirection();
+}
+
 void Car::draw(VSShaderLib shader, GLint pvm_uniformId,
 	GLint vm_uniformId, GLint normal_uniformId) {
 	float x = _position.getX();
@@ -100,7 +107,9 @@ void Car::update(double delta_t) {
 	float dz = 3 * cos(da);
 	_direction.set(dx, 0, dz);
 
-	_checkBox.set(x - 0.5, x + 0.5, z - 1.0, z + 1.0);
+	dx /= 7;
+	dz /= 7;
+	_checkBox.set(x + dx - 0.2, x + 0.2, z + dz - 0.2, z + dz + 0.2);
 }
 
 void Car::accelerate() {

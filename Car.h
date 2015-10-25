@@ -16,6 +16,8 @@ private:
 
 public:
 
+	void kill();
+
 	void accelerate();
 	void stopForward();
 	void stopBack();
@@ -25,6 +27,8 @@ public:
 	void right();
 	void stopLeft();
 	void stopRight();
+
+	void collision();
 	
 	void setInitialDirection();
 	Vector3 getDirection();
