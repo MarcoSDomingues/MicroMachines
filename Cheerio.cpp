@@ -3,6 +3,8 @@
 void Cheerio::draw(VSShaderLib shader, GLint pvm_uniformId,
 	GLint vm_uniformId, GLint normal_uniformId) {
 
+	_checkBox.set(_position.getX() - 0.05, _position.getX() + 0.05, _position.getZ() - 0.05, _position.getZ() + 0.05);
+
 	cheerio(MODEL, _position.getX(), 0.52f, _position.getZ(), shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 }
 
