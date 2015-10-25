@@ -94,6 +94,83 @@ void pause() {
 // Render stufff
 //
 
+void drawLights() {
+
+	float res[4];
+	//Directional Light
+	multMatrixPoint(VIEW, _directional_light.getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+
+	lPos_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].l_pos");
+	local_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isLocal");
+	enabled_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isEnabled");
+	spot_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isSpot");
+	glUniform1i(local_uniformId[0], _directional_light.isLocal());
+	glUniform1i(enabled_uniformId[0], _directional_light.isEnabled());
+	glUniform1i(spot_uniformId[0], _directional_light.isSpot());
+	glUniform4fv(lPos_uniformId[0], 1, res);
+
+	lPos_uniformId[1] = glGetUniformLocation(shader.getProgramIndex(), "Lights[1].l_pos");
+	local_uniformId[1] = glGetUniformLocation(shader.getProgramIndex(), "Lights[1].isLocal");
+	enabled_uniformId[1] = glGetUniformLocation(shader.getProgramIndex(), "Lights[1].isEnabled");
+	spot_uniformId[1] = glGetUniformLocation(shader.getProgramIndex(), "Lights[1].isSpot");
+	multMatrixPoint(VIEW, _lamps[0]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[1], _lamps[0]->isLocal());
+	glUniform1i(enabled_uniformId[1], _lamps[0]->isEnabled());
+	glUniform1i(spot_uniformId[1], _lamps[0]->isSpot());
+	glUniform4fv(lPos_uniformId[1], 1, res);
+
+	lPos_uniformId[2] = glGetUniformLocation(shader.getProgramIndex(), "Lights[2].l_pos");
+	local_uniformId[2] = glGetUniformLocation(shader.getProgramIndex(), "Lights[2].isLocal");
+	enabled_uniformId[2] = glGetUniformLocation(shader.getProgramIndex(), "Lights[2].isEnabled");
+	spot_uniformId[2] = glGetUniformLocation(shader.getProgramIndex(), "Lights[2].isSpot");
+	multMatrixPoint(VIEW, _lamps[1]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[2], _lamps[1]->isLocal());
+	glUniform1i(enabled_uniformId[2], _lamps[1]->isEnabled());
+	glUniform1i(spot_uniformId[2], _lamps[1]->isSpot());
+	glUniform4fv(lPos_uniformId[2], 1, res);
+
+	lPos_uniformId[3] = glGetUniformLocation(shader.getProgramIndex(), "Lights[3].l_pos");
+	local_uniformId[3] = glGetUniformLocation(shader.getProgramIndex(), "Lights[3].isLocal");
+	enabled_uniformId[3] = glGetUniformLocation(shader.getProgramIndex(), "Lights[3].isEnabled");
+	spot_uniformId[3] = glGetUniformLocation(shader.getProgramIndex(), "Lights[3].isSpot");
+	multMatrixPoint(VIEW, _lamps[2]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[3], _lamps[2]->isLocal());
+	glUniform1i(enabled_uniformId[3], _lamps[2]->isEnabled());
+	glUniform1i(spot_uniformId[3], _lamps[2]->isSpot());
+	glUniform4fv(lPos_uniformId[3], 1, res);
+
+	lPos_uniformId[4] = glGetUniformLocation(shader.getProgramIndex(), "Lights[4].l_pos");
+	local_uniformId[4] = glGetUniformLocation(shader.getProgramIndex(), "Lights[4].isLocal");
+	enabled_uniformId[4] = glGetUniformLocation(shader.getProgramIndex(), "Lights[4].isEnabled");
+	spot_uniformId[4] = glGetUniformLocation(shader.getProgramIndex(), "Lights[4].isSpot");
+	multMatrixPoint(VIEW, _lamps[3]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[4], _lamps[3]->isLocal());
+	glUniform1i(enabled_uniformId[4], _lamps[3]->isEnabled());
+	glUniform1i(spot_uniformId[4], _lamps[3]->isSpot());
+	glUniform4fv(lPos_uniformId[4], 1, res);
+
+	lPos_uniformId[5] = glGetUniformLocation(shader.getProgramIndex(), "Lights[5].l_pos");
+	local_uniformId[5] = glGetUniformLocation(shader.getProgramIndex(), "Lights[5].isLocal");
+	enabled_uniformId[5] = glGetUniformLocation(shader.getProgramIndex(), "Lights[5].isEnabled");
+	spot_uniformId[5] = glGetUniformLocation(shader.getProgramIndex(), "Lights[5].isSpot");
+	multMatrixPoint(VIEW, _lamps[4]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[5], _lamps[4]->isLocal());
+	glUniform1i(enabled_uniformId[5], _lamps[4]->isEnabled());
+	glUniform1i(spot_uniformId[5], _lamps[4]->isSpot());
+	glUniform4fv(lPos_uniformId[5], 1, res);
+
+	lPos_uniformId[6] = glGetUniformLocation(shader.getProgramIndex(), "Lights[6].l_pos");
+	local_uniformId[6] = glGetUniformLocation(shader.getProgramIndex(), "Lights[6].isLocal");
+	enabled_uniformId[6] = glGetUniformLocation(shader.getProgramIndex(), "Lights[6].isEnabled");
+	spot_uniformId[6] = glGetUniformLocation(shader.getProgramIndex(), "Lights[6].isSpot");
+	multMatrixPoint(VIEW, _lamps[5]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[6], _lamps[5]->isLocal());
+	glUniform1i(enabled_uniformId[6], _lamps[5]->isEnabled());
+	glUniform1i(spot_uniformId[6], _lamps[5]->isSpot());
+	glUniform4fv(lPos_uniformId[6], 1, res);
+
+}
+
 void renderScene(void) {
 
 	GLint loc;
@@ -132,14 +209,8 @@ void renderScene(void) {
 	//send the light position in eye coordinates
 	//glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
 	
-	//Directional Light
-	float res[4];
-	multMatrixPoint(VIEW, _directional_light.getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
-	
-	glUniform1i(local_uniformId[0], _directional_light.isLocal());
-	glUniform1i(enabled_uniformId[0], _directional_light.isEnabled());
-	glUniform1i(spot_uniformId[0], _directional_light.isSpot());
-	glUniform4fv(lPos_uniformId, 1, res);
+	//LIGHTS
+	drawLights();
 
 	//Associar os Texture Units aos Objects Texture
 	//stone.tga loaded in TU0; checker.tga loaded in TU1;  lightwood.tga loaded in TU2
@@ -232,6 +303,15 @@ void keyPressed(unsigned char key, int xx, int yy)
 				_directional_light.setEnabled(false);
 			else
 				_directional_light.setEnabled(true);
+			break;
+
+		case 'c': case 'C':
+			for (int i = 0; i < _lamps.size(); i++) {
+				if (_lamps[i]->isEnabled())
+					_lamps[i]->setEnabled(false);
+				else
+					_lamps[i]->setEnabled(true);
+			}
 			break;
 		
 		case 'O': case 'o':
@@ -403,10 +483,6 @@ GLuint setupShaders() {
 	pvm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_pvm");
 	vm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_viewModel");
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
-	lPos_uniformId = glGetUniformLocation(shader.getProgramIndex(), "l_pos");
-	local_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isLocal");
-	enabled_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isEnabled");
-	spot_uniformId[0] = glGetUniformLocation(shader.getProgramIndex(), "Lights[0].isSpot");
 
 	texMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "texMode");
 	tex_loc1 = glGetUniformLocation(shader.getProgramIndex(), "texmap1");
@@ -671,6 +747,42 @@ void init()
 	//lights
 	_directional_light.setPosition(0.0f, 1.0f, 0.0f, 0.0f); //4th parameter == 0 => directional light
 	_directional_light.setEnabled(true);
+
+	LightSource *l1 = new LightSource();
+	l1->setPosition(2.5f, 1.0f, 1.5f, 1.0f);
+	l1->setEnabled(true);
+	l1->setLocal(true);
+	_lamps.push_back(l1);
+
+	LightSource *l2 = new LightSource();
+	l2->setPosition(2.5f, 1.0f, -1.5f, 1.0f);
+	l2->setEnabled(true);
+	l2->setLocal(true);
+	_lamps.push_back(l2);
+
+	LightSource *l3 = new LightSource();
+	l3->setPosition(0.0f, 1.0f, 1.5f, 1.0f);
+	l3->setEnabled(true);
+	l3->setLocal(true);
+	_lamps.push_back(l3);
+
+	LightSource *l4 = new LightSource();
+	l4->setPosition(0.0f, 1.0f, -1.5f, 1.0f);
+	l4->setEnabled(true);
+	l4->setLocal(true);
+	_lamps.push_back(l4);
+
+	LightSource *l5 = new LightSource();
+	l5->setPosition(-2.5f, 1.0f, 1.5f, 1.0f);
+	l5->setEnabled(true);
+	l5->setLocal(true);
+	_lamps.push_back(l5);
+
+	LightSource *l6 = new LightSource();
+	l6->setPosition(-2.5f, 1.0f, -1.5f, 1.0f);
+	l6->setEnabled(true);
+	l6->setLocal(true);
+	_lamps.push_back(l6);
 
 	// create cameras
 	PerspectiveCamera* p1 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);

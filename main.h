@@ -64,10 +64,10 @@ Vector3 speed;
 GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
-GLint lPos_uniformId;
-GLint local_uniformId[2];
-GLint enabled_uniformId[2];
-GLint spot_uniformId[2];
+GLint lPos_uniformId[7];
+GLint local_uniformId[7];
+GLint enabled_uniformId[7];
+GLint spot_uniformId[7];
 GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
 
@@ -119,7 +119,7 @@ int _current_camera = 0;
 
 // Directional light
 LightSource _directional_light = LightSource();
-LightSource _point_Light = LightSource();
+std::vector<LightSource*> _lamps;
 
 int iteration = 0;
 // objects
@@ -146,6 +146,7 @@ void changeSize(int w, int h);
 void update(double delta_t);
 void idle();
 void pause();
+void drawLights();
 void renderScene(void);
 void keyPressed(unsigned char key, int xx, int yy);
 void keyReleased(unsigned char key, int x, int y);
