@@ -71,7 +71,7 @@ GLint spot_uniformId[2];
 GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
 
-GLuint textureArray[3];
+GLuint textureArray[4];
 
 //incrementar velocidade do jogo
 double speed_timer = 0;
@@ -97,7 +97,7 @@ float camX, camY, camZ;
 OrtogonalCamera* _hudCamera;
 
 //HUD
-int remainingLives = 10;
+int remainingLives = 2;
 std::vector<Car*> _lives;
 HUD HUDbg;
 
@@ -134,6 +134,7 @@ Butter butter2;
 Table table;
 Road road;
 Pause pauseScreen;
+Pause deathScreen;
 
 std::vector<StaticObject*> staticObjects;
 

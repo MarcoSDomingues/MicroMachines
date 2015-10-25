@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="checker.tga" />
+    <Image Include="death.tga" />
     <Image Include="pause.tga" />
     <Image Include="stone.tga" />
   </ItemGroup>

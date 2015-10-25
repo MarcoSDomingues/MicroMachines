@@ -93,8 +93,5 @@ void main() {
 		} else {
 			colorOut = max(intensity * mat.diffuse + spec, mat.ambient);
 		}
-		
 	}
-
-
 }

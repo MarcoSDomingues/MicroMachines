@@ -176,5 +176,8 @@
     <Image Include="pause.tga">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="death.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

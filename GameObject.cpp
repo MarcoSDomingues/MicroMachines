@@ -38,7 +38,7 @@ void GameObject::addTexture(GLuint texture) {
 }
 
 void GameObject::drawTextures() {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, _textures.at(0));
 
 	int i = 0;
 	for (GLuint tex : _textures) {

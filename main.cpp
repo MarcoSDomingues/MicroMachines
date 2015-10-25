@@ -68,6 +68,9 @@ void update(double delta_t) {
 			if (orangeArray[i].checkCollisions(&car)) {
 				car.kill();
 				remainingLives--;
+				if (remainingLives <= 0) {
+					pause();
+				}
 			}
 		}
 
@@ -177,8 +180,14 @@ void renderScene(void) {
 
 	if (paused) {
 		glUniform1i(texMode_uniformId, true);
-		pauseScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+		if (remainingLives > 0) {
+			pauseScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+		}
+		else {
+			deathScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+		}
 		glUniform1i(texMode_uniformId, false);
+
 	}
 
 	HUDbg.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
@@ -242,7 +251,15 @@ void keyPressed(unsigned char key, int xx, int yy)
 			break;
 
 		case 'S': case 's':
-			pause();
+			if (remainingLives > 0) {
+				pause();
+			}
+			break;
+		case 'R': case 'r':
+			if (remainingLives <= 0) {
+				pause();
+				remainingLives = 10;
+			}
 			break;
 		default:
 			break;
@@ -409,10 +426,11 @@ void init()
 {
 	//Texture Object definition
 
-	glGenTextures(2, textureArray);
+	glGenTextures(4, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
 	TGA_Texture(textureArray, "checker.tga", 1);
 	TGA_Texture(textureArray, "pause.tga", 2);
+	TGA_Texture(textureArray, "death.tga", 3);
 
 	srand(time(NULL));
 
@@ -470,6 +488,7 @@ void init()
 
 	table.setPosition(-0.5f, 0.0f, -0.5f);
 	pauseScreen.setPosition(-2.5, -2.5, 5.0f);
+	deathScreen.setPosition(-2.5, -2.5, 5.0f);
 	HUDbg.setPosition(-5.5, -4.0, 0.0f);
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
@@ -607,6 +626,9 @@ void init()
 
 	pauseScreen.addMesh(&mesh[0]);
 	pauseScreen.addTexture(textureArray[2]);
+
+	deathScreen.addMesh(&mesh[0]);
+	deathScreen.addTexture(textureArray[3]);
 
 	HUDbg.addMesh(&mesh[0]);
 
