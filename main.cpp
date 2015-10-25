@@ -55,7 +55,7 @@ void update(double delta_t) {
 
 		for (int i = 0; i < orangeArray.size(); i++) {
 
-			if ((orangeArray[i].getPosition().getX() >= tableSize || orangeArray[i].getPosition().getX() <= -tableSize)) {
+			if (orangeArray[i].getPosition().getX() >= tableSize || orangeArray[i].getPosition().getX() <= -tableSize) {
 				orangeArray[i].setDelayDraw(true);
 				if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 500) {
 					auxtimer = glutGet(GLUT_ELAPSED_TIME);
@@ -85,6 +85,11 @@ void update(double delta_t) {
 				car.setAcceleration(0);
 				car.setSpeed(0);
 			}
+		}
+
+		//Car fall from table
+		if (car.getPosition().getX() >= tableSize || car.getPosition().getX() <= -tableSize || car.getPosition().getZ() >= tableSize || car.getPosition().getZ() <= -tableSize) {
+			car.kill();
 		}
 	}
 }
