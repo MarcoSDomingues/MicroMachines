@@ -27,8 +27,6 @@ public:
 	void right();
 	void stopLeft();
 	void stopRight();
-
-	void collision();
 	
 	void setInitialDirection();
 	Vector3 getDirection();
