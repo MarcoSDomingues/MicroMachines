@@ -32,6 +32,7 @@
 #include "Table.h"
 #include "Road.h"
 #include "Cheerio.h"
+#include "Pause.h"
 
 #define CAPTION "MicroMachines"
 int WindowHandle = 0;
@@ -55,6 +56,8 @@ extern float mNormal3x3[9];
 
 bool clicking;
 
+bool paused;
+
 Vector3 speed;
 
 GLint pvm_uniformId;
@@ -67,7 +70,7 @@ GLint spot_uniformId[2];
 GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
 
-GLuint textureArray[2];
+GLuint textureArray[3];
 
 //incrementar velocidade do jogo
 double speed_timer = 0;
@@ -123,3 +126,24 @@ Butter butter2;
 Table table;
 Road road;
 Cheerio cheerio;
+Pause pauseScreen;
+
+std::vector<StaticObject*> staticObjects;
+
+//FUNCTIONS
+
+void timer(int value);
+void refresh(int value);
+void changeSize(int w, int h);
+void update(double delta_t);
+void idle();
+void pause();
+void renderScene(void);
+void keyPressed(unsigned char key, int xx, int yy);
+void keyReleased(unsigned char key, int x, int y);
+void processMouseButtons(int button, int state, int xx, int yy);
+void processMouseMotion(int xx, int yy);
+void mouseWheel(int wheel, int direction, int x, int y);
+GLuint setupShaders();
+void init();
+int main(int argc, char **argv);
