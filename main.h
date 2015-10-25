@@ -121,11 +121,11 @@ Orange orange1;
 Orange orange2;
 Orange orange3;
 std::vector<Orange> orangeArray;
+std::vector<Cheerio> cheerioArray;
 Butter butter1;
 Butter butter2;
 Table table;
 Road road;
-Cheerio cheerio;
 Pause pauseScreen;
 
 std::vector<StaticObject*> staticObjects;

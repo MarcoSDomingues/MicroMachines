@@ -143,9 +143,10 @@ void renderScene(void) {
 	glUniform1i(tex_loc1, 0);
 	glUniform1i(tex_loc2, 1);
 	
+	for (int i = 0; i < 128; i++) {
+		cheerioArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	}
 
-	cheerio.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-	
 	car.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
 	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
@@ -414,6 +415,30 @@ void init()
 
 	staticObjects.push_back(&butter1);
 	staticObjects.push_back(&butter2);
+
+	for (int i = 0; i < 128; i++) {
+		Cheerio* cheerio = new Cheerio();
+		cheerioArray.push_back(*cheerio);
+	}
+
+	float xBot = 2.4f;		float yBot = 2.5f;
+	float xTop = -2.4f;		float yTop = -3.6f;
+	float xRight = 2.4f;	float yRight = -2.1f;
+	float xLeft = -2.4f;	float yLeft = -2.1f;
+
+	for (int i = 0; i < 17; i++) {
+		cheerioArray[i].setPosition(xBot - 0.3f * i, 0.52f, yBot);
+		cheerioArray[i+17].setPosition(xBot - 0.3f * i, 0.52f, yBot + 1.2f);
+		cheerioArray[i+34].setPosition(xTop + 0.3f * i, 0.52f, yTop);
+		cheerioArray[i+51].setPosition(xTop + 0.3f * i, 0.52f, yTop + 1.2f);
+	}
+	for (int i = 0; i < 15; i++) {
+		cheerioArray[i+68].setPosition(xRight, 0.52f, yRight + 0.3f * i);
+		cheerioArray[i+83].setPosition(xRight + 1.2f, 0.52f, yRight + 0.3f * i);
+		cheerioArray[i+98].setPosition(xLeft, 0.52f, yLeft + 0.3f * i);
+		cheerioArray[i+113].setPosition(xLeft - 1.2f, 0.52f, yLeft + 0.3f * i);
+	}
+
 	//staticObjects.push_back(&cheerio);
 
 	butter1.setPosition(3.6f, 0.5f, 3.0f);
@@ -555,8 +580,10 @@ void init()
 	road.addMesh(&mesh[2]);
 	road.addTexture(textureArray[0]);
 	road.addTexture(textureArray[1]);
-
-	cheerio.addMesh(&mesh[3]);
+	
+	for (int i = 0; i < 128; i++) {
+		cheerioArray[i].addMesh(&mesh[3]);
+	}
 
 	//Orange
 	objId = 7;
