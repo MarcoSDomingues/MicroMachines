@@ -640,7 +640,7 @@ void init()
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
 
-	float amb[]= {0.4f, 0.3f, 0.2f, 1.0f};
+	float amb[]= {0.2f, 0.15f, 0.1f, 1.0f};
 	float diff[] = {0.8f, 0.6f, 0.4f, 1.0f};
 	float spec[] = {0.8f, 0.8f, 0.8f, 1.0f};
 	float emissive[] = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -657,7 +657,7 @@ void init()
 	mesh[objId].mat.texCount = texcount;
 	createTable();
 
-	float amb1[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float amb1[] = { 0.1f, 0.1f, 0.1f, 1.0f };
 	float diff1[] = { 0.4f, 0.4f, 0.4f, 1.0f };
 	float spec1[] = { 0.5f, 0.5f, 0.5f, 1.0f };
 	shininess = 50.0f;
@@ -674,7 +674,7 @@ void init()
 
 	// create geometry and VAO of the cylinder
 
-	float amb2[] = { 0.4f, 0.4f, 0.4f, 1.0f };
+	float amb2[] = { 0.2f, 0.2f, 0.2f, 1.0f };
 	float diff2[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	float spec2[] = { 0.9f, 0.9f, 0.9f, 1.0f };
 	shininess = 50.0f;
@@ -688,9 +688,9 @@ void init()
 	mesh[objId].mat.texCount = texcount;
 	createCube();
 
-	float amb3[] = { 0.7f, 0.5f, 0.0f, 1.0f };
+	float amb3[] = { 0.1f, 0.075f, 0.0f, 1.0f };
 	float diff3[] = { 0.8f, 0.6f, 0.0f, 1.0f };
-	float spec3[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float spec3[] = { 0.3f, 0.3f, 0.3f, 1.0f };
 	shininess = 50.0f;
 	// create geometry and VAO of the 
 	objId=3;
@@ -706,8 +706,8 @@ void init()
 	objId = 4;
 
 	float amb4[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	float diff4[] = { 0.3f, 0.3f, 0.4f, 1.0f };
-	float spec4[] = { 0.9f, 0.9f, 0.9f, 1.0f };
+	float diff4[] = { 0.3f, 0.3f, 0.3f, 1.0f };
+	float spec4[] = { 0.5f, 0.5f, 0.5f, 1.0f };
 	shininess = 500.0;
 
 	memcpy(mesh[objId].mat.ambient, amb4, 4 * sizeof(float));
@@ -721,8 +721,8 @@ void init()
 	//CarBiggerCube
 	objId = 5;
 
-	float amb5[] = { 0.0f, 0.0f, 0.9f, 1.0f };
-	float diff5[] = { 0.3f, 0.3f, 0.4f, 1.0f };
+	float amb5[] = { 0.025f, 0.025f, 0.1f, 1.0f };
+	float diff5[] = { 0.1f, 0.1f, 0.4f, 1.0f };
 	float spec5[] = { 0.9f, 0.9f, 0.9f, 1.0f };
 	shininess = 500.0;
 
@@ -737,7 +737,7 @@ void init()
 	//CarSmallerCube
 	objId = 6;
 
-	float amb6[] = { 0.0f, 0.4f, 0.0f, 1.0f };
+	float amb6[] = { 0.0f, 0.2f, 0.0f, 1.0f };
 	float diff6[] = { 0.0f, 0.8f, 0.0f, 1.0f };
 	float spec6[] = { 0.9f, 0.9f, 0.9f, 1.0f };
 	shininess = 500.0;
@@ -786,8 +786,8 @@ void init()
 	//Orange
 	objId = 7;
 
-	float amb7[] = { 0.7f, 0.3f, 0.0f, 1.0f };
-	float diff7[] = { 0.7f, 0.4f, 0.0f, 1.0f };
+	float amb7[] = { 0.2f, 0.1f, 0.025f, 1.0f };
+	float diff7[] = { 0.8f, 0.4f, 0.1f, 1.0f };
 	float spec7[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	shininess = 500.0;
 
@@ -803,7 +803,6 @@ void init()
 		orangeArray[i].addMesh(&mesh[7]);
 	}
 
-	
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
