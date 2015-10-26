@@ -6,11 +6,13 @@ uniform mat3 m_normal;     //transposta da inversa da matriz viewModel
 
 in vec4 position;
 in vec4 normal;            //por causa do gerador de geometria
+in vec4 texCoord;
 
 out Data {
 	vec3 normal;
 	vec3 eye;
 	vec4 pos;
+	vec2 tex_coord;
 } DataOut;
 
 void main () {
@@ -21,6 +23,7 @@ void main () {
 	//mas as normais interpoladas podem nao ter tamanho 1
 	//por isso voltam a ser normalizadas no fragment shader
 	DataOut.normal = normalize(m_normal * normal.xyz); 
+	DataOut.tex_coord = texCoord.st;
 	
 	DataOut.eye = vec3(-DataOut.pos);
 	gl_Position = m_pvm * position; //posicao do vertice em clip coordinates

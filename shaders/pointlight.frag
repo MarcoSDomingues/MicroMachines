@@ -129,12 +129,16 @@ struct LightProperties {
 uniform LightProperties Lights[MaxLights];
 
 uniform Materials mat;
+uniform bool texMode;		//true se usar textura, false caso contrario, 
+uniform sampler2D texmap1;
+uniform sampler2D texmap2;
 
 //esta info vem das normais interpoladas
 in Data { 
 	vec3 normal;
 	vec3 eye;
 	vec4 pos;
+	vec2 tex_coord;
 } DataIn;
 
 out vec4 colorOut;
@@ -196,9 +200,18 @@ void main() {
 		reflectedLight += spec * attenuation;
 		
 	}
-	if (disabled != MaxLights)
-		colorOut = scatteredLight + reflectedLight;
+	vec4 texel, texel1, texel2;
+	if (texMode) {
+			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from stone.tga
+			texel2 = texture(texmap2, DataIn.tex_coord);  // texel from checker.tga
+			texel = texel1 * texel2;
+	}
+	//if (disabled != MaxLights) {
+		if (texMode) colorOut = max(mat.ambient*texel, scatteredLight*texel + reflectedLight);
+		else colorOut = max(mat.ambient, scatteredLight + reflectedLight);
+	/*}
+
 	else
 		//all lights turned off
-		colorOut = mat.ambient;
+		colorOut = mat.ambient;*/
 }
