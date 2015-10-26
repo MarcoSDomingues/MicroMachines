@@ -90,6 +90,10 @@ void update(double delta_t) {
 		//Car fall from table
 		if (car.getPosition().getX() >= tableSize || car.getPosition().getX() <= -tableSize || car.getPosition().getZ() >= tableSize || car.getPosition().getZ() <= -tableSize) {
 			car.kill();
+			remainingLives--;
+			if (remainingLives <= 0) {
+				pause();
+			}
 		}
 	}
 }
