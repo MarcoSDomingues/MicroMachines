@@ -43,7 +43,9 @@ public:
 	void setSpotDirection(GLfloat x, GLfloat y, GLfloat z);
 	void setDirection(GLfloat x, GLfloat y, GLfloat z);
 	void setCutOff(GLfloat cut_off);
+	float getCutOff();
 	void setExponent(GLfloat exponent);
+	float getExponent();
 	void setShine(GLfloat shine);
 	void setAmbient(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
 	void setDiffuse(GLfloat x, GLfloat y, GLfloat z, GLfloat w);

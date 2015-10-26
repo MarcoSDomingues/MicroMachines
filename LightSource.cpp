@@ -64,8 +64,16 @@ void LightSource::setCutOff(GLfloat cut_off) {
 	_cut_off = cut_off;
 }
 
+float LightSource::getCutOff() {
+	return _cut_off;
+}
+
 void LightSource::setExponent(GLfloat exponent) {
 	_exponent = exponent;
+}
+
+float LightSource::getExponent() {
+	return _exponent;
 }
 
 void LightSource::setShine(GLfloat shine) {
