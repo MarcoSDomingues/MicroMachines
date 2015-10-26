@@ -336,11 +336,15 @@ void keyPressed(unsigned char key, int xx, int yy)
 			break;
 
 		case 'Q': case 'q':
-			car.accelerate();
+			if (!paused) {
+				car.accelerate();
+			}
 			break;
 	
 		case 'A': case 'a':
-			car.reverse();
+			if (!paused) {
+				car.reverse();
+			}
 			break;
 
 		case 'S': case 's':
