@@ -851,11 +851,11 @@ void init()
 	_lamps.push_back(l6);
 
 	LightSource *spot1 = new LightSource();
-	spot1->setEnabled(false);
+	spot1->setEnabled(true);
 	spot1->setLocal(true);
 	spot1->setSpot(true);
 	float cutOff = (float) 15.0f * (M_PI / 180.0f);
-	spot1->setCutOff(curOff);
+	spot1->setCutOff(cutOff);
 	spot1->setExponent(1.0f);
 	_spotLights.push_back(spot1);
 
