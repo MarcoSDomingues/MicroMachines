@@ -72,7 +72,11 @@ bool GameObject::checkCollisions(GameObject *object) {
 	checkBoxCar = object->getCheckBox();
 	Car* car = (Car*)object;
 
-	float dir = car->getAcceleration() / abs(car->getAcceleration());
+	float dir = 1;
+	if (car->getAcceleration() < 0)
+		dir = -1;
+	else
+		dir = 1;
 
 	if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
 		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
