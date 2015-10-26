@@ -108,7 +108,7 @@ void pause() {
 //
 
 void drawLights() {
-
+	
 	float res[4];
 	//Directional Light
 	multMatrixPoint(VIEW, _directional_light.getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
@@ -182,6 +182,38 @@ void drawLights() {
 	glUniform1i(spot_uniformId[6], _lamps[5]->isSpot());
 	glUniform4fv(lPos_uniformId[6], 1, res);
 
+	lPos_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].l_pos");
+	local_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].isLocal");
+	enabled_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].isEnabled");
+	spot_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].isSpot");
+	spotDir_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].coneDirection");
+	spotCutOff_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].spotCutOff");
+	spotExp_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].spotExponent");
+	multMatrixPoint(VIEW, _spotLights[0]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[7], _spotLights[0]->isLocal());
+	glUniform1i(enabled_uniformId[7], _spotLights[0]->isEnabled());
+	glUniform1i(spot_uniformId[7], _spotLights[0]->isSpot());
+	glUniform3f(spotDir_uniformId[7], car.getDirection().getX(), car.getDirection().getY() - 1.0f, car.getDirection().getZ());
+	glUniform1f(spotCutOff_uniformId[7], _spotLights[0]->getCutOff());
+	glUniform1f(spotExp_uniformId[7], _spotLights[0]->getExponent());
+	glUniform4fv(lPos_uniformId[7], 1, res);
+
+	lPos_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].l_pos");
+	local_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].isLocal");
+	enabled_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].isEnabled");
+	spot_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].isSpot");
+	spotDir_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].coneDirection");
+	spotCutOff_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].spotCutOff");
+	spotExp_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].spotExponent");
+	multMatrixPoint(VIEW, _spotLights[1]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	glUniform1i(local_uniformId[8], _spotLights[1]->isLocal());
+	glUniform1i(enabled_uniformId[8], _spotLights[1]->isEnabled());
+	glUniform1i(spot_uniformId[8], _spotLights[1]->isSpot());
+	glUniform3f(spotDir_uniformId[8], car.getDirection().getX(), car.getDirection().getY(), car.getDirection().getZ());
+	glUniform1f(spotCutOff_uniformId[8], _spotLights[1]->getCutOff());
+	glUniform1f(spotExp_uniformId[8], _spotLights[1]->getExponent());
+	glUniform4fv(lPos_uniformId[8], 1, res);
+
 }
 
 void renderScene(void) {
@@ -222,6 +254,14 @@ void renderScene(void) {
 	//send the light position in eye coordinates
 	//glUniform4fv(lPos_uniformId, 1, lightPos); //efeito capacete do mineiro, ou seja lighPos foi definido em eye coord 
 	
+	_spotLights[0]->setPosition(car.getPosition().getX() - 0.1f,
+		car.getPosition().getY() + 0.5f,
+		car.getPosition().getZ() - 0.1f,
+		1.0f);
+	_spotLights[1]->setPosition(car.getPosition().getX() + 0.1f,
+		car.getPosition().getY() + 0.5f,
+		car.getPosition().getZ() + 0.1f,
+		1.0f);
 	//LIGHTS
 	drawLights();
 
@@ -324,6 +364,15 @@ void keyPressed(unsigned char key, int xx, int yy)
 					_lamps[i]->setEnabled(false);
 				else
 					_lamps[i]->setEnabled(true);
+			}
+			break;
+
+		case 'h': case 'H':
+			for (int i = 0; i < _spotLights.size(); i++) {
+				if (_spotLights[i]->isEnabled())
+					_spotLights[i]->setEnabled(false);
+				else
+					_spotLights[i]->setEnabled(true);
 			}
 			break;
 		
@@ -766,40 +815,58 @@ void init()
 	_directional_light.setEnabled(true);
 
 	LightSource *l1 = new LightSource();
-	l1->setPosition(2.5f, 1.0f, 1.5f, 1.0f);
+	l1->setPosition(2.5f, 1.0f, 2.5f, 1.0f);
 	l1->setEnabled(true);
 	l1->setLocal(true);
 	_lamps.push_back(l1);
-
+	
 	LightSource *l2 = new LightSource();
-	l2->setPosition(2.5f, 1.0f, -1.5f, 1.0f);
+	l2->setPosition(2.5f, 1.0f, -2.5f, 1.0f);
 	l2->setEnabled(true);
 	l2->setLocal(true);
 	_lamps.push_back(l2);
 
 	LightSource *l3 = new LightSource();
-	l3->setPosition(0.0f, 1.0f, 1.5f, 1.0f);
+	l3->setPosition(0.0f, 1.0f, 2.5f, 1.0f);
 	l3->setEnabled(true);
 	l3->setLocal(true);
 	_lamps.push_back(l3);
 
 	LightSource *l4 = new LightSource();
-	l4->setPosition(0.0f, 1.0f, -1.5f, 1.0f);
+	l4->setPosition(0.0f, 1.0f, -2.5f, 1.0f);
 	l4->setEnabled(true);
 	l4->setLocal(true);
 	_lamps.push_back(l4);
 
 	LightSource *l5 = new LightSource();
-	l5->setPosition(-2.5f, 1.0f, 1.5f, 1.0f);
+	l5->setPosition(-2.5f, 1.0f, 2.5f, 1.0f);
 	l5->setEnabled(true);
 	l5->setLocal(true);
 	_lamps.push_back(l5);
 
 	LightSource *l6 = new LightSource();
-	l6->setPosition(-2.5f, 1.0f, -1.5f, 1.0f);
+	l6->setPosition(-2.5f, 1.0f, -2.5f, 1.0f);
 	l6->setEnabled(true);
 	l6->setLocal(true);
 	_lamps.push_back(l6);
+
+	LightSource *spot1 = new LightSource();
+	spot1->setEnabled(false);
+	spot1->setLocal(true);
+	spot1->setSpot(true);
+	float cutOff = (float) 15.0f * (M_PI / 180.0f);
+	spot1->setCutOff(curOff);
+	spot1->setExponent(1.0f);
+	_spotLights.push_back(spot1);
+
+	LightSource *spot2 = new LightSource();
+	spot2->setEnabled(true);
+	spot2->setLocal(true);
+	spot2->setSpot(true);
+	cutOff = (float) 15.0f * (M_PI / 180.0f);
+	spot2->setCutOff(cutOff);
+	spot2->setExponent(1.0f);
+	_spotLights.push_back(spot2);
 
 	// create cameras
 	PerspectiveCamera* p1 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);

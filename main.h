@@ -36,6 +36,8 @@
 #include "Pause.h"
 
 #define CAPTION "MicroMachines"
+#define M_PI       3.14159265358979323846f
+
 int WindowHandle = 0;
 int WinX = 640, WinY = 480;
 
@@ -64,10 +66,14 @@ Vector3 speed;
 GLint pvm_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
-GLint lPos_uniformId[7];
-GLint local_uniformId[7];
-GLint enabled_uniformId[7];
-GLint spot_uniformId[7];
+GLint lPos_uniformId[9];
+GLint local_uniformId[9];
+GLint enabled_uniformId[9];
+GLint spot_uniformId[9];
+GLint spotDir_uniformId[9];
+GLint spotCutOff_uniformId[9];
+GLint spotExp_uniformId[9];
+
 GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
 
@@ -120,6 +126,7 @@ int _current_camera = 0;
 // Directional light
 LightSource _directional_light = LightSource();
 std::vector<LightSource*> _lamps;
+std::vector<LightSource*> _spotLights;
 
 int iteration = 0;
 // objects
