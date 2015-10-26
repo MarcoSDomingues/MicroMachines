@@ -2,7 +2,8 @@
 
 void Butter::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId)
 {
-	_checkBox.set(_position.getX() - 0.3, _position.getX() + 0.3, _position.getZ() - 0.8, _position.getZ() + 0.8);
+	float bb = 0.25;
+	_checkBox.set(_position.getX() - bb + 0.2, _position.getX() + bb + 0.2, _position.getZ() - bb + 0.45, _position.getZ() + bb + 0.45);
 
 	pushMatrix(MODEL);
 

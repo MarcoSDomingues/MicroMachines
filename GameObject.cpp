@@ -72,23 +72,25 @@ bool GameObject::checkCollisions(GameObject *object) {
 	checkBoxCar = object->getCheckBox();
 	Car* car = (Car*)object;
 
+	float dir = car->getAcceleration() / abs(car->getAcceleration());
+
 	if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
 		return true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
 		return true;
 	}
 
 	else if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
 		return true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03);
+		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
 		return true;
 	}
 
