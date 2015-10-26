@@ -57,7 +57,7 @@ void update(double delta_t) {
 
 			if (orangeArray[i].getPosition().getX() >= tableSize || orangeArray[i].getPosition().getX() <= -tableSize) {
 				orangeArray[i].setDelayDraw(true);
-				if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 500) {
+				if (glutGet(GLUT_ELAPSED_TIME) > auxtimer + 10000) {
 					auxtimer = glutGet(GLUT_ELAPSED_TIME);
 					orangeArray[i].init();
 

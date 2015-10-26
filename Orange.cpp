@@ -29,10 +29,9 @@ float Orange::randomVelocity() {
 }
 
 void Orange::init() {
-	
-	int orangeX = rand() %9 - 4;
-	int orangeZ = rand() %9 - 4;
-	_position.set(orangeX, 1.0f, orangeZ);
+	_xPosition = 0;
+	int orangeZ = rand() %5 - 2;
+	_position.set(_xPosition, 1.0f, orangeZ);
 	_velocity = randomVelocity();
 	setDelayDraw(false);
 }
