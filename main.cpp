@@ -189,14 +189,14 @@ void drawLights() {
 	spotDir_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].coneDirection");
 	spotCutOff_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].spotCutOff");
 	spotExp_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].spotExponent");
-	//multMatrixPoint(VIEW, _spotLights[0]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	multMatrixPoint(VIEW, _spotLights[0]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
 	glUniform1i(local_uniformId[7], _spotLights[0]->isLocal());
 	glUniform1i(enabled_uniformId[7], _spotLights[0]->isEnabled());
 	glUniform1i(spot_uniformId[7], _spotLights[0]->isSpot());
 	glUniform3f(spotDir_uniformId[7], car.getDirection().getX(), car.getDirection().getY() - 2.0f, car.getDirection().getZ());
 	glUniform1f(spotCutOff_uniformId[7], _spotLights[0]->getCutOff());
 	glUniform1f(spotExp_uniformId[7], _spotLights[0]->getExponent());
-	glUniform4fv(lPos_uniformId[7], 1, _spotLights[0]->getPosition());
+	glUniform4fv(lPos_uniformId[7], 1, res);
 
 	lPos_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].l_pos");
 	local_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].isLocal");
@@ -205,14 +205,14 @@ void drawLights() {
 	spotDir_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].coneDirection");
 	spotCutOff_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].spotCutOff");
 	spotExp_uniformId[8] = glGetUniformLocation(shader.getProgramIndex(), "Lights[8].spotExponent");
-	//multMatrixPoint(VIEW, _spotLights[1]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
+	multMatrixPoint(VIEW, _spotLights[1]->getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
 	glUniform1i(local_uniformId[8], _spotLights[1]->isLocal());
 	glUniform1i(enabled_uniformId[8], _spotLights[1]->isEnabled());
 	glUniform1i(spot_uniformId[8], _spotLights[1]->isSpot());
 	glUniform3f(spotDir_uniformId[8], car.getDirection().getX(), car.getDirection().getY() - 3.0f, car.getDirection().getZ());
 	glUniform1f(spotCutOff_uniformId[8], _spotLights[1]->getCutOff());
 	glUniform1f(spotExp_uniformId[8], _spotLights[1]->getExponent());
-	glUniform4fv(lPos_uniformId[8], 1, _spotLights[1]->getPosition());
+	glUniform4fv(lPos_uniformId[8], 1, res);
 
 }
 
