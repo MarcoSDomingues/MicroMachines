@@ -404,7 +404,7 @@ void keyPressed(unsigned char key, int xx, int yy)
 		case 'R': case 'r':
 			if (remainingLives <= 0) {
 				pause();
-				remainingLives = 10;
+				remainingLives = 5;
 			}
 			break;
 		default:
@@ -772,7 +772,7 @@ void init()
 	deathScreen.addMesh(&mesh[0]);
 	deathScreen.addTexture(textureArray[3]);
 
-	HUDbg.addMesh(&mesh[0]);
+	HUDbg.addMesh(&mesh[2]);
 
 	road.addMesh(&mesh[1]);
 	road.addMesh(&mesh[2]);

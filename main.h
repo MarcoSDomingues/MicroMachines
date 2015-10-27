@@ -103,7 +103,7 @@ float camX, camY, camZ;
 OrtogonalCamera* _hudCamera;
 
 //HUD
-int remainingLives = 2;
+int remainingLives = 5;
 std::vector<Car*> _lives;
 HUD HUDbg;
 
