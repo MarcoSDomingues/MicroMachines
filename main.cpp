@@ -308,6 +308,11 @@ void renderScene(void) {
 	loadIdentity(VIEW); // Initialize the model matrix as identity
 
 	if (paused) {
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDepthMask(GL_FALSE);
+
 		glUniform1i(texMode_uniformId, true);
 		if (remainingLives > 0) {
 			pauseScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
@@ -317,6 +322,8 @@ void renderScene(void) {
 		}
 		glUniform1i(texMode_uniformId, false);
 
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
 	}
 
 	HUDbg.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
@@ -932,8 +939,6 @@ int main(int argc, char **argv) {
 	printf ("GLSL: %s\n", glGetString (GL_SHADING_LANGUAGE_VERSION));
 
 	if (!setupShaders()) return(1);
-
- 
 
 	init();
 
