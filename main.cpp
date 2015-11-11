@@ -869,7 +869,7 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_MULTISAMPLE);
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
 	//lights
 	_directional_light.setPosition(0.0f, 1.0f, 0.0f, 0.0f); //4th parameter == 0 => directional light

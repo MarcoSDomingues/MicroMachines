@@ -29,6 +29,7 @@ uniform bool texMode;		//true se usar textura, false caso contrario,
 uniform sampler2D texmap1;
 uniform sampler2D texmap2;
 uniform bool lightsOff;
+uniform int depthFog;
 
 //esta info vem das normais interpoladas
 in Data { 
@@ -40,6 +41,9 @@ in Data {
 
 out vec4 colorOut;
 
+const vec3 fogColor = vec3(0.5, 0.5,0.5);
+const float FogDensity = 0.05;
+
 void main() {
 	int disabled = 0;
 	vec4 spec = vec4(0.0);
@@ -48,6 +52,24 @@ void main() {
 	//estes vectores tem de ser normalizados pois foram interpolados
 	vec3 n = normalize(DataIn.normal);
 	vec3 e = normalize(DataIn.eye);
+
+	//distance
+	float dist = 0;
+	float fogFactor = 0;
+ 
+	//compute distance used in fog equations
+	if(depthFog == 0)//select plane based vs range based
+	{
+	  //plane based
+	  dist = abs(DataIn.pos.z);
+	  //dist = (gl_FragCoord.z / gl_FragCoord.w);
+	}
+	else
+	{
+	   //range based
+	   dist = length(DataIn.pos);
+	}
+ 
 
 	//loop over all the lights
 	for (int light = 0; light < MaxLights; light++) {
@@ -112,4 +134,10 @@ void main() {
 		colorOut = mat.ambient;
 	else
 		colorOut = max(mat.ambient, scatteredLight + reflectedLight);
+
+	fogFactor = 1.0 /exp(dist * (dist/2) * FogDensity);
+    fogFactor = clamp( fogFactor, 0.0, 1.0 );
+ 
+    colorOut = vec4(mix(fogColor, vec3(colorOut), fogFactor), 1);
+	//colorOut = (1.0 - fogFactor) * fogColor + fogFactor * colorOut
 }
