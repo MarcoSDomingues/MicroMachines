@@ -34,6 +34,7 @@
 #include "Road.h"
 #include "Cheerio.h"
 #include "Pause.h"
+#include "Broccoli.h"
 
 #define CAPTION "MicroMachines"
 #define M_PI       3.14159265358979323846f
@@ -45,7 +46,7 @@ unsigned int FrameCount = 0;
 
 VSShaderLib shader;
 
-struct MyMesh mesh[8];
+struct MyMesh mesh[9];
 int objId = 0; //id of the object mesh - to be used as index of mesh: mesh[objID] means the current mesh
 
 			   //External array storage defined in AVTmathLib.cpp
@@ -141,6 +142,7 @@ Butter butter1;
 Butter butter2;
 Table table;
 Road road;
+Broccoli broccoli;
 Pause pauseScreen;
 Pause deathScreen;
 

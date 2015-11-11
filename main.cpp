@@ -307,6 +307,18 @@ void renderScene(void) {
 	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
 
+	//draw the BROCCOLI!!!
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthMask(GL_FALSE);
+	glUniform1i(texMode_uniformId, true);
+
+	broccoli.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+	glUniform1i(texMode_uniformId, false);
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
+
 	//HUD stuff
 	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
 	pushMatrix(PROJECTION); // Save the current matrix
@@ -598,7 +610,7 @@ void init()
 	TGA_Texture(textureArray, "checker.tga", 1);
 	TGA_Texture(textureArray, "pause.tga", 2);
 	TGA_Texture(textureArray, "death.tga", 3);
-	TGA_Texture(textureArray, "death.tga", 4);
+	TGA_Texture(textureArray, "tree.tga", 4);
 
 	srand(time(NULL));
 
@@ -658,6 +670,8 @@ void init()
 	pauseScreen.setPosition(-2.5, -2.5, 5.0f);
 	deathScreen.setPosition(-2.5, -2.5, 5.0f);
 	HUDbg.setPosition(-5.5, -4.0, 0.0f);
+
+	broccoli.setPosition(1.8f, 0.5f, 0.0f);
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
 
@@ -828,6 +842,28 @@ void init()
 	for (int i = 0; i < orangeArray.size(); i++) {
 		orangeArray[i].addMesh(&mesh[7]);
 	}
+
+	//Quad
+	objId = 8;
+
+	float amb8[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float diff8[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float spec8[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float emissive8[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	shininess = 0.25f;
+	texcount = 0;
+
+	memcpy(mesh[objId].mat.ambient, amb, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.diffuse, diff, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.specular, spec, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.emissive, emissive, 4 * sizeof(float));
+	mesh[objId].mat.shininess = shininess;
+	mesh[objId].mat.texCount = texcount;
+	createQuad();
+
+	broccoli.addTexture(textureArray[4]);
+	broccoli.addTexture(textureArray[4]);
+	broccoli.addMesh(&mesh[8]);
 
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);
