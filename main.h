@@ -76,6 +76,7 @@ GLint spotExp_uniformId[9];
 
 GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
+GLint lightsOff_uniformId;
 
 GLuint textureArray[5];
 

@@ -28,6 +28,7 @@ uniform Materials mat;
 uniform bool texMode;		//true se usar textura, false caso contrario, 
 uniform sampler2D texmap1;
 uniform sampler2D texmap2;
+uniform bool lightsOff;
 
 //esta info vem das normais interpoladas
 in Data { 
@@ -65,7 +66,7 @@ void main() {
 			float light_Distance = length(light_Dir);
 			light_Dir = light_Dir / light_Distance;
 		
-			attenuation = 1.0 / light_Distance;
+			attenuation = 1.0 / (light_Distance * light_Distance);
 			
 			if (Lights[light].isSpot) {
 				float spotCos = dot(light_Dir, -Lights[light].coneDirection);
@@ -103,8 +104,12 @@ void main() {
 			texel = texel1 * texel2;
 	}
 
-	if (texMode) 
+	if (texMode && !lightsOff)
 		colorOut = max(mat.ambient*texel, scatteredLight*texel + reflectedLight);
-	else 
+	else if (texMode && lightsOff)
+		colorOut = texel;
+	else if (lightsOff)
+		colorOut = mat.ambient;
+	else
 		colorOut = max(mat.ambient, scatteredLight + reflectedLight);
 }

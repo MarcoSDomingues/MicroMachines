@@ -108,7 +108,7 @@ void pause() {
 //
 
 void drawLights() {
-	
+
 	float res[4], resDir[4];
 	//Directional Light
 	multMatrixPoint(VIEW, _directional_light.getPosition(), res);   //lightPos definido em World Coord so is converted to eye space
@@ -182,7 +182,15 @@ void drawLights() {
 	glUniform1i(spot_uniformId[6], _lamps[5]->isSpot());
 	glUniform4fv(lPos_uniformId[6], 1, res);
 
-	float dir[4] = { car.getDirection().getX(), car.getDirection().getY() - 1.0f, car.getDirection().getZ(), 1.0f };
+	float dir[4];
+	float dir1[4] = { car.getPosition().getX() + car.getDirection().getX(), -1, car.getPosition().getZ() + car.getDirection().getZ(), 1.0f }; //camera3
+	float dir2[4] = { car.getDirection().getX(), 8, car.getDirection().getZ(), 1.0f }; //outras cameras
+	if (_current_camera == 2) {
+		std::copy(dir1, dir1 + 4, dir);
+	}
+	else {
+		std::copy(dir2, dir2 + 4, dir);
+	}
 	lPos_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].l_pos");
 	local_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].isLocal");
 	enabled_uniformId[7] = glGetUniformLocation(shader.getProgramIndex(), "Lights[7].isEnabled");
@@ -313,6 +321,7 @@ void renderScene(void) {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDepthMask(GL_FALSE);
 
+		glUniform1i(lightsOff_uniformId, true);
 		glUniform1i(texMode_uniformId, true);
 		if (remainingLives > 0) {
 			pauseScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
@@ -320,16 +329,19 @@ void renderScene(void) {
 		else {
 			deathScreen.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 		}
+		glUniform1i(lightsOff_uniformId, false);
 		glUniform1i(texMode_uniformId, false);
 
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 	}
 
+	glUniform1i(lightsOff_uniformId, true);
 	HUDbg.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	for (int i = 0; i < remainingLives; i++) {
 		_lives.at(i)->draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	}
+	glUniform1i(lightsOff_uniformId, false);
 
 	popMatrix(VIEW); // Restore the previous matrix
 	popMatrix(PROJECTION); // Restore the previous matrix
@@ -563,6 +575,7 @@ GLuint setupShaders() {
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
 
 	texMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "texMode");
+	lightsOff_uniformId = glGetUniformLocation(shader.getProgramIndex(), "lightsOff");
 	tex_loc1 = glGetUniformLocation(shader.getProgramIndex(), "texmap1");
 	tex_loc2 = glGetUniformLocation(shader.getProgramIndex(), "texmap2");
 	
@@ -866,18 +879,18 @@ void init()
 	spot1->setEnabled(true);
 	spot1->setLocal(true);
 	spot1->setSpot(true);
-	float cutOff = (float) 30.0f * (M_PI / 180.0f);
+	float cutOff = 2.0f;
 	spot1->setCutOff(cutOff);
-	spot1->setExponent(1.0f);
+	spot1->setExponent(0.2f);
 	_spotLights.push_back(spot1);
 
 	LightSource *spot2 = new LightSource();
 	spot2->setEnabled(true);
 	spot2->setLocal(true);
 	spot2->setSpot(true);
-	cutOff = (float) 30.0f * (M_PI / 180.0f);
+	cutOff = 2.0f;
 	spot2->setCutOff(cutOff);
-	spot2->setExponent(1.0f);
+	spot2->setExponent(0.2f);
 	_spotLights.push_back(spot2);
 
 	// create cameras
