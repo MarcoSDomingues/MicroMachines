@@ -77,7 +77,7 @@ GLint spotExp_uniformId[9];
 GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
 
-GLuint textureArray[4];
+GLuint textureArray[5];
 
 //incrementar velocidade do jogo
 double speed_timer = 0;

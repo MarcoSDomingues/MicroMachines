@@ -580,11 +580,12 @@ void init()
 {
 	//Texture Object definition
 
-	glGenTextures(4, textureArray);
+	glGenTextures(5, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
 	TGA_Texture(textureArray, "checker.tga", 1);
 	TGA_Texture(textureArray, "pause.tga", 2);
 	TGA_Texture(textureArray, "death.tga", 3);
+	TGA_Texture(textureArray, "death.tga", 4);
 
 	srand(time(NULL));
 
