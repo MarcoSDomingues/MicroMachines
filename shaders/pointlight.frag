@@ -42,7 +42,7 @@ in Data {
 out vec4 colorOut;
 
 const vec3 fogColor = vec3(0.5, 0.5,0.5);
-const float FogDensity = 0.05;
+const float FogDensity = 0.025;
 
 void main() {
 	int disabled = 0;

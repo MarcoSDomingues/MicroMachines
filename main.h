@@ -140,6 +140,8 @@ std::vector<Orange> orangeArray;
 std::vector<Cheerio> cheerioArray;
 Butter butter1;
 Butter butter2;
+Butter butter1ref;
+Butter butter2ref;
 Table table;
 Road road;
 Broccoli broccoli;

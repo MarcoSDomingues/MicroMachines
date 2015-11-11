@@ -291,10 +291,29 @@ void renderScene(void) {
 
 	car.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
-	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	butter2.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-	
+	butter1.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+	glEnable(GL_STENCIL_TEST);
+
+	// Draw floor
+	glStencilFunc(GL_ALWAYS, 1, 0xFF); // Set any stencil to 1
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	glStencilMask(0xFF); // Write to stencil buffer
+	glDepthMask(GL_FALSE); // Don't write to depth buffer
+	glClear(GL_STENCIL_BUFFER_BIT); // Clear stencil buffer (0 by default)
+
 	table.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+	// Draw cube reflection
+	glStencilFunc(GL_EQUAL, 1, 0xFF); // Pass test if stencil value is 1
+	glStencilMask(0x00); // Don't write anything to stencil buffer
+	glDepthMask(GL_TRUE); // Write to depth buffer
+
+	butter1ref.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	butter2ref.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+	glDisable(GL_STENCIL_TEST);
 	
 
 	for (int i = 0; i < orangeArray.size(); i++) {
@@ -302,6 +321,7 @@ void renderScene(void) {
 			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 		}
 	}
+
 
 	glUniform1i(texMode_uniformId, true);
 	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
@@ -639,6 +659,8 @@ void init()
 
 	staticObjects.push_back(&butter1);
 	staticObjects.push_back(&butter2);
+	staticObjects.push_back(&butter1ref);
+	staticObjects.push_back(&butter2ref);
 
 	for (int i = 0; i < 128; i++) {
 		Cheerio* cheerio = new Cheerio();
@@ -665,8 +687,10 @@ void init()
 
 	butter1.setPosition(3.6f, 0.5f, 3.0f);
 	butter2.setPosition(-3.4f, 0.5f, -4.0f);
+	butter1ref.setPosition(3.6f, 0.5f, 3.0f);
+	butter2ref.setPosition(-3.4f, 0.5f, -4.0f);
 
-	table.setPosition(-0.5f, 0.0f, -0.5f);
+	table.setPosition(-4.5, 0.5f, -4.5f);
 	pauseScreen.setPosition(-2.5, -2.5, 5.0f);
 	deathScreen.setPosition(-2.5, -2.5, 5.0f);
 	HUDbg.setPosition(-5.5, -4.0, 0.0f);
@@ -803,6 +827,10 @@ void init()
 
 	butter1.addMesh(&mesh[5]);
 	butter2.addMesh(&mesh[5]);
+	butter1ref.addMesh(&mesh[5]);
+	butter2ref.addMesh(&mesh[5]);
+	butter1ref.reflect();
+	butter2ref.reflect();
 
 	table.addMesh(&mesh[0]);
 

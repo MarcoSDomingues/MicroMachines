@@ -9,7 +9,12 @@ void Butter::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, G
 
 	translate(MODEL, _position.getX(), _position.getY(), _position.getZ());
 	//rotate(MODEL, -45, 0, 1, 0);
-	scale(MODEL, 0.7f, 0.7f, 0.7f);
+	if (_reflect) {
+		scale(MODEL, 0.7f, -0.7f, 0.7f);
+	}
+	else {
+		scale(MODEL, 0.7f, 0.7f, 0.7f);
+	}
 
 	loadMesh(_meshes.at(0), shader);
 	
@@ -25,4 +30,9 @@ void Butter::draw(VSShaderLib shader, GLint pvm_uniformId, GLint vm_uniformId, G
 	popMatrix(MODEL);
 
 	popMatrix(MODEL);
+}
+
+void Butter::reflect()
+{
+	_reflect = true;
 }
