@@ -160,6 +160,7 @@ void idle();
 void pause();
 void drawLights();
 void renderScene(void);
+void drawBroccoli();
 void keyPressed(unsigned char key, int xx, int yy);
 void keyReleased(unsigned char key, int x, int y);
 void processMouseButtons(int button, int state, int xx, int yy);

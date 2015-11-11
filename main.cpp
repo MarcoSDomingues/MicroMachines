@@ -229,6 +229,53 @@ void drawLights() {
 
 }
 
+void drawBroccoli() {
+	float lookAt[3], objToCamProj[3], upAux[3];
+	float angleCosine;
+
+	// objToCamProj is the vector in world coordinates from the 
+	// local origin to the camera projected in the XZ plane
+	Vector3 direction = car.getDirection();
+	float xcamX = 0.0f, xcamZ = 0.0f;
+
+	if (_current_camera == 3) {
+		xcamX = car.getPosition().getX() - 2 * direction.getX();
+		xcamZ = car.getPosition().getZ() - 2 * direction.getZ();
+	}
+
+	objToCamProj[0] = xcamX - broccoli.getPosition().getX();
+	objToCamProj[1] = 0;
+	objToCamProj[2] = xcamZ - broccoli.getPosition().getZ();
+
+	lookAt[0] = 0;
+	lookAt[1] = 0;
+	lookAt[2] = 1;
+
+	normalize(objToCamProj);
+
+	crossProduct(upAux, lookAt, objToCamProj);
+
+	angleCosine = dotProduct(lookAt, objToCamProj);
+
+	if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
+	{
+		broccoli.setAngle(angleCosine);
+		broccoli.setDirection(upAux[0], upAux[1], upAux[2]);
+	}
+
+	//draw the BROCCOLI!!!
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthMask(GL_FALSE);
+	glUniform1i(texMode_uniformId, true);
+
+	broccoli.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+	glUniform1i(texMode_uniformId, false);
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
+}
+
 void renderScene(void) {
 
 	GLint loc;
@@ -322,22 +369,11 @@ void renderScene(void) {
 		}
 	}
 
-
 	glUniform1i(texMode_uniformId, true);
 	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
 
-	//draw the BROCCOLI!!!
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDepthMask(GL_FALSE);
-	glUniform1i(texMode_uniformId, true);
-
-	broccoli.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-
-	glUniform1i(texMode_uniformId, false);
-	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
+	drawBroccoli();
 
 	//HUD stuff
 	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
@@ -874,24 +910,15 @@ void init()
 	//Quad
 	objId = 8;
 
-	float amb8[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	float diff8[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	float spec8[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	float emissive8[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	shininess = 0.25f;
-	texcount = 0;
+	float amb8[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	float diff8[] = { 0.6f, 0.6f, 0.6f, 1.0f };
 
-	memcpy(mesh[objId].mat.ambient, amb, 4 * sizeof(float));
-	memcpy(mesh[objId].mat.diffuse, diff, 4 * sizeof(float));
-	memcpy(mesh[objId].mat.specular, spec, 4 * sizeof(float));
-	memcpy(mesh[objId].mat.emissive, emissive, 4 * sizeof(float));
-	mesh[objId].mat.shininess = shininess;
-	mesh[objId].mat.texCount = texcount;
-	createQuad();
+	memcpy(mesh[objId].mat.ambient, amb8, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.diffuse, diff8, 4 * sizeof(float));
+	createCube();
 
-	broccoli.addTexture(textureArray[4]);
-	broccoli.addTexture(textureArray[4]);
 	broccoli.addMesh(&mesh[8]);
+	broccoli.addTexture(textureArray[4]);
 
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);

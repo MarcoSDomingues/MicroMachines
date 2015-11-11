@@ -158,17 +158,17 @@
 		  * \param a,b the two input float[3]
 		  * \param res the ouput result, a float[3]
 		*/
-		static void crossProduct( float *a, float *b, float *res);
+		void crossProduct( float *a, float *b, float *res);
 
 		/** vector dot product 
 		  * 
 		  * \param a,b the two input float[3]
 		  * \returns the dot product a.b
 		*/
-		static float dotProduct(float *a, float * b);
+		float dotProduct(float *a, float * b);
 
 		/// normalize a vec3
-		static void normalize(float *a);
+		void normalize(float *a);
 
 		/// vector subtraction res = b - a
 		static void subtract( float *a, float *b, float *res);
