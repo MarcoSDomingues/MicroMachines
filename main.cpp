@@ -363,17 +363,19 @@ void renderScene(void) {
 
 	glDisable(GL_STENCIL_TEST);
 
+	for (int i = 0; i < orangeArray.size(); i++) {
+		if (!orangeArray[i].getDelayDraw()) {
+			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+		}
+	}
+
 	glUniform1i(texMode_uniformId, true);
 	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
 
 	drawBroccoli();
 
-	for (int i = 0; i < orangeArray.size(); i++) {
-		if (!orangeArray[i].getDelayDraw()) {
-			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-		}
-	}
+	cup.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
 	//HUD stuff
 	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
@@ -657,7 +659,6 @@ GLuint setupShaders() {
 void init()
 {
 	//Texture Object definition
-
 	glGenTextures(5, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
 	TGA_Texture(textureArray, "checker.tga", 1);
@@ -732,6 +733,8 @@ void init()
 	broccoli[1].setPosition(1.5f, 0.5f, -1.5f);
 	broccoli[2].setPosition(-1.5f, 0.5f, -1.5f);
 	broccoli[3].setPosition(-1.5f, 0.5f, 1.5f);
+
+	cup.setPosition(-1.5f, 1.0f, 0.0f);
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
 
@@ -892,9 +895,9 @@ void init()
 	//Orange
 	objId = 7;
 
-	float amb7[] = { 0.2f, 0.1f, 0.025f, 0.3f };
-	float diff7[] = { 0.8f, 0.4f, 0.1f, 0.3f };
-	float spec7[] = { 0.0f, 0.0f, 0.0f, 0.3f };
+	float amb7[] = { 0.2f, 0.1f, 0.025f, 1.0f };
+	float diff7[] = { 0.8f, 0.4f, 0.1f, 1.0f };
+	float spec7[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	shininess = 500.0;
 
 	memcpy(mesh[objId].mat.ambient, amb7, 4 * sizeof(float));
@@ -923,6 +926,35 @@ void init()
 		broccoli[i].addMesh(&mesh[8]);
 		broccoli[i].addTexture(textureArray[4]);
 	}
+
+	//Cup
+	objId = 9;
+
+	float amb9[] = { 0.1f, 0.1f, 0.7f, 0.3f };
+	float diff9[] = { 0.1f, 0.1f, 0.4f, 0.3f };
+	float spec9[] = { 0.9f, 0.9f, 0.9f, 0.3f };
+	shininess = 500.0;
+
+	memcpy(mesh[objId].mat.ambient, amb9, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.diffuse, diff9, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.specular, spec9, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.emissive, emissive, 4 * sizeof(float));
+	mesh[objId].mat.shininess = shininess;
+	mesh[objId].mat.texCount = texcount;
+	createTorus(0.9f, 1.0f, 32, 12);
+
+	objId = 10;
+
+	memcpy(mesh[objId].mat.ambient, amb9, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.diffuse, diff9, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.specular, spec9, 4 * sizeof(float));
+	memcpy(mesh[objId].mat.emissive, emissive, 4 * sizeof(float));
+	mesh[objId].mat.shininess = shininess;
+	mesh[objId].mat.texCount = texcount;
+	createSphere(1.0, 9);
+
+	cup.addMesh(&mesh[9]);
+	cup.addMesh(&mesh[10]);
 
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);
