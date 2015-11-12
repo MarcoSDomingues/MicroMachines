@@ -245,8 +245,6 @@ void drawBroccoli() {
 
 	glAlphaFunc(GL_GREATER, 0.1);
 	glEnable(GL_ALPHA_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (Broccoli b : broccoli) {
 		objToCamProj[0] = xcamX - b.getPosition().getX();
 		objToCamProj[1] = 0;
@@ -277,8 +275,6 @@ void drawBroccoli() {
 		glUniform1i(texMode_uniformId, false);
 
 	}
-	glDisable(GL_BLEND);
-	
 }
 
 void renderScene(void) {
@@ -390,8 +386,6 @@ void renderScene(void) {
 
 	if (paused) {
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDepthMask(GL_FALSE);
 
 		glUniform1i(lightsOff_uniformId, true);
@@ -405,7 +399,6 @@ void renderScene(void) {
 		glUniform1i(lightsOff_uniformId, false);
 		glUniform1i(texMode_uniformId, false);
 
-		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 	}
 
@@ -901,9 +894,9 @@ void init()
 	//Orange
 	objId = 7;
 
-	float amb7[] = { 0.2f, 0.1f, 0.025f, 1.0f };
-	float diff7[] = { 0.8f, 0.4f, 0.1f, 1.0f };
-	float spec7[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float amb7[] = { 0.2f, 0.1f, 0.025f, 0.3f };
+	float diff7[] = { 0.8f, 0.4f, 0.1f, 0.3f };
+	float spec7[] = { 0.0f, 0.0f, 0.0f, 0.3f };
 	shininess = 500.0;
 
 	memcpy(mesh[objId].mat.ambient, amb7, 4 * sizeof(float));
@@ -938,6 +931,8 @@ void init()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_MULTISAMPLE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
 	//lights
