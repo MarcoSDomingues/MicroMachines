@@ -126,6 +126,8 @@ void main() {
 			texel = texel1 * texel2;
 	}
 
+
+
 	if (texMode && !lightsOff)
 		colorOut = max(mat.ambient*texel, scatteredLight*texel + reflectedLight);
 	else if (texMode && lightsOff)
@@ -135,9 +137,13 @@ void main() {
 	else
 		colorOut = max(mat.ambient, scatteredLight + reflectedLight);
 
-	fogFactor = 1.0 /exp(dist * (dist/2) * FogDensity);
-    fogFactor = clamp( fogFactor, 0.0, 1.0 );
+	if (!lightsOff) {
+		fogFactor = 1.0 /exp(dist * (dist/2) * FogDensity);
+		fogFactor = clamp( fogFactor, 0.0, 1.0 );
  
-    colorOut = vec4(mix(fogColor, vec3(colorOut), fogFactor), 1);
-	//colorOut = (1.0 - fogFactor) * fogColor + fogFactor * colorOut
+		colorOut = vec4(mix(fogColor, vec3(colorOut), fogFactor), colorOut.w);
+	}
+
+	
+
 }

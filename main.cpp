@@ -872,8 +872,10 @@ void init()
 
 	pauseScreen.addMesh(&mesh[0]);
 	pauseScreen.addTexture(textureArray[2]);
+	pauseScreen.addTexture(textureArray[2]);
 
 	deathScreen.addMesh(&mesh[0]);
+	deathScreen.addTexture(textureArray[3]);
 	deathScreen.addTexture(textureArray[3]);
 
 	HUDbg.addMesh(&mesh[2]);
