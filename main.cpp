@@ -809,7 +809,7 @@ void init()
 	memcpy(mesh[objId].mat.emissive, emissive,4*sizeof(float));
 	mesh[objId].mat.shininess = shininess;
 	mesh[objId].mat.texCount = texcount;
-	createTorus(0.04f, 0.1f, 6, 10);
+	createTorus(0.04f, 0.1f, 20, 10);
 
 	//BlackWheels
 	objId = 4;

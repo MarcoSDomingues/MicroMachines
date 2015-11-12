@@ -107,11 +107,14 @@ void Car::update(double delta_t) {
 	float dz = 3 * cos(da);
 	_direction.set(dx, 0, dz);
 
-	float dir = _acceleration / abs(_acceleration);
-	dx /= 30 * dir;
-	dz /= 30 * dir;
+	float dir = 1;
+	if (_speed < 0) {
+		dir = -1;
+	}
+	dx /= 15 * dir;
+	dz /= 15 * dir;
 
-	float bb = 0.2; //bounding box half-width and half-height
+	float bb = 0.1; //bounding box half-width and half-height
 	_checkBox.set(x + dx - bb, x + dx + bb, z + dz - bb, z + dz + bb);
 }
 

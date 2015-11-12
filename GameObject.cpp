@@ -73,32 +73,30 @@ bool GameObject::checkCollisions(GameObject *object) {
 	Car* car = (Car*)object;
 
 	float dir = 1;
-	if (car->getAcceleration() < 0)
+	if (car->getSpeed() < 0)
 		dir = -1;
 	else
 		dir = 1;
 
+	bool collides = false;
+
 	if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
-		return true;
+		collides = true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getW() >= checkBoxObject.getZ()) && (checkBoxCar.getW() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
-		return true;
+		collides = true;
 	}
 
 	else if ((checkBoxCar.getX() >= checkBoxObject.getX()) && (checkBoxCar.getX() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
-		return true;
+		collides = true;
 	}
 
 	else if ((checkBoxCar.getY() >= checkBoxObject.getX()) && (checkBoxCar.getY() <= checkBoxObject.getY()) && (checkBoxCar.getZ() >= checkBoxObject.getZ()) && (checkBoxCar.getZ() <= checkBoxObject.getW())) {
-		setPosition(getPosition().getX() + car->getDirection().getX()*0.03*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.03*dir);
-		return true;
+		collides = true;
 	}
 
-	else {
-		return false;
-	}
+	if (collides)
+	setPosition(getPosition().getX() + car->getDirection().getX()*0.003*dir, getPosition().getY(), getPosition().getZ() + car->getDirection().getZ()*0.003*dir);
+	return collides;
 }
