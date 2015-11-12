@@ -243,37 +243,40 @@ void drawBroccoli() {
 		xcamZ = car.getPosition().getZ() - 2 * direction.getZ();
 	}
 
-	objToCamProj[0] = xcamX - broccoli.getPosition().getX();
-	objToCamProj[1] = 0;
-	objToCamProj[2] = xcamZ - broccoli.getPosition().getZ();
+	for (Broccoli b : broccoli) {
+		objToCamProj[0] = xcamX - b.getPosition().getX();
+		objToCamProj[1] = 0;
+		objToCamProj[2] = xcamZ - b.getPosition().getZ();
 
-	lookAt[0] = 0.0f;
-	lookAt[1] = 0.0f;
-	lookAt[2] = 1.0f;
+		lookAt[0] = 0.0f;
+		lookAt[1] = 0.0f;
+		lookAt[2] = 1.0f;
 
-	normalize(objToCamProj);
+		normalize(objToCamProj);
 
-	crossProduct(lookAt, objToCamProj, upAux);
+		crossProduct(lookAt, objToCamProj, upAux);
 
-	angleCosine = dotProduct(lookAt, objToCamProj);
+		angleCosine = dotProduct(lookAt, objToCamProj);
 
-	if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
-	{
-		broccoli.setAngle(angleCosine);
-		broccoli.setDirection(upAux[0], upAux[1], upAux[2]);
+		if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
+		{
+			b.setAngle(angleCosine);
+			b.setDirection(upAux[0], upAux[1], upAux[2]);
+		}
+
+		//draw the BROCCOLI!!!
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDepthMask(GL_FALSE);
+		glUniform1i(texMode_uniformId, true);
+
+		b.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+		glUniform1i(texMode_uniformId, false);
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
 	}
-
-	//draw the BROCCOLI!!!
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDepthMask(GL_FALSE);
-	glUniform1i(texMode_uniformId, true);
-
-	broccoli.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-
-	glUniform1i(texMode_uniformId, false);
-	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
+	
 }
 
 void renderScene(void) {
@@ -731,7 +734,11 @@ void init()
 	deathScreen.setPosition(-2.5, -2.5, 5.0f);
 	HUDbg.setPosition(-5.5, -4.0, 0.0f);
 
-	broccoli.setPosition(1.8f, 0.5f, 0.0f);
+	broccoli[0].setPosition(1.5f, 0.5f, 1.5f);
+	broccoli[1].setPosition(1.5f, 0.5f, -1.5f);
+	broccoli[2].setPosition(-1.5f, 0.5f, -1.5f);
+	broccoli[3].setPosition(-1.5f, 0.5f, 1.5f);
+
 
 	speed = Vector3(0.0f, 0.0f, 0.0f);
 
@@ -919,8 +926,11 @@ void init()
 	memcpy(mesh[objId].mat.diffuse, diff8, 4 * sizeof(float));
 	createCube();
 
-	broccoli.addMesh(&mesh[8]);
-	broccoli.addTexture(textureArray[4]);
+	for (int i = 0; i < 4; i++) {
+		broccoli[i].addMesh(&mesh[8]);
+		broccoli[i].addTexture(textureArray[4]);
+	}
+
 
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);

@@ -144,7 +144,7 @@ Butter butter1ref;
 Butter butter2ref;
 Table table;
 Road road;
-Broccoli broccoli;
+Broccoli broccoli[4];
 Pause pauseScreen;
 Pause deathScreen;
 
