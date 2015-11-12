@@ -4,6 +4,7 @@
 #define MAX_SPEED 0.001
 #define ACCELERATION 0.0000005
 #define ROTATION 0.2
+#define M_PI       3.14159265358979323846f
 
 class Car : public DynamicObject {
 

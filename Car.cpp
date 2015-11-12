@@ -101,8 +101,8 @@ void Car::update(double delta_t) {
 	//angle stuff
 	_angle += _turning * ROTATION * delta_t;
 	if (_angle > 360) _angle = 0;
-	else if (_angle < 0) _angle = 359;
-	float da = _angle * 3.14 / 180;
+	else if (_angle < 0) _angle = 360;
+	float da = _angle * M_PI / 180;
 	float dx = 3 * sin(da);
 	float dz = 3 * cos(da);
 	_direction.set(dx, 0, dz);
