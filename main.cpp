@@ -247,7 +247,6 @@ void drawBroccoli() {
 	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glDepthMask(GL_FALSE);
 	for (Broccoli b : broccoli) {
 		objToCamProj[0] = xcamX - b.getPosition().getX();
 		objToCamProj[1] = 0;
@@ -279,7 +278,6 @@ void drawBroccoli() {
 
 	}
 	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
 	
 }
 
