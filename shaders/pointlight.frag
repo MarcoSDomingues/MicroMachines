@@ -97,7 +97,6 @@ void main() {
 				else
 					attenuation *= pow(spotCos, Lights[light].spotExponent);
 			}
-
 		}
 
 		else {
@@ -127,8 +126,6 @@ void main() {
 			if(texel.a == 0.0) discard;
 	}
 
-
-
 	if (texMode && !lightsOff)
 		colorOut = max(mat.ambient*texel, scatteredLight*texel + reflectedLight);
 	else if (texMode && lightsOff)
@@ -144,7 +141,4 @@ void main() {
  
 		colorOut = vec4(mix(fogColor, vec3(colorOut), fogFactor), colorOut.w);
 	}
-
-	
-
 }

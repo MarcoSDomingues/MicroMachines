@@ -362,19 +362,18 @@ void renderScene(void) {
 	butter2ref.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
 	glDisable(GL_STENCIL_TEST);
-	
-
-	for (int i = 0; i < orangeArray.size(); i++) {
-		if (!orangeArray[i].getDelayDraw()) {
-			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-		}
-	}
 
 	glUniform1i(texMode_uniformId, true);
 	road.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
 
 	drawBroccoli();
+
+	for (int i = 0; i < orangeArray.size(); i++) {
+		if (!orangeArray[i].getDelayDraw()) {
+			orangeArray[i].draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+		}
+	}
 
 	//HUD stuff
 	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
@@ -734,7 +733,6 @@ void init()
 	broccoli[2].setPosition(-1.5f, 0.5f, -1.5f);
 	broccoli[3].setPosition(-1.5f, 0.5f, 1.5f);
 
-
 	speed = Vector3(0.0f, 0.0f, 0.0f);
 
 	// set the camera position based on its spherical coordinates
@@ -802,7 +800,7 @@ void init()
 	memcpy(mesh[objId].mat.emissive, emissive,4*sizeof(float));
 	mesh[objId].mat.shininess = shininess;
 	mesh[objId].mat.texCount = texcount;
-	createTorus(0.04f, 0.1f, 20, 10);
+	createTorus(0.04f, 0.1f, 6, 10);
 
 	//BlackWheels
 	objId = 4;
@@ -926,7 +924,6 @@ void init()
 		broccoli[i].addTexture(textureArray[4]);
 	}
 
-
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -1023,7 +1020,6 @@ int main(int argc, char **argv) {
 	glutInitWindowSize(WinX, WinY);
 	WindowHandle = glutCreateWindow(CAPTION);
 
-
 //  Callback Registration
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
@@ -1038,7 +1034,6 @@ int main(int argc, char **argv) {
 	glutMouseWheelFunc ( mouseWheel ) ;
 	glutTimerFunc(0,timer,0);
 	glutTimerFunc(0, refresh, 0);
-
 
 //	return from main loop
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
@@ -1060,6 +1055,5 @@ int main(int argc, char **argv) {
 	glutMainLoop();
 
 	return(0);
-
 }
 
