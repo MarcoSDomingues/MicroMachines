@@ -238,7 +238,7 @@ void drawBroccoli() {
 	Vector3 direction = car.getDirection();
 	float xcamX = 0.0f, xcamZ = 0.0f;
 
-	if (_current_camera == 3) {
+	if (_current_camera == 2) {
 		xcamX = car.getPosition().getX() - 2 * direction.getX();
 		xcamZ = car.getPosition().getZ() - 2 * direction.getZ();
 	}
@@ -247,13 +247,13 @@ void drawBroccoli() {
 	objToCamProj[1] = 0;
 	objToCamProj[2] = xcamZ - broccoli.getPosition().getZ();
 
-	lookAt[0] = 0;
-	lookAt[1] = 0;
-	lookAt[2] = 1;
+	lookAt[0] = 0.0f;
+	lookAt[1] = 0.0f;
+	lookAt[2] = 1.0f;
 
 	normalize(objToCamProj);
 
-	crossProduct(upAux, lookAt, objToCamProj);
+	crossProduct(lookAt, objToCamProj, upAux);
 
 	angleCosine = dotProduct(lookAt, objToCamProj);
 
