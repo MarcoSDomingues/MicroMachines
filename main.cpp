@@ -243,6 +243,11 @@ void drawBroccoli() {
 		xcamZ = car.getPosition().getZ() - 2 * direction.getZ();
 	}
 
+	glAlphaFunc(GL_GREATER, 0.1);
+	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glDepthMask(GL_FALSE);
 	for (Broccoli b : broccoli) {
 		objToCamProj[0] = xcamX - b.getPosition().getX();
 		objToCamProj[1] = 0;
@@ -265,17 +270,16 @@ void drawBroccoli() {
 		}
 
 		//draw the BROCCOLI!!!
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDepthMask(GL_FALSE);
+
 		glUniform1i(texMode_uniformId, true);
 
 		b.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
 		glUniform1i(texMode_uniformId, false);
-		glDisable(GL_BLEND);
-		glDepthMask(GL_TRUE);
+
 	}
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
 	
 }
 

@@ -124,6 +124,7 @@ void main() {
 			texel1 = texture(texmap1, DataIn.tex_coord);  // texel from stone.tga
 			texel2 = texture(texmap2, DataIn.tex_coord);  // texel from checker.tga
 			texel = texel1 * texel2;
+			if(texel.a == 0.0) discard;
 	}
 
 
