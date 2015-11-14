@@ -30,6 +30,7 @@ public:
 	void stopRight();
 	
 	void setInitialDirection();
+	float getAngle();
 	Vector3 getDirection();
 
 	void draw(VSShaderLib shader, GLint pvm_uniformId,

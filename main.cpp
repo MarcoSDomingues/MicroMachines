@@ -37,6 +37,15 @@ void changeSize(int w, int h) {
 	
 }
 
+void iterate(int value)
+{
+
+	particles.iterate(value);
+	glutTimerFunc(33, iterate, 0);
+
+
+}
+
 // ------------------------------------------------------------
 //
 // Time Functions
@@ -78,6 +87,9 @@ void update(double delta_t) {
 			if (staticObjects[i]->checkCollisions(&car)) {
 				car.setAcceleration(0);
 				car.setSpeed(0);
+				fireworks = 1;
+				particles.init(car.getPosition().getX() - car.getDirection().getX(), 1, car.getPosition().getZ() - car.getDirection().getZ());
+
 			}
 		}
 		for (int i = 0; i < cheerioArray.size(); i++) {
@@ -375,7 +387,19 @@ void renderScene(void) {
 
 	drawBroccoli();
 
+	if (fireworks) {
+		glUniform1i(texMode_uniformId, true);
+		glUniform1i(lightsOff_uniformId, true);
+		particles.render(textureArray[5], mesh[11], vm_uniformId, pvm_uniformId, normal_uniformId, shader, car.getAngle() - 180);
+		glUniform1i(texMode_uniformId, false);
+		glUniform1i(lightsOff_uniformId, false);
+	}
+
+
 	cup.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+
+
+
 
 	//HUD stuff
 	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
@@ -662,12 +686,13 @@ GLuint setupShaders() {
 void init()
 {
 	//Texture Object definition
-	glGenTextures(5, textureArray);
+	glGenTextures(6, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
 	TGA_Texture(textureArray, "checker.tga", 1);
 	TGA_Texture(textureArray, "pause.tga", 2);
 	TGA_Texture(textureArray, "death.tga", 3);
 	TGA_Texture(textureArray, "tree.tga", 4);
+	TGA_Texture(textureArray, "particle.tga", 5);
 
 	srand(time(NULL));
 
@@ -761,7 +786,7 @@ void init()
 	memcpy(mesh[objId].mat.emissive, emissive,4*sizeof(float));
 	mesh[objId].mat.shininess = shininess;
 	mesh[objId].mat.texCount = texcount;
-	createTable();
+	createCube();
 
 	float amb1[] = { 0.1f, 0.1f, 0.1f, 1.0f };
 	float diff1[] = { 0.4f, 0.4f, 0.4f, 1.0f };
@@ -861,7 +886,6 @@ void init()
 	car.addMesh(&mesh[6]);
 
 	for (Car* life : _lives) {
-		std::cout << 'life' << std::endl;
 		life->addMesh(&mesh[4]);
 		life->addMesh(&mesh[5]);
 		life->addMesh(&mesh[6]);
@@ -1033,6 +1057,13 @@ void init()
 	PerspectiveCamera* p2 = new PerspectiveCamera(53.13f, 0.1f, 1000.0f);
 	_cameras.push_back(p2);
 	_hudCamera = new OrtogonalCamera(-5, 5, -5, 5, -100, 100);
+
+	// create geometry and VAO of the quad for particles
+	objId = 11;
+	mesh[objId].mat.texCount = texcount;
+	createQuad(2, 2);
+
+	//particles.init();
 }
 
 // ------------------------------------------------------------
@@ -1069,6 +1100,7 @@ int main(int argc, char **argv) {
 	glutMouseWheelFunc ( mouseWheel ) ;
 	glutTimerFunc(0,timer,0);
 	glutTimerFunc(0, refresh, 0);
+	glutTimerFunc(0, iterate, 0);
 
 //	return from main loop
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);

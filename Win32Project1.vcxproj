@@ -36,6 +36,7 @@
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="Orange.cpp" />
     <ClCompile Include="OrtogonalCamera.cpp" />
+    <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="Road.cpp" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Flare.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Particles.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="main.h" />

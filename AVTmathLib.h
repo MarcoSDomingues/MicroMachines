@@ -1,3 +1,4 @@
+#pragma once
 /** ----------------------------------------------------------
  *AVT Math Lib 
  *
@@ -21,6 +22,9 @@
 		#define COUNT_MATRICES 3
 		/// number of derived matrices
 		#define COUNT_COMPUTED_MATRICES 2
+
+		/// The storage for matrices
+
 
 		/// Enumeration of the matrix types
 		enum MatrixTypes{ 

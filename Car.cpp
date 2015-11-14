@@ -8,6 +8,10 @@ void Car::setInitialDirection() {
 	_angle = -90;
 }
 
+float Car::getAngle() {
+	return _angle;
+}
+
 void Car::kill() {
 	setPosition(0.0f, 0.45f, 2.8f);
 	setSpeed(0);

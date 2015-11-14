@@ -1,3 +1,4 @@
+#pragma once
 /* --------------------------------------------------
 AVT Math Lib 
  *
@@ -22,6 +23,10 @@ Author: João Madeiras Pereira
 #ifdef _WIN32
 #define M_PI       3.14159265358979323846f
 #endif
+float mMatrix[COUNT_MATRICES][16];
+float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
+/// The normal matrix
+float mNormal3x3[9];
 
 static inline float 
 DegToRad(float degrees) 
@@ -32,12 +37,7 @@ DegToRad(float degrees)
 /// Matrix stacks for all matrix types
 std::vector<float *> mMatrixStack[COUNT_MATRICES];
 
-/// The storage for matrices
-float mMatrix[COUNT_MATRICES][16];
-float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
 
-/// The normal matrix
-float mNormal3x3[9];
 
 // glPushMatrix implementation
 void pushMatrix(MatrixTypes aType) {

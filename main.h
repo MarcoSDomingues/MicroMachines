@@ -22,7 +22,9 @@
 #include "OrtogonalCamera.h"
 #include "basic_geometry.h"
 #include "HUD.h"
+
 #include "flare.h"
+#include "Particles.h"
 
 #include <cstdlib>
 #include <ctime>
@@ -49,7 +51,11 @@ unsigned int FrameCount = 0;
 
 VSShaderLib shader;
 
-struct MyMesh mesh[11];
+bool fireworks = false;
+
+Particles particles;
+
+struct MyMesh mesh[12];
 int objId = 0; //id of the object mesh - to be used as index of mesh: mesh[objID] means the current mesh
 
 			   //External array storage defined in AVTmathLib.cpp
