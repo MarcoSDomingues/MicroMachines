@@ -382,6 +382,9 @@ void renderScene(void) {
 	pushMatrix(PROJECTION); // Save the current matrix
 	loadIdentity(PROJECTION); // We initialize the projection matrix as identity
 	_hudCamera->update(ratio);
+
+	//flare.render(&renderFlare, 200, 200, 10, 10);
+
 	pushMatrix(VIEW); // Save the current matrix
 	loadIdentity(VIEW); // Initialize the model matrix as identity
 

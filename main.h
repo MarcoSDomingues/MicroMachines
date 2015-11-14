@@ -22,6 +22,8 @@
 #include "OrtogonalCamera.h"
 #include "basic_geometry.h"
 #include "HUD.h"
+#include "flare.h"
+
 #include <cstdlib>
 #include <ctime>
 
@@ -130,6 +132,8 @@ int _current_camera = 0;
 LightSource _directional_light = LightSource();
 std::vector<LightSource*> _lamps;
 std::vector<LightSource*> _spotLights;
+
+Flare flare;
 
 int iteration = 0;
 // objects
