@@ -88,7 +88,7 @@ void update(double delta_t) {
 				car.setAcceleration(0);
 				car.setSpeed(0);
 				fireworks = 1;
-				particles.init(car.getPosition().getX() - car.getDirection().getX(), car.getPosition().getY() - car.getDirection().getY(), car.getPosition().getZ() - car.getDirection().getZ());
+				particles.init(car.getPosition().getX() - car.getDirection().getX(), 1, car.getPosition().getZ() - car.getDirection().getZ());
 
 			}
 		}
