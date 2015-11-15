@@ -397,11 +397,7 @@ void renderScene(void) {
 		glUniform1i(lightsOff_uniformId, false);
 	}
 
-
 	cup.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-
-
-
 
 	//HUD stuff
 	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
@@ -409,7 +405,16 @@ void renderScene(void) {
 	loadIdentity(PROJECTION); // We initialize the projection matrix as identity
 	_hudCamera->update(ratio);
 
-	//flare.render(&renderFlare, 200, 200, 10, 10);
+	FLARE_DEF renderFlare;
+	renderFlare.fScale = 10;
+	renderFlare.fMaxSize = 10;
+	renderFlare.nPieces = 1;
+	renderFlare.element[0].texture = &textureArray[4];
+	renderFlare.element[0].fDistance = 10;
+	renderFlare.element[0].fSize = 10;
+	renderFlare.element[0].argb = 0xff6060ff;
+
+	flare.render(&renderFlare, 10, 10, WinX/2, WinY/2);
 
 	pushMatrix(VIEW); // Save the current matrix
 	loadIdentity(VIEW); // Initialize the model matrix as identity
@@ -688,7 +693,6 @@ GLuint setupShaders() {
 
 void init()
 {
-
 
 	//Texture Object definition
 	glGenTextures(6, textureArray);

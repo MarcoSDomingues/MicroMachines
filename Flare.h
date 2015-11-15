@@ -38,7 +38,7 @@ typedef struct FLARE_DEF
 	int             nPieces;    // Number of elements in use
 
 
-	FLARE_ELEMENT_DEF    element[FLARE_MAXELEMENTSPERFLARE];
+	FLARE_ELEMENT_DEF element[FLARE_MAXELEMENTSPERFLARE];
 } FLARE_DEF;
 
 class Flare{

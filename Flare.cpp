@@ -8,14 +8,11 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy)
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	drawQuad(xFlare - SUNWIDTH / 2, yFlare - SUNHEIGHT / 2, SUNWIDTH, SUNHEIGHT, texSun, 0xffffffe0);
+	//drawQuad(xFlare - SUNWIDTH / 2, yFlare - SUNHEIGHT / 2, SUNWIDTH, SUNHEIGHT, texSun, 0xffffffe0);
 
 	int     dx, dy;          // Screen coordinates of "destination"
 	int     px, py;          // Screen coordinates of flare element
@@ -69,14 +66,16 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy)
 			drawQuad(px - width / 2, py - height / 2, width, height, element->texture, argb); 
 		}
 	}
-
-	glutSwapBuffers();
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_CULL_FACE);
 }
 
 void Flare::drawQuad(int x, int y, int width, int height, GLuint *tex, unsigned int colour)
 {
 
 	//fazer set da textura
+	glBindTexture(GL_TEXTURE_2D, *tex);
 	//TM_setTexture(tex);
 
 	glBegin(GL_QUADS);
