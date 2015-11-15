@@ -23,7 +23,7 @@ struct LightProperties {
 };
 
 uniform LightProperties Lights[MaxLights];
-
+uniform bool darken; //if set to drue, darkens pixels a bit. used for reflections
 uniform Materials mat;
 uniform bool texMode;		//true se usar textura, false caso contrario, 
 uniform sampler2D texmap1;
@@ -141,4 +141,6 @@ void main() {
  
 		colorOut = vec4(mix(fogColor, vec3(colorOut), fogFactor), colorOut.w);
 	}
+
+	if (darken) colorOut *= vec4(1.3, 1.25, 1.2, 1);
 }

@@ -74,6 +74,7 @@ bool paused;
 Vector3 speed;
 
 GLint pvm_uniformId;
+GLint darken_uniformId;
 GLint vm_uniformId;
 GLint normal_uniformId;
 GLint lPos_uniformId[9];
