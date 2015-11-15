@@ -958,7 +958,7 @@ void init()
 	objId = 9;
 
 	float amb9[] = { 0.1f, 0.1f, 0.7f, 0.3f };
-	float diff9[] = { 0.1f, 0.1f, 0.4f, 0.3f };
+	float diff9[] = { 0.1f, 0.1f, 0.4f, 0.1f };
 	float spec9[] = { 0.9f, 0.9f, 0.9f, 0.3f };
 	shininess = 500.0;
 
