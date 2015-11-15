@@ -370,8 +370,10 @@ void renderScene(void) {
 	glStencilMask(0x00); // Don't write anything to stencil buffer
 	glDepthMask(GL_TRUE); // Write to depth buffer
 
+	glUniform1i(darken_uniformId, true);
 	butter1ref.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	butter2ref.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	glUniform1i(darken_uniformId, false);
 
 	glDisable(GL_STENCIL_TEST);
 
@@ -668,6 +670,7 @@ GLuint setupShaders() {
 	vm_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_viewModel");
 	normal_uniformId = glGetUniformLocation(shader.getProgramIndex(), "m_normal");
 
+	darken_uniformId = glGetUniformLocation(shader.getProgramIndex(), "darken");
 	texMode_uniformId = glGetUniformLocation(shader.getProgramIndex(), "texMode");
 	lightsOff_uniformId = glGetUniformLocation(shader.getProgramIndex(), "lightsOff");
 	tex_loc1 = glGetUniformLocation(shader.getProgramIndex(), "texmap1");
@@ -685,6 +688,8 @@ GLuint setupShaders() {
 
 void init()
 {
+
+
 	//Texture Object definition
 	glGenTextures(6, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
