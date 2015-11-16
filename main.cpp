@@ -389,6 +389,11 @@ void renderScene(void) {
 
 	drawBroccoli();
 
+	glUniform1i(texMode_uniformId, true);
+	sun.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
+	glUniform1i(texMode_uniformId, false);
+	
+
 	if (fireworks) {
 		glUniform1i(texMode_uniformId, true);
 		glUniform1i(lightsOff_uniformId, true);
@@ -714,13 +719,19 @@ void init()
 {
 
 	//Texture Object definition
-	glGenTextures(7, textureArray);
+	glGenTextures(12, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
 	TGA_Texture(textureArray, "checker.tga", 1);
 	TGA_Texture(textureArray, "pause.tga", 2);
 	TGA_Texture(textureArray, "death.tga", 3);
 	TGA_Texture(textureArray, "tree.tga", 4);
 	TGA_Texture(textureArray, "particle.tga", 5);
+	TGA_Texture(textureArray, "lensFlare/Flare1.tga", 6);
+	TGA_Texture(textureArray, "lensFlare/Flare2.tga", 7);
+	TGA_Texture(textureArray, "lensFlare/Flare3.tga", 8);
+	TGA_Texture(textureArray, "lensFlare/Flare4.tga", 9);
+	TGA_Texture(textureArray, "lensFlare/Sun.tga", 10);
+	TGA_Texture(textureArray, "lensFlare/SunLight.tga", 11);
 
 	srand(time(NULL));
 
@@ -789,6 +800,8 @@ void init()
 	broccoli[1].setPosition(1.5f, 0.5f, -1.5f);
 	broccoli[2].setPosition(-1.5f, 0.5f, -1.5f);
 	broccoli[3].setPosition(-1.5f, 0.5f, 1.5f);
+
+	sun.setPosition(5.0f, 2.0f, -6.0f);
 
 	cup.setPosition(-1.5f, 1.0f, 0.0f);
 
@@ -1010,6 +1023,16 @@ void init()
 
 	cup.addMesh(&mesh[9]);
 	cup.addMesh(&mesh[10]);
+
+	//SUN
+	objId = 11;
+	float amb11[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	memcpy(mesh[objId].mat.ambient, amb11, 4 * sizeof(float));
+	createCube();
+
+	sun.addMesh(&mesh[11]);
+	sun.addTexture(textureArray[10]);
+	sun.addTexture(textureArray[10]);
 
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);

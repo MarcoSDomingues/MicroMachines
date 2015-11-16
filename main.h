@@ -40,6 +40,7 @@
 #include "Pause.h"
 #include "Broccoli.h"
 #include "Cup.h"
+#include "Sun.h"
 
 #define CAPTION "MicroMachines"
 #define M_PI       3.14159265358979323846f
@@ -55,7 +56,7 @@ bool fireworks = false;
 
 Particles particles;
 
-struct MyMesh mesh[12];
+struct MyMesh mesh[13];
 int objId = 0; //id of the object mesh - to be used as index of mesh: mesh[objID] means the current mesh
 
 			   //External array storage defined in AVTmathLib.cpp
@@ -89,7 +90,7 @@ GLint tex_loc1, tex_loc2;
 GLint texMode_uniformId;
 GLint lightsOff_uniformId;
 
-GLuint textureArray[5];
+GLuint textureArray[12];
 
 //incrementar velocidade do jogo
 double speed_timer = 0;
@@ -141,6 +142,8 @@ std::vector<LightSource*> _lamps;
 std::vector<LightSource*> _spotLights;
 
 Flare flare;
+
+Sun sun;
 
 int iteration = 0;
 // objects
