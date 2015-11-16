@@ -424,12 +424,12 @@ void renderScene(void) {
 	renderFlare.element[1].fSize = 1.0;
 	renderFlare.element[1].argb = 0xff6060ff;
 
-	renderFlare.element[2].texture = &textureArray[6];
+	renderFlare.element[2].texture = &textureArray[8];
 	renderFlare.element[2].fDistance = 1.0;
 	renderFlare.element[2].fSize = 1.0;
 	renderFlare.element[2].argb = 0xff6060ff;
 
-	renderFlare.element[3].texture = &textureArray[7];
+	renderFlare.element[3].texture = &textureArray[9];
 	renderFlare.element[3].fDistance = 1.0;
 	renderFlare.element[3].fSize = 1.0;
 	renderFlare.element[3].argb = 0xff6060ff;
@@ -438,10 +438,9 @@ void renderScene(void) {
 	loadIdentity(VIEW); // Initialize the model matrix as identity
 
 	glUniform1i(texMode_uniformId, true);
-	flare.render(&renderFlare, 10 , 10, WinX / 2, WinY / 2,
+	flare.render(&renderFlare, sun.getPosition().getX(), sun.getPosition().getY(), WinX / 2, WinY / 2,
 				 shader, mesh[11], pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
-	//substituir os 10 por a posição do sol
 
 	if (paused) {
 
