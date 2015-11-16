@@ -1,208 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="AVTmathLib.cpp" />
+    <ClCompile Include="basic_geometry.cpp" />
+    <ClCompile Include="Broccoli.cpp" />
+    <ClCompile Include="Butter.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="Cheerio.cpp" />
+    <ClCompile Include="Cup.cpp" />
+    <ClCompile Include="DynamicObject.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Flare.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="LightSource.cpp" />
+    <ClCompile Include="Orange.cpp" />
+    <ClCompile Include="OrtogonalCamera.cpp" />
+    <ClCompile Include="Particles.cpp" />
+    <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="PerspectiveCamera.cpp" />
+    <ClCompile Include="Road.cpp" />
+    <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="Table.cpp" />
+    <ClCompile Include="TGA.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Vector4.cpp" />
+    <ClCompile Include="vsShaderLib.cpp" />
+    <ClCompile Include="Sun.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="basic_geometry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AVTmathLib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vsShaderLib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PerspectiveCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OrtogonalCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Car.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Orange.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Butter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Table.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Cheerio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Road.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LightSource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TGA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Pause.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Broccoli.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Cup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Flare.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Particles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="AVTmathLib.h" />
+    <ClInclude Include="basic_geometry.h" />
+    <ClInclude Include="Broccoli.h" />
+    <ClInclude Include="Butter.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Car.h" />
+    <ClInclude Include="Cheerio.h" />
+    <ClInclude Include="cube.h" />
+    <ClInclude Include="Cup.h" />
+    <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Flare.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Particles.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="LightSource.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Orange.h" />
+    <ClInclude Include="OrtogonalCamera.h" />
+    <ClInclude Include="Pause.h" />
+    <ClInclude Include="PerspectiveCamera.h" />
+    <ClInclude Include="Road.h" />
+    <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="Table.h" />
+    <ClInclude Include="TGA.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vector4.h" />
+    <ClInclude Include="VertexAttrDef.h" />
+    <ClInclude Include="vsShaderLib.h" />
+    <ClInclude Include="Sun.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="basic_geometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexAttrDef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AVTmathLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vsShaderLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OrtogonalCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PerspectiveCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Car.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Orange.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Butter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cheerio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Road.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LightSource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TGA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pause.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Broccoli.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="Flare.h">
-=======
-    <ClInclude Include="Particles.h">
->>>>>>> origin/master
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Image Include="checker.tga" />
+    <Image Include="death.tga" />
+    <Image Include="pause.tga" />
+    <Image Include="stone.tga" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\pointlight.frag" />
     <None Include="shaders\pointlight.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="checker.tga">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="stone.tga">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="pause.tga">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="death.tga">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>
