@@ -9,6 +9,13 @@
 #include <math.h>
 #include <string.h>
 
+#include "Entity.h"
+#include "Vector3.h"
+#include "VSShaderlib.h"
+#include "basic_geometry.h"
+#include "AVTmathLib.h"
+#include "Vector4.h"
+
 /* --- Defines --- */
 #define FLARE_MAXELEMENTSPERFLARE 15
 #define FLARE_RANGE(A,B) ( (rand()%((B)-(A)+1)) + (A) )
@@ -26,9 +33,9 @@ typedef struct FLARE_ELEMENT_DEF
 {
 	GLuint *texture;
 
-	float           fDistance;        // Distance along ray from source (0.0-1.0)
-	float           fSize;            // Size relative to flare envelope (0.0-1.0)
-	unsigned int    argb;            // ARGB for intensity mapping
+	float           fDistance;  // Distance along ray from source (0.0-1.0)
+	float           fSize;      // Size relative to flare envelope (0.0-1.0)
+	unsigned int    argb;       // ARGB for intensity mapping
 } FLARE_ELEMENT_DEF;
 
 typedef struct FLARE_DEF
@@ -54,7 +61,9 @@ class Flare{
 	int SCREENwidth = 640;
 	int SCREENheight = 480;
 
+	VSShaderLib shader; struct MyMesh mesh; GLint pvm_uniformId; GLint vm_uniformId; GLint normal_uniformId;
+
 public:
 	void drawQuad(int x, int y, int width, int height, GLuint *tex, unsigned int colour);
-	void render(FLARE_DEF *flare, int lx, int ly, int cx, int cy);
+	void render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib shader, struct MyMesh mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId);
 };

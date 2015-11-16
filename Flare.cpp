@@ -1,10 +1,13 @@
 #include "Flare.h"
 
+extern float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
+extern float mNormal3x3[9];
+
 /*Draw lens flare with specified(lx, ly) light position
 in screen coordinates, for given(cx, cy) position of
 center of screen.*/
 
-void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy)
+void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib s, struct MyMesh m, GLint pvmId, GLint vmId, GLint normalId)
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -12,29 +15,30 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy)
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 
-	//drawQuad(xFlare - SUNWIDTH / 2, yFlare - SUNHEIGHT / 2, SUNWIDTH, SUNHEIGHT, texSun, 0xffffffe0);
+	int dx, dy; // Screen coordinates of "destination"
+	int px, py; // Screen coordinates of flare element
+	int width, height, alpha; // Piece parameters;
+	FLARE_ELEMENT_DEF *element;
 
-	int     dx, dy;          // Screen coordinates of "destination"
-	int     px, py;          // Screen coordinates of flare element
-	int     maxflaredist, flaredist, flaremaxsize, flarescale;
-	int     width, height, alpha;    // Piece parameters;
-	int     i;
-	FLARE_ELEMENT_DEF    *element;
+	shader = s; 
+	mesh = m;
+	pvm_uniformId = pvmId;
+	vm_uniformId = vmId;
+	normal_uniformId = normalId;
 
 	// Compute how far off-center the flare source is.
-	maxflaredist = isqrt(cx*cx + cy*cy);
-	flaredist = isqrt((lx - cx)*(lx - cx) +
-		(ly - cy)*(ly - cy));
+	int maxflaredist = isqrt(cx*cx + cy*cy);
+	int flaredist = isqrt((lx - cx)*(lx - cx) + (ly - cy)*(ly - cy));
 	flaredist = (maxflaredist - flaredist);
-	flaremaxsize = (int)(SCREENwidth * flare->fMaxSize);
-	flarescale = (int)(SCREENwidth * flare->fScale);
+	int flaremaxsize = (int)(SCREENwidth * flare->fMaxSize);
+	int flarescale = (int)(SCREENwidth * flare->fScale);
 
 	// Destination is opposite side of centre from source
 	dx = cx + (cx - lx);
 	dy = cy + (cy - ly);
 
 	// Render each element.
-	for (i = 0; i < flare->nPieces; ++i)
+	for (int i = 0; i < flare->nPieces; ++i)
 	{
 		element = &flare->element[i];
 
@@ -62,10 +66,14 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy)
 		if (width > 1)
 		{
 			unsigned int    argb = (alpha << 24) | (element->argb & 0x00ffffff);
-
-			drawQuad(px - width / 2, py - height / 2, width, height, element->texture, argb); 
+			drawQuad(i, i, width, height, element->texture, argb);
+			//drawQuad(px - width / 2, py - height / 2, width, height, element->texture, argb);
+			//std::cout << "x: " << px - width / 2 << std::endl;
 		}
 	}
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_CULL_FACE);
@@ -74,25 +82,23 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy)
 void Flare::drawQuad(int x, int y, int width, int height, GLuint *tex, unsigned int colour)
 {
 
-	//fazer set da textura
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, *tex);
-	//TM_setTexture(tex);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, *tex);
+	
+	pushMatrix(MODEL);
+	translate(MODEL, x, 1, y);
+	//scale(MODEL, width, height, 0.3);
 
-	glBegin(GL_QUADS);
+	// send matrices to OGL
+	computeDerivedMatrix(PROJ_VIEW_MODEL);
+	glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
+	glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
+	computeNormalMatrix3x3();
+	glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
 
-	glColor4ub((GLbyte)(colour >> 16 & 0xff),
-		(GLbyte)(colour >> 8 & 0xff),
-		(GLbyte)(colour >> 0 & 0xff),
-		(GLbyte)(colour >> 24 & 0xff));
-
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(x, y, 1.0f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(x + width, y, 1.0f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(x + width, y + height, 1.0f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(x, y + height, 1.0f);
-
-	glEnd();
+	glBindVertexArray(mesh.vao);
+	glDrawElements(mesh.type, mesh.numIndexes, GL_UNSIGNED_INT, 0);
+	popMatrix(MODEL);
 }

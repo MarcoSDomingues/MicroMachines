@@ -406,18 +406,37 @@ void renderScene(void) {
 	_hudCamera->update(ratio);
 
 	FLARE_DEF renderFlare;
-	renderFlare.fScale = 10;
-	renderFlare.fMaxSize = 10;
-	renderFlare.nPieces = 1;
-	renderFlare.element[0].texture = &textureArray[4];
-	renderFlare.element[0].fDistance = 10;
-	renderFlare.element[0].fSize = 10;
+	renderFlare.fScale = 1;
+	renderFlare.fMaxSize = 1.0;
+	renderFlare.nPieces = 4;
+	renderFlare.element[0].texture = &textureArray[6];
+	renderFlare.element[0].fDistance = 1.0;
+	renderFlare.element[0].fSize = 1.0;
 	renderFlare.element[0].argb = 0xff6060ff;
 
-	flare.render(&renderFlare, 10, 10, WinX/2, WinY/2);
+	renderFlare.element[1].texture = &textureArray[7];
+	renderFlare.element[1].fDistance = 1.0;
+	renderFlare.element[1].fSize = 1.0;
+	renderFlare.element[1].argb = 0xff6060ff;
+
+	renderFlare.element[2].texture = &textureArray[6];
+	renderFlare.element[2].fDistance = 1.0;
+	renderFlare.element[2].fSize = 1.0;
+	renderFlare.element[2].argb = 0xff6060ff;
+
+	renderFlare.element[3].texture = &textureArray[7];
+	renderFlare.element[3].fDistance = 1.0;
+	renderFlare.element[3].fSize = 1.0;
+	renderFlare.element[3].argb = 0xff6060ff;
 
 	pushMatrix(VIEW); // Save the current matrix
 	loadIdentity(VIEW); // Initialize the model matrix as identity
+
+	glUniform1i(texMode_uniformId, true);
+	flare.render(&renderFlare, 10 , 10, WinX / 2, WinY / 2,
+				 shader, mesh[11], pvm_uniformId, vm_uniformId, normal_uniformId);
+	glUniform1i(texMode_uniformId, false);
+	//substituir os 10 por a posição do sol
 
 	if (paused) {
 
@@ -695,7 +714,7 @@ void init()
 {
 
 	//Texture Object definition
-	glGenTextures(6, textureArray);
+	glGenTextures(7, textureArray);
 	TGA_Texture(textureArray, "stone.tga", 0);
 	TGA_Texture(textureArray, "checker.tga", 1);
 	TGA_Texture(textureArray, "pause.tga", 2);
