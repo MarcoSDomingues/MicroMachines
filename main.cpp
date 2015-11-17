@@ -831,7 +831,7 @@ void init()
 	broccoli[2].setPosition(-1.5f, 0.5f, -1.5f);
 	broccoli[3].setPosition(-1.5f, 0.5f, 1.5f);
 
-	sun.setPosition(5.0f, 2.0f, -6.0f);
+	sun.setPosition(5.0f, 2.0f, -5.0f);
 
 	cup.setPosition(-1.5f, 1.0f, 0.0f);
 
