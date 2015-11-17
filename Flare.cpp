@@ -7,7 +7,7 @@ extern float mNormal3x3[9];
 in screen coordinates, for given(cx, cy) position of
 center of screen.*/
 
-void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib s, struct MyMesh m, GLint pvmId, GLint vmId, GLint normalId)
+void Flare::render(FLARE_DEF *flare, float lx, float ly, float cx, float cy, VSShaderLib s, struct MyMesh m, GLint pvmId, GLint vmId, GLint normalId)
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -15,9 +15,9 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);
 
-	int dx, dy; // Screen coordinates of "destination"
-	int px, py; // Screen coordinates of flare element
-	int width, height, alpha; // Piece parameters;
+	float dx, dy; // Screen coordinates of "destination"
+	float px, py; // Screen coordinates of flare element
+	float width, height, alpha; // Piece parameters;
 	FLARE_ELEMENT_DEF *element;
 
 	shader = s; 
@@ -27,11 +27,11 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib
 	normal_uniformId = normalId;
 
 	// Compute how far off-center the flare source is.
-	int maxflaredist = isqrt(cx*cx + cy*cy);
-	int flaredist = isqrt((lx - cx)*(lx - cx) + (ly - cy)*(ly - cy));
+	float maxflaredist = sqrt(cx*cx + cy*cy);
+	float flaredist = sqrt((lx - cx)*(lx - cx) + (ly - cy)*(ly - cy));
 	flaredist = (maxflaredist - flaredist);
-	int flaremaxsize = (int)(SCREENwidth * flare->fMaxSize);
-	int flarescale = (int)(SCREENwidth * flare->fScale);
+	float flaremaxsize = (SCREENwidth * flare->fMaxSize);
+	float flarescale = (SCREENwidth * flare->fScale);
 
 	// Destination is opposite side of centre from source
 	dx = cx + (cx - lx);
@@ -43,12 +43,12 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib
 		element = &flare->element[i];
 
 		// Position is interpolated along line between start and destination.
-		px = (int)((1.0f - element->fDistance)*lx + element->fDistance*dx);
-		py = (int)((1.0f - element->fDistance)*ly + element->fDistance*dy);
+		px = ((1.0f - element->fDistance)*lx + element->fDistance*dx);
+		py = ((1.0f - element->fDistance)*ly + element->fDistance*dy);
 
 		// Piece size are 0 to 1; flare size is proportion of
 		// screen width; scale by flaredist/maxflaredist.
-		width = (int)((flaredist*flarescale*element->fSize) / maxflaredist);
+		width = ((flaredist*flarescale*element->fSize) / maxflaredist);
 
 		// Width gets clamped, to allows the off-axis flares
 		// to keep a good size without letting the elements get
@@ -65,10 +65,10 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib
 
 		if (/*width > 1*/true)
 		{
-			unsigned int    argb = (alpha << 24) | (element->argb & 0x00ffffff);
+			//float argb = (alpha << 24) | (element->argb & 0x00ffffff);
 			//drawQuad(i, i, width, height, element->texture, argb);
 
-			drawQuad((px - width / 2)/500, (py - height / 2)/500, width, height, element->texture, argb);
+			drawQuad((px - width / 2)/500, (py - height / 2)/500, width, height, element->texture, 0x00ffffff);
 			std::cout << "x: " << px - width / 2 << std::endl;
 			std::cout << "y: " << py - height / 2 << std::endl;
 		}
@@ -81,7 +81,7 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib
 	glEnable(GL_CULL_FACE);
 }
 
-void Flare::drawQuad(int x, int y, int width, int height, GLuint *tex, unsigned int colour)
+void Flare::drawQuad(float x, float y, float width, float height, GLuint *tex, unsigned int colour)
 {
 
 	glActiveTexture(GL_TEXTURE0);

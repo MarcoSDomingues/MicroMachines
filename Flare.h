@@ -64,6 +64,6 @@ class Flare{
 	VSShaderLib shader; struct MyMesh mesh; GLint pvm_uniformId; GLint vm_uniformId; GLint normal_uniformId;
 
 public:
-	void drawQuad(int x, int y, int width, int height, GLuint *tex, unsigned int colour);
-	void render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib shader, struct MyMesh mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId);
+	void drawQuad(float x, float y, float width, float height, GLuint *tex, unsigned int colour);
+	void render(FLARE_DEF *flare, float lx, float ly, float cx, float cy, VSShaderLib shader, struct MyMesh mesh, GLint pvm_uniformId, GLint vm_uniformId, GLint normal_uniformId);
 };
