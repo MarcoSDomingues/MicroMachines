@@ -20,13 +20,9 @@
 #define FLARE_MAXELEMENTSPERFLARE 15
 #define FLARE_RANGE(A,B) ( (rand()%((B)-(A)+1)) + (A) )
 #define FLARE_FRANGE(A,B) ( ((float)(rand()&0xffffff)/(float)0xfffffe)*((B)-(A)) + (A) )
-#define MAKEID(a,b,c,d) (((a)<<24) | ((b)<<16) | ((c)<<8) | ((d)<<0))
-#define SUNWIDTH 50
-#define SUNHEIGHT HEIGHTFROMWIDTH(SUNWIDTH)
 
 // Get height from width, assuming certain aspect ratio.
-#define HEIGHTFROMWIDTH(w)  ((320*(w)*SCREENheight)/(240*SCREENwidth))
-#define isqrt(x)        (int)((double)(x))
+#define HEIGHTFROMWIDTH(w)  ((glutGet(GLUT_WINDOW_WIDTH) / 2*(w)*SCREENheight)/(glutGet(GLUT_WINDOW_HEIGHT) / 2*SCREENwidth))
 
 /* --- Types --- */
 typedef struct FLARE_ELEMENT_DEF

@@ -272,9 +272,7 @@ void drawBroccoli() {
 		lookAt[2] = 1.0f;
 
 		normalize(objToCamProj);
-
 		crossProduct(lookAt, objToCamProj, upAux);
-
 		angleCosine = dotProduct(lookAt, objToCamProj);
 
 		if ((angleCosine < 0.99990) && (angleCosine > -0.9999))
@@ -284,13 +282,9 @@ void drawBroccoli() {
 		}
 
 		//draw the BROCCOLI!!!
-
 		glUniform1i(texMode_uniformId, true);
-
 		b.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
-
 		glUniform1i(texMode_uniformId, false);
-
 	}
 }
 
@@ -467,7 +461,6 @@ void renderScene(void) {
 
 	glUniform1i(lightsOff_uniformId, true);
 	glUniform1i(texMode_uniformId, true);
-	std::cout << "angle: " << car.getAngle() << std::endl;
 	if (70 < car.getAngle() && car.getAngle() < 230 && _current_camera == 2) {
 		flare.render(&renderFlare, sun_pos_x, sun_pos_y, glutGet(GLUT_WINDOW_WIDTH) / 2, glutGet(GLUT_WINDOW_HEIGHT) / 2,
 			shader, mesh[11], pvm_uniformId, vm_uniformId, normal_uniformId);
@@ -703,9 +696,6 @@ void mouseWheel(int wheel, int direction, int x, int y) {
 	camX = r * sin(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camZ = r * cos(alpha * 3.14f / 180.0f) * cos(beta * 3.14f / 180.0f);
 	camY = r *   						     sin(beta * 3.14f / 180.0f);
-
-//  uncomment this if not using an idle func
-//	glutPostRedisplay();
 }
 
 // --------------------------------------------------------
