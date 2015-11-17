@@ -73,8 +73,8 @@ void Flare::render(FLARE_DEF *flare, float lx, float ly, float cx, float cy, VSS
 
 			drawQuad((px - width / 2)/500, (py - height / 2)/2000 + 2.5, width, height, element->texture, 0x00ffffff);
 			//std::cout << "x: " << px - width / 2 << std::endl;
-			std::cout << "y: " << py - height / 2 << std::endl;
-			std::cout << "width: " << width << std::endl;
+			//std::cout << "y: " << py - height / 2 << std::endl;
+			//std::cout << "width: " << width << std::endl;
 		}
 	}
 	glBindVertexArray(0);

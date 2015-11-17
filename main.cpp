@@ -467,7 +467,8 @@ void renderScene(void) {
 
 	glUniform1i(lightsOff_uniformId, true);
 	glUniform1i(texMode_uniformId, true);
-	flare.render(&renderFlare, sun_pos_x, sun_pos_y, WinX / 2, WinY / 2,
+	std::cout << "angle: " << car.getAngle() << std::endl;
+	if (70 < car.getAngle() && car.getAngle() < 230) flare.render(&renderFlare, sun_pos_x, sun_pos_y, WinX / 2, WinY / 2,
 				 shader, mesh[11], pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
 	glUniform1i(lightsOff_uniformId, false);
