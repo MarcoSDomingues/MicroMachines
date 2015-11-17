@@ -71,9 +71,9 @@ void Flare::render(FLARE_DEF *flare, float lx, float ly, float cx, float cy, VSS
 			//unsigned int argb = (alpha << 24) | (element->argb & 0x00ffffff);
 			//drawQuad(i, i, width, height, element->texture, argb);
 
-			drawQuad((px - width / 2)/500, (py - height / 2)/500, width, height, element->texture, 0x00ffffff);
-			/*std::cout << "x: " << px - width / 2 << std::endl;
-			std::cout << "y: " << py - height / 2 << std::endl;*/
+			drawQuad((px - width / 2)/500, (py - height / 2)/2000 + 2.5, width, height, element->texture, 0x00ffffff);
+			//std::cout << "x: " << px - width / 2 << std::endl;
+			std::cout << "y: " << py - height / 2 << std::endl;
 			std::cout << "width: " << width << std::endl;
 		}
 	}
@@ -94,7 +94,7 @@ void Flare::drawQuad(float x, float y, float width, float height, GLuint *tex, u
 	glBindTexture(GL_TEXTURE_2D, *tex);
 	
 	pushMatrix(MODEL);
-	translate(MODEL, x, 1, y);
+	translate(MODEL, x, 1, 1);
 	//scale(MODEL, width, height, 0.3);
 
 	// send matrices to OGL
