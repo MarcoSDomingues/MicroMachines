@@ -68,6 +68,8 @@ extern float mCompMatrix[COUNT_COMPUTED_MATRICES][16];
 /// The normal matrix
 extern float mNormal3x3[9];
 
+int gameScore;
+
 bool clicking;
 
 bool paused;

@@ -2,8 +2,13 @@
 
 void timer(int value)
 {
+	//players get 5 points for each second he is able to be on the table
+	if (!paused)
+		gameScore += 5;
+
 	std::ostringstream oss;
-	oss << CAPTION << ": " << FrameCount << " FPS @ (" << WinX << "x" << WinY << ")";
+	oss << CAPTION << ": " << FrameCount << " FPS @ (" << WinX << "x" << WinY << ")" 
+		<< "              SCORE: " << gameScore;
 	std::string s = oss.str();
 	glutSetWindow(WindowHandle);
 	glutSetWindowTitle(s.c_str());
@@ -553,6 +558,7 @@ void keyPressed(unsigned char key, int xx, int yy)
 			if (remainingLives <= 0) {
 				pause();
 				remainingLives = 5;
+				gameScore = 0;
 			}
 			break;
 		default:
@@ -716,6 +722,8 @@ GLuint setupShaders() {
 
 void init()
 {
+
+	gameScore = 0;
 
 	//Texture Object definition
 	glGenTextures(12, textureArray);
