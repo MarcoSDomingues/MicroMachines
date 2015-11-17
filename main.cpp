@@ -394,9 +394,11 @@ void renderScene(void) {
 
 	drawBroccoli();
 
+	glUniform1i(lightsOff_uniformId, true);
 	glUniform1i(texMode_uniformId, true);
 	sun.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
+	glUniform1i(lightsOff_uniformId, false);
 	
 
 	if (fireworks) {
@@ -414,22 +416,22 @@ void renderScene(void) {
 	renderFlare.fMaxSize = 1.0;
 	renderFlare.nPieces = 4;
 	renderFlare.element[0].texture = &textureArray[6];
-	renderFlare.element[0].fDistance = 0.3;
+	renderFlare.element[0].fDistance = 0;
 	renderFlare.element[0].fSize = 1.0;
 	renderFlare.element[0].argb = 0xff6060ff;
 
 	renderFlare.element[1].texture = &textureArray[7];
-	renderFlare.element[1].fDistance = 0.6;
+	renderFlare.element[1].fDistance = 1.0;
 	renderFlare.element[1].fSize = 1.0;
 	renderFlare.element[1].argb = 0xff6060ff;
 
 	renderFlare.element[2].texture = &textureArray[8];
-	renderFlare.element[2].fDistance = 0.8;
+	renderFlare.element[2].fDistance = 2.0;
 	renderFlare.element[2].fSize = 1.0;
 	renderFlare.element[2].argb = 0xff6060ff;
 
 	renderFlare.element[3].texture = &textureArray[9];
-	renderFlare.element[3].fDistance = 1.0;
+	renderFlare.element[3].fDistance = 3.0;
 	renderFlare.element[3].fSize = 1.0;
 	renderFlare.element[3].argb = 0xff6060ff;
 
