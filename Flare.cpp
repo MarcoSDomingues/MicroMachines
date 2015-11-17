@@ -30,8 +30,9 @@ void Flare::render(FLARE_DEF *flare, float lx, float ly, float cx, float cy, VSS
 	float maxflaredist = sqrt(cx*cx + cy*cy);
 	float flaredist = sqrt((lx - cx)*(lx - cx) + (ly - cy)*(ly - cy));
 	flaredist = (maxflaredist - flaredist);
-	float flaremaxsize = (SCREENwidth * flare->fMaxSize);
-	float flarescale = (SCREENwidth * flare->fScale);
+	float distscale = (maxflaredist - flaredist) / maxflaredist;
+	float flaremaxsize = (cx * 2 * flare->fMaxSize);
+	float flarescale = (cy * 2 * flare->fScale);
 
 	// Destination is opposite side of centre from source
 	dx = cx + (cx - lx);
@@ -48,8 +49,10 @@ void Flare::render(FLARE_DEF *flare, float lx, float ly, float cx, float cy, VSS
 
 		// Piece size are 0 to 1; flare size is proportion of
 		// screen width; scale by flaredist/maxflaredist.
-		width = ((flaredist*flarescale*element->fSize) / maxflaredist);
+		//width = ((flaredist*flarescale*element->fSize) / maxflaredist);
 
+
+		width = element->fSize * distscale * flare->fScale;
 		// Width gets clamped, to allows the off-axis flares
 		// to keep a good size without letting the elements get
 		// too big when centered.
@@ -63,14 +66,15 @@ void Flare::render(FLARE_DEF *flare, float lx, float ly, float cx, float cy, VSS
 		height = HEIGHTFROMWIDTH(width);
 		alpha = (flaredist*(element->argb >> 24)) / maxflaredist;
 
-		if (/*width > 1*/true)
+		if (width > -500)
 		{
-			//float argb = (alpha << 24) | (element->argb & 0x00ffffff);
+			//unsigned int argb = (alpha << 24) | (element->argb & 0x00ffffff);
 			//drawQuad(i, i, width, height, element->texture, argb);
 
 			drawQuad((px - width / 2)/500, (py - height / 2)/500, width, height, element->texture, 0x00ffffff);
-			std::cout << "x: " << px - width / 2 << std::endl;
-			std::cout << "y: " << py - height / 2 << std::endl;
+			/*std::cout << "x: " << px - width / 2 << std::endl;
+			std::cout << "y: " << py - height / 2 << std::endl;*/
+			std::cout << "width: " << width << std::endl;
 		}
 	}
 	glBindVertexArray(0);
