@@ -409,28 +409,22 @@ void renderScene(void) {
 
 	cup.draw(shader, pvm_uniformId, vm_uniformId, normal_uniformId);
 
-	//HUD stuff
-	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
-	pushMatrix(PROJECTION); // Save the current matrix
-	loadIdentity(PROJECTION); // We initialize the projection matrix as identity
-	_hudCamera->update(ratio);
-
 	FLARE_DEF renderFlare;
 	renderFlare.fScale = 1;
 	renderFlare.fMaxSize = 1.0;
 	renderFlare.nPieces = 4;
 	renderFlare.element[0].texture = &textureArray[6];
-	renderFlare.element[0].fDistance = 1.0;
+	renderFlare.element[0].fDistance = 0.3;
 	renderFlare.element[0].fSize = 1.0;
 	renderFlare.element[0].argb = 0xff6060ff;
 
 	renderFlare.element[1].texture = &textureArray[7];
-	renderFlare.element[1].fDistance = 1.0;
+	renderFlare.element[1].fDistance = 0.6;
 	renderFlare.element[1].fSize = 1.0;
 	renderFlare.element[1].argb = 0xff6060ff;
 
 	renderFlare.element[2].texture = &textureArray[8];
-	renderFlare.element[2].fDistance = 1.0;
+	renderFlare.element[2].fDistance = 0.8;
 	renderFlare.element[2].fSize = 1.0;
 	renderFlare.element[2].argb = 0xff6060ff;
 
@@ -439,13 +433,42 @@ void renderScene(void) {
 	renderFlare.element[3].fSize = 1.0;
 	renderFlare.element[3].argb = 0xff6060ff;
 
+	float sunp[4] = { sun.getPosition().getX(), sun.getPosition().getY(), sun.getPosition().getZ(), 1.0f };
+	float view[16];
+	float projection[16];
+	double viewd[16];
+	double projd[16];
+	double winx, winy, winz;
+	int viewp[4];
+
+	memcpy(view, mMatrix[VIEW], 16 * sizeof(float));
+	memcpy(projection, mMatrix[PROJECTION], 16 * sizeof(float));
+
+	for (int i = 0; i < 16; i++) {
+		viewd[i] = (double)view[i];
+		projd[i] = (double)projection[i];
+	}
+	glGetIntegerv(GL_VIEWPORT, viewp);
+	gluProject(sunp[0], sunp[1], sunp[2], viewd, projd, viewp, &winx, &winy, &winz);
+	float sun_pos_x = winx;
+	float sun_pos_y = winy;
+	if (sun_pos_y <= 400)
+		sun_pos_y = -500;
+
+	//HUD stuff
+	float ratio = (1.0f * glutGet(GLUT_WINDOW_WIDTH)) / glutGet(GLUT_WINDOW_HEIGHT);
+	pushMatrix(PROJECTION); // Save the current matrix
+	loadIdentity(PROJECTION); // We initialize the projection matrix as identity
+	_hudCamera->update(ratio);
 	pushMatrix(VIEW); // Save the current matrix
 	loadIdentity(VIEW); // Initialize the model matrix as identity
 
+	glUniform1i(lightsOff_uniformId, true);
 	glUniform1i(texMode_uniformId, true);
-	flare.render(&renderFlare, sun.getPosition().getX(), sun.getPosition().getY(), WinX / 2, WinY / 2,
+	flare.render(&renderFlare, sun_pos_x, sun_pos_y, WinX / 2, WinY / 2,
 				 shader, mesh[11], pvm_uniformId, vm_uniformId, normal_uniformId);
 	glUniform1i(texMode_uniformId, false);
+	glUniform1i(lightsOff_uniformId, false);
 
 	if (paused) {
 

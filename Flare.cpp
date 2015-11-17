@@ -63,12 +63,14 @@ void Flare::render(FLARE_DEF *flare, int lx, int ly, int cx, int cy, VSShaderLib
 		height = HEIGHTFROMWIDTH(width);
 		alpha = (flaredist*(element->argb >> 24)) / maxflaredist;
 
-		if (width > 1)
+		if (/*width > 1*/true)
 		{
 			unsigned int    argb = (alpha << 24) | (element->argb & 0x00ffffff);
-			drawQuad(i, i, width, height, element->texture, argb);
-			//drawQuad(px - width / 2, py - height / 2, width, height, element->texture, argb);
-			//std::cout << "x: " << px - width / 2 << std::endl;
+			//drawQuad(i, i, width, height, element->texture, argb);
+
+			drawQuad((px - width / 2)/500, (py - height / 2)/500, width, height, element->texture, argb);
+			std::cout << "x: " << px - width / 2 << std::endl;
+			std::cout << "y: " << py - height / 2 << std::endl;
 		}
 	}
 	glBindVertexArray(0);
